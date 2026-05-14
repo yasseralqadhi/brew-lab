@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brew Lab — مختبر القهوة المختصة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4ede2;
+  --bg-dark: #2a1f17;
+  --paper: #faf5ec;
+  --ink: #1a1410;
+  --ink-soft: #4a3a2e;
+  --accent: #8b3a1a;
+  --accent-dark: #5e2410;
+  --gold: #c89849;
+  --olive: #6b6a3a;
+  --rust: #a64a2a;
+  --line: #3a2a1f;
+  --line-soft: #d4c4ae;
+  --shadow: rgba(42, 31, 23, 0.12);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(at 20% 10%, rgba(139, 58, 26, 0.04) 0px, transparent 50%),
+    radial-gradient(at 80% 90%, rgba(107, 106, 58, 0.05) 0px, transparent 50%);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.serif { font-family: 'Cormorant Garamond', serif; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+.app {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  padding: 24px 0 40px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.header::before, .header::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  width: 80px;
+  height: 5px;
+  background: var(--ink);
+}
+.header::before { right: calc(50% - 250px); }
+.header::after { left: calc(50% - 250px); }
+
+.brand-mark {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 7vw, 72px);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink);
+  font-style: italic;
+  letter-spacing: -0.02em;
+}
+
+.title-ar {
+  font-family: 'Tajawal', sans-serif;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 300;
+  color: var(--ink-soft);
+  margin-top: 8px;
+  letter-spacing: 0.1em;
+}
+
+.subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--ink-soft);
+  margin-top: 16px;
+  text-transform: uppercase;
+}
+
+/* STEPS NAVIGATION */
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
+  padding: 0 16px;
+  position: relative;
+}
+
+.stepper::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  right: 30px;
+  left: 30px;
+  height: 1px;
+  background: var(--line-soft);
+  z-index: 0;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--line-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  transition: all 0.3s ease;
+}
+
+.step.active .step-circle {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+  transform: scale(1.1);
+}
+
+.step.completed .step-circle {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--paper);
+}
+
+.step-label {
+  font-size: 11px;
+  color: var(--ink-soft);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.step.active .step-label { color: var(--ink); font-weight: 700; }
+
+/* PANELS */
+.panel {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 40px;
+  margin-bottom: 24px;
+  position: relative;
+  box-shadow: 4px 4px 0 var(--ink);
+  display: none;
+}
+
+.panel.active { display: block; animation: fadeIn 0.4s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed var(--line-soft);
+}
+
+.panel-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.panel-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+}
+
+/* FORM */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+}
+
+.field-full { grid-column: 1 / -1; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.field-label::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.field-hint {
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+  font-style: italic;
+}
+
+.input, .select, .textarea {
+  background: var(--bg);
+  border: 1px solid var(--line-soft);
+  padding: 12px 14px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--paper);
+  box-shadow: 0 0 0 3px rgba(139, 58, 26, 0.1);
+}
+
+.textarea { min-height: 70px; resize: vertical; font-family: 'Tajawal', sans-serif; }
+
+/* CHIP CHOICES */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 8px 14px;
+  background: var(--bg);
+  border: 1px solid var(--line-soft);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.chip:hover { border-color: var(--accent); }
+
+.chip.selected {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* BUTTONS */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--line-soft);
+}
+
+.btn {
+  padding: 14px 28px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn:hover { background: var(--ink); color: var(--paper); }
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--paper);
+  border-color: var(--accent);
+}
+
+.btn-accent:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.btn-ghost { border-color: var(--line-soft); }
+
+/* RECIPE CARD */
+.recipe-card {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 6px 6px 0 var(--accent);
+}
+
+.recipe-header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 32px 40px;
+  position: relative;
+}
+
+.recipe-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0,
+    var(--accent) 12px,
+    var(--gold) 12px,
+    var(--gold) 24px
+  );
+}
+
+.recipe-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.recipe-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.1;
+}
+
+.recipe-meta {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: rgba(250, 245, 236, 0.7);
+}
+
+.recipe-meta-item { display: flex; gap: 6px; }
+.recipe-meta-item strong { color: var(--gold); font-weight: 700; }
+
+.recipe-body {
+  padding: 40px;
+}
+
+/* TASTE PROFILE */
+.taste-section {
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px dashed var(--line-soft);
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.section-title::before {
+  content: attr(data-num);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  font-style: normal;
+  letter-spacing: 0.15em;
+}
+
+.taste-notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.taste-note {
+  padding: 6px 12px;
+  background: var(--bg);
+  border: 1px solid var(--line-soft);
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.taste-note.primary {
+  background: var(--accent);
+  color: var(--paper);
+  border-color: var(--accent);
+}
+
+.taste-note.secondary { background: var(--gold); border-color: var(--gold); }
+
+/* SPECS GRID */
+.specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0;
+  border: 1px solid var(--line-soft);
+}
+
+.spec {
+  padding: 16px 18px;
+  border-left: 1px dashed var(--line-soft);
+  border-bottom: 1px dashed var(--line-soft);
+}
+
+.spec:last-child { border-left: none; }
+
+.spec-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.spec-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.spec-unit {
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-family: 'JetBrains Mono', monospace;
+  margin-right: 4px;
+}
+
+/* POURS TIMELINE */
+.pours {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.pour {
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: center;
+  border-bottom: 1px dashed var(--line-soft);
+  position: relative;
+}
+
+.pour:last-child { border-bottom: none; }
+
+.pour-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 60px;
+}
+
+.pour-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pour-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.pour-detail {
+  font-size: 12px;
+  color: var(--ink-soft);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.pour-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--ink);
+  font-style: italic;
+}
+.pour-amount-unit { font-size: 12px; color: var(--ink-soft); font-family: 'JetBrains Mono', monospace; font-style: normal; }
+
+/* WARNINGS / NOTES */
+.alert {
+  padding: 16px 20px;
+  background: var(--bg);
+  border-right: 4px solid var(--accent);
+  margin: 20px 0;
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+.alert.warning { border-right-color: var(--gold); }
+.alert.success { border-right-color: var(--olive); }
+
+.alert-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--accent);
+}
+.alert.warning .alert-title { color: #8a6a20; }
+.alert.success .alert-title { color: var(--olive); }
+
+/* WATER ANALYSIS */
+.water-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.water-stat {
+  padding: 14px;
+  background: var(--bg);
+  border: 1px solid var(--line-soft);
+  text-align: center;
+}
+
+.water-stat.good { border-color: var(--olive); background: rgba(107, 106, 58, 0.06); }
+.water-stat.warn { border-color: var(--gold); background: rgba(200, 152, 73, 0.08); }
+.water-stat.bad { border-color: var(--accent); background: rgba(139, 58, 26, 0.06); }
+
+.water-stat-label {
+  font-size: 10px;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 4px;
+}
+
+.water-stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.water-stat-status {
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+
+/* SAVED RECIPES SIDEBAR */
+.saved-section {
+  margin-top: 32px;
+  padding: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+}
+
+.saved-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
+
+.saved-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.saved-item {
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--line-soft);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.saved-item:hover {
+  border-color: var(--accent);
+  transform: translateX(-4px);
+}
+
+.saved-empty {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-style: italic;
+  padding: 20px;
+}
+
+/* TIMER */
+.timer-section {
+  margin-top: 24px;
+  padding: 24px;
+  background: var(--ink);
+  color: var(--paper);
+  text-align: center;
+  position: relative;
+}
+
+.timer-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 16px 0;
+  color: var(--gold);
+}
+
+.timer-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.timer-btn {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid var(--paper);
+  color: var(--paper);
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.timer-btn:hover { background: var(--paper); color: var(--ink); }
+
+.timer-stage {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 18px;
+  margin-top: 12px;
+  color: var(--gold);
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .app { padding: 20px 14px 60px; }
+  .panel { padding: 24px 20px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .recipe-header { padding: 24px; }
+  .recipe-body { padding: 24px; }
+  .step-label { display: none; }
+  .stepper::before { right: 18px; left: 18px; }
+  .panel-title { font-size: 26px; }
+  .recipe-meta { flex-wrap: wrap; gap: 10px; font-size: 10px; }
+  .pour { grid-template-columns: 1fr; gap: 8px; }
+  .pour-time { font-size: 14px; }
+  .actions { flex-direction: column-reverse; }
+  .btn { width: 100%; justify-content: center; }
+  .header::before, .header::after { display: none; }
+}
+
+.divider-stamp {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--ink-soft);
+  margin: 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.divider-stamp::before, .divider-stamp::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line-soft);
+}
+
+.footer {
+  text-align: center;
+  margin-top: 60px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+}
+
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: 0;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- HEADER -->
+<header class="header">
+  <div class="brand-mark">EST · 2026 · RIYADH</div>
+  <h1 class="title">Brew Lab</h1>
+  <div class="title-ar">مختبر القهوة المختصة</div>
+  <div class="subtitle">PRECISION · ORIGIN · METHOD</div>
+</header>
+
+<!-- STEPPER -->
+<div class="stepper">
+  <div class="step active" data-step="1" onclick="goToStep(1)">
+    <div class="step-circle">١</div>
+    <div class="step-label">المحصول</div>
+  </div>
+  <div class="step" data-step="2" onclick="goToStep(2)">
+    <div class="step-circle">٢</div>
+    <div class="step-label">المعدات</div>
+  </div>
+  <div class="step" data-step="3" onclick="goToStep(3)">
+    <div class="step-circle">٣</div>
+    <div class="step-label">الماء</div>
+  </div>
+  <div class="step" data-step="4" onclick="goToStep(4)">
+    <div class="step-circle">٤</div>
+    <div class="step-label">التفضيلات</div>
+  </div>
+  <div class="step" data-step="5" onclick="goToStep(5)">
+    <div class="step-circle">٥</div>
+    <div class="step-label">الوصفة</div>
+  </div>
+</div>
+
+<!-- STEP 1: BEAN INFO -->
+<div class="panel active" data-panel="1">
+  <div class="panel-header">
+    <h2 class="panel-title">معلومات المحصول</h2>
+    <div class="panel-num">STEP 01 / 05</div>
+  </div>
+
+  <div class="form-grid">
+    <div class="field">
+      <label class="field-label">اسم المحمصة</label>
+      <input class="input" id="roaster" placeholder="مثال: كاميل، ميلكين، خواجة...">
+    </div>
+    <div class="field">
+      <label class="field-label">اسم المحصول/المزرعة</label>
+      <input class="input" id="lotName" placeholder="مثال: أوروميا، Yirgacheffe...">
+    </div>
+    <div class="field">
+      <label class="field-label">المنشأ</label>
+      <select class="select" id="origin">
+        <option value="">اختر...</option>
+        <option value="ethiopia">إثيوبيا</option>
+        <option value="kenya">كينيا</option>
+        <option value="colombia">كولومبيا</option>
+        <option value="brazil">البرازيل</option>
+        <option value="yemen">اليمن</option>
+        <option value="panama">بنما</option>
+        <option value="costa_rica">كوستاريكا</option>
+        <option value="indonesia">إندونيسيا</option>
+        <option value="rwanda">رواندا</option>
+        <option value="el_salvador">السلفادور</option>
+        <option value="guatemala">غواتيمالا</option>
+        <option value="honduras">هندوراس</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="field-label">طريقة المعالجة</label>
+      <select class="select" id="process">
+        <option value="">اختر...</option>
+        <option value="washed">مغسولة (Washed)</option>
+        <option value="natural">طبيعية / مجففة (Natural)</option>
+        <option value="honey">عسلية (Honey)</option>
+        <option value="anaerobic">تخمير لاهوائي (Anaerobic)</option>
+        <option value="wet_hulled">شبه مغسولة (Wet-Hulled)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="field-label">درجة التحميص</label>
+      <select class="select" id="roast">
+        <option value="">اختر...</option>
+        <option value="nordic">فاتح جداً (Nordic)</option>
+        <option value="light">فاتح (Light)</option>
+        <option value="light_medium">فاتح-متوسط</option>
+        <option value="medium">متوسط (Medium)</option>
+        <option value="medium_dark">متوسط-غامق</option>
+        <option value="dark">غامق (Dark)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="field-label">تاريخ التحميص</label>
+      <input class="input" type="date" id="roastDate">
+    </div>
+    <div class="field">
+      <label class="field-label">الصنف (Variety) — اختياري</label>
+      <input class="input" id="variety" placeholder="Heirloom, Geisha, SL28, Bourbon...">
+    </div>
+    <div class="field">
+      <label class="field-label">الارتفاع (متر) — اختياري</label>
+      <input class="input" type="number" id="altitude" placeholder="1900">
+    </div>
+    <div class="field field-full">
+      <label class="field-label">نوتات النكهة المعلنة</label>
+      <input class="input" id="flavorNotes" placeholder="بلاك بيري، مشمش، عسل، ياسمين...">
+      <span class="field-hint">كما هو مكتوب على كيس المحصول</span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-ghost" onclick="resetForm()">↻ تفريغ</button>
+    <button class="btn btn-primary" onclick="nextStep()">التالي ←</button>
+  </div>
+</div>
+
+<!-- STEP 2: EQUIPMENT -->
+<div class="panel" data-panel="2">
+  <div class="panel-header">
+    <h2 class="panel-title">المعدات المتوفرة</h2>
+    <div class="panel-num">STEP 02 / 05</div>
+  </div>
+
+  <div class="field" style="margin-bottom: 24px;">
+    <label class="field-label">طرق التحضير المتوفرة عندك</label>
+    <span class="field-hint">يمكنك اختيار أكثر من خيار — سيختار النظام الأنسب</span>
+    <div class="chips" id="brewMethods" style="margin-top: 10px;">
+      <div class="chip" data-value="v60">V60</div>
+      <div class="chip" data-value="origami">Origami</div>
+      <div class="chip" data-value="b75">Hario B75</div>
+      <div class="chip" data-value="kalita">Kalita Wave</div>
+      <div class="chip" data-value="aeropress">AeroPress</div>
+      <div class="chip" data-value="french_press">French Press</div>
+      <div class="chip" data-value="moka">Moka Pot</div>
+      <div class="chip" data-value="espresso">Espresso Machine</div>
+      <div class="chip" data-value="aiden">Fellow Aiden</div>
+      <div class="chip" data-value="turkish">ركوة تركية</div>
+      <div class="chip" data-value="dallah">دلة عربية</div>
+      <div class="chip" data-value="chemex">Chemex</div>
+    </div>
+  </div>
+
+  <div class="field" style="margin-bottom: 24px;">
+    <label class="field-label">المطاحن المتوفرة</label>
+    <div class="chips" id="grinders" style="margin-top: 10px;">
+      <div class="chip" data-value="zp6">1Zpresso ZP6</div>
+      <div class="chip" data-value="jultra">1Zpresso J-Ultra</div>
+      <div class="chip" data-value="jx">1Zpresso JX/JX-Pro</div>
+      <div class="chip" data-value="ode2">Fellow Ode Gen 2</div>
+      <div class="chip" data-value="comandante">Comandante C40</div>
+      <div class="chip" data-value="timemore">Timemore C2/C3</div>
+      <div class="chip" data-value="niche">Niche Zero</div>
+      <div class="chip" data-value="other_burr">مطحنة Burr أخرى</div>
+      <div class="chip" data-value="blade">مطحنة شفرات</div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">الفلاتر المتوفرة</label>
+    <div class="chips" id="filters" style="margin-top: 10px;">
+      <div class="chip" data-value="hario">Hario Tabbed</div>
+      <div class="chip" data-value="cafec_abaca">Cafec Abaca</div>
+      <div class="chip" data-value="cafec_light">Cafec Light Roast</div>
+      <div class="chip" data-value="cafec_dark">Cafec Dark Roast</div>
+      <div class="chip" data-value="sibarist">Sibarist Fast</div>
+      <div class="chip" data-value="origami_filter">Origami فلتر</div>
+      <div class="chip" data-value="aeropress_paper">AeroPress ورقي</div>
+      <div class="chip" data-value="aeropress_metal">AeroPress معدني</div>
+      <div class="chip" data-value="chemex_filter">Chemex</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="prevStep()">→ السابق</button>
+    <button class="btn btn-primary" onclick="nextStep()">التالي ←</button>
+  </div>
+</div>
+
+<!-- STEP 3: WATER -->
+<div class="panel" data-panel="3">
+  <div class="panel-header">
+    <h2 class="panel-title">معلومات الماء</h2>
+    <div class="panel-num">STEP 03 / 05</div>
+  </div>
+
+  <div class="alert">
+    <div class="alert-title">💧 لماذا الماء مهم؟</div>
+    الماء = 98.5% من فنجان القهوة. تركيبته المعدنية تحدد كيفية استخراج النكهات. أدخل المعلومات من ملصق العبوة.
+  </div>
+
+  <div class="form-grid">
+    <div class="field">
+      <label class="field-label">اسم الماء</label>
+      <input class="input" id="waterName" placeholder="نستله، نوفا، Volvic...">
+    </div>
+    <div class="field">
+      <label class="field-label">TDS (إجمالي المواد الذائبة)</label>
+      <input class="input" type="number" id="waterTds" placeholder="120">
+      <span class="field-hint">ppm أو mg/L</span>
+    </div>
+    <div class="field">
+      <label class="field-label">الكالسيوم (Ca²⁺)</label>
+      <input class="input" type="number" id="waterCa" placeholder="27">
+      <span class="field-hint">mg/L</span>
+    </div>
+    <div class="field">
+      <label class="field-label">المغنيسيوم (Mg²⁺)</label>
+      <input class="input" type="number" step="0.1" id="waterMg" placeholder="2.3">
+      <span class="field-hint">mg/L</span>
+    </div>
+    <div class="field">
+      <label class="field-label">البيكربونات (HCO₃⁻)</label>
+      <input class="input" type="number" id="waterBicarb" placeholder="50">
+      <span class="field-hint">mg/L</span>
+    </div>
+    <div class="field">
+      <label class="field-label">الصوديوم (Na⁺) — اختياري</label>
+      <input class="input" type="number" step="0.1" id="waterNa" placeholder="9.5">
+    </div>
+    <div class="field">
+      <label class="field-label">العسر الكلي — اختياري</label>
+      <input class="input" type="number" id="waterHardness" placeholder="76">
+      <span class="field-hint">ppm CaCO₃</span>
+    </div>
+    <div class="field">
+      <label class="field-label">pH — اختياري</label>
+      <input class="input" type="number" step="0.1" id="waterPh" placeholder="7.0">
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="prevStep()">→ السابق</button>
+    <button class="btn btn-primary" onclick="nextStep()">التالي ←</button>
+  </div>
+</div>
+
+<!-- STEP 4: PREFERENCES -->
+<div class="panel" data-panel="4">
+  <div class="panel-header">
+    <h2 class="panel-title">التفضيلات الذوقية</h2>
+    <div class="panel-num">STEP 04 / 05</div>
+  </div>
+
+  <div class="field" style="margin-bottom: 24px;">
+    <label class="field-label">ما الملف الذوقي اللي تبيه؟</label>
+    <div class="chips" id="tasteProfile" style="margin-top: 10px;" data-single="true">
+      <div class="chip" data-value="bright">فواكه ومشرق وحامضي</div>
+      <div class="chip" data-value="balanced">حلاوة وتوازن وجسم</div>
+      <div class="chip" data-value="heavy">جسم ثقيل وشوكولاتي</div>
+      <div class="chip" data-value="espresso">إسبريسو مركز وكثيف</div>
+      <div class="chip" data-value="creamy">حليبي وكريمي (لاتيه)</div>
+    </div>
+  </div>
+
+  <div class="field" style="margin-bottom: 24px;">
+    <label class="field-label">قوة التركيز</label>
+    <div class="chips" id="strength" style="margin-top: 10px;" data-single="true">
+      <div class="chip" data-value="light">خفيف (1:17)</div>
+      <div class="chip selected" data-value="medium" >متوسط (1:16)</div>
+      <div class="chip" data-value="strong">قوي (1:15)</div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="field-label">حجم الكوب المستهدف</label>
+    <div class="chips" id="cupSize" style="margin-top: 10px;" data-single="true">
+      <div class="chip" data-value="single">فنجان واحد (~200مل)</div>
+      <div class="chip selected" data-value="medium">متوسط (~250مل)</div>
+      <div class="chip" data-value="large">كبير (~350مل)</div>
+      <div class="chip" data-value="double">كوبين (~500مل)</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="prevStep()">→ السابق</button>
+    <button class="btn btn-accent" onclick="generateRecipe()">✨ توليد الوصفة</button>
+  </div>
+</div>
+
+<!-- STEP 5: RECIPE OUTPUT -->
+<div class="panel" data-panel="5" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+  <div id="recipeOutput"></div>
+
+  <div class="actions" style="margin-top: 32px;">
+    <button class="btn" onclick="prevStep()">→ تعديل المدخلات</button>
+    <button class="btn btn-primary" onclick="saveRecipe()">💾 حفظ الوصفة</button>
+  </div>
+
+  <div class="saved-section">
+    <div class="saved-title">الوصفات المحفوظة</div>
+    <div class="saved-list" id="savedList">
+      <div class="saved-empty">لا توجد وصفات محفوظة بعد</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">Brew Lab</div>
+  <div>PROTOTYPE v0.1 · MADE FOR COFFEE PURISTS</div>
+</footer>
+
+</div>
+
+<script>
+let currentStep = 1;
+let userData = {};
+let savedRecipes = [];
+
+// Initialize chips
+document.querySelectorAll('.chips').forEach(group => {
+  const isSingle = group.dataset.single === 'true';
+  group.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('chip')) return;
+    if (isSingle) {
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      e.target.classList.add('selected');
+    } else {
+      e.target.classList.toggle('selected');
+    }
+  });
+});
+
+function goToStep(n) {
+  if (n < 1 || n > 5) return;
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.querySelector(`[data-panel="${n}"]`).classList.add('active');
+  document.querySelector(`.step[data-step="${n}"]`).classList.add('active');
+  // mark previous as completed
+  for (let i = 1; i < n; i++) {
+    document.querySelector(`.step[data-step="${i}"]`).classList.add('completed');
+  }
+  currentStep = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep() {
+  collectStepData();
+  if (currentStep < 5) goToStep(currentStep + 1);
+}
+
+function prevStep() {
+  if (currentStep > 1) goToStep(currentStep - 1);
+}
+
+function getChipValues(id) {
+  return Array.from(document.querySelectorAll(`#${id} .chip.selected`)).map(c => c.dataset.value);
+}
+
+function getChipValue(id) {
+  const sel = document.querySelector(`#${id} .chip.selected`);
+  return sel ? sel.dataset.value : null;
+}
+
+function collectStepData() {
+  if (currentStep === 1) {
+    userData.bean = {
+      roaster: document.getElementById('roaster').value,
+      lotName: document.getElementById('lotName').value,
+      origin: document.getElementById('origin').value,
+      process: document.getElementById('process').value,
+      roast: document.getElementById('roast').value,
+      roastDate: document.getElementById('roastDate').value,
+      variety: document.getElementById('variety').value,
+      altitude: document.getElementById('altitude').value,
+      flavorNotes: document.getElementById('flavorNotes').value
+    };
+  } else if (currentStep === 2) {
+    userData.equipment = {
+      brewMethods: getChipValues('brewMethods'),
+      grinders: getChipValues('grinders'),
+      filters: getChipValues('filters')
+    };
+  } else if (currentStep === 3) {
+    userData.water = {
+      name: document.getElementById('waterName').value,
+      tds: parseFloat(document.getElementById('waterTds').value) || null,
+      ca: parseFloat(document.getElementById('waterCa').value) || null,
+      mg: parseFloat(document.getElementById('waterMg').value) || null,
+      bicarb: parseFloat(document.getElementById('waterBicarb').value) || null,
+      na: parseFloat(document.getElementById('waterNa').value) || null,
+      hardness: parseFloat(document.getElementById('waterHardness').value) || null,
+      ph: parseFloat(document.getElementById('waterPh').value) || null
+    };
+  } else if (currentStep === 4) {
+    userData.preferences = {
+      taste: getChipValue('tasteProfile'),
+      strength: getChipValue('strength') || 'medium',
+      cupSize: getChipValue('cupSize') || 'medium'
+    };
+  }
+}
+
+// RECIPE GENERATION ENGINE
+function generateRecipe() {
+  collectStepData();
+
+  const bean = userData.bean || {};
+  const equip = userData.equipment || {};
+  const water = userData.water || {};
+  const pref = userData.preferences || {};
+
+  // Calculate days since roast
+  let daysSinceRoast = null;
+  let roastAgeStatus = '';
+  if (bean.roastDate) {
+    const roastD = new Date(bean.roastDate);
+    const today = new Date();
+    daysSinceRoast = Math.floor((today - roastD) / (1000 * 60 * 60 * 24));
+    if (daysSinceRoast < 7) roastAgeStatus = 'too_fresh';
+    else if (daysSinceRoast < 21) roastAgeStatus = 'peak';
+    else if (daysSinceRoast < 45) roastAgeStatus = 'good';
+    else if (daysSinceRoast < 90) roastAgeStatus = 'aging';
+    else roastAgeStatus = 'old';
+  }
+
+  // Determine ratio
+  let ratio = 16;
+  if (pref.strength === 'light') ratio = 17;
+  if (pref.strength === 'strong') ratio = 15;
+  if (pref.taste === 'espresso') ratio = 2.2;
+
+  // Cup size to dose
+  const cupSizeMap = { single: 200, medium: 250, large: 350, double: 500 };
+  const waterAmount = cupSizeMap[pref.cupSize] || 250;
+  let dose = waterAmount / ratio;
+
+  // Select best brew method
+  const methodPriority = {
+    bright: ['v60', 'origami', 'b75', 'kalita', 'aiden', 'aeropress'],
+    balanced: ['aiden', 'origami', 'v60', 'kalita', 'aeropress'],
+    heavy: ['french_press', 'aeropress', 'origami', 'aiden'],
+    espresso: ['espresso', 'moka', 'aeropress'],
+    creamy: ['espresso', 'moka', 'aeropress']
+  };
+
+  const preferredMethods = methodPriority[pref.taste] || methodPriority.balanced;
+  let selectedMethod = preferredMethods.find(m => equip.brewMethods && equip.brewMethods.includes(m)) || (equip.brewMethods && equip.brewMethods[0]) || 'v60';
+
+  // Adjust dose for espresso/moka
+  if (selectedMethod === 'espresso') { dose = 18; }
+  if (selectedMethod === 'moka') { dose = 20; }
+
+  // Temperature based on roast
+  const tempMap = {
+    nordic: 96, light: 95, light_medium: 94, medium: 93, medium_dark: 91, dark: 89
+  };
+  let temp = tempMap[bean.roast] || 93;
+
+  // Adjust for roast age
+  if (roastAgeStatus === 'aging' || roastAgeStatus === 'old') temp += 1;
+  if (roastAgeStatus === 'too_fresh') temp -= 1;
+
+  // Grind setting (using ZP6 as primary, fall back to others)
+  let grindSetting = '';
+  let grindGrinder = '';
+  if (equip.grinders && equip.grinders.includes('zp6') && ['v60', 'origami', 'b75', 'kalita', 'aiden', 'chemex'].includes(selectedMethod)) {
+    const roastToZp6 = { nordic: 2.0, light: 2.1, light_medium: 2.3, medium: 2.5, medium_dark: 2.7, dark: 2.8 };
+    let g = roastToZp6[bean.roast] || 2.3;
+    if (roastAgeStatus === 'aging' || roastAgeStatus === 'old') g -= 0.1;
+    grindSetting = `${g.toFixed(1)} دورة (${Math.round(g * 40)} كليك)`;
+    grindGrinder = '1Zpresso ZP6';
+  } else if (equip.grinders && equip.grinders.includes('jultra')) {
+    if (selectedMethod === 'espresso') {
+      const espressoGrind = { nordic: 1.6, light: 1.5, light_medium: 1.4, medium: 1.3, medium_dark: 1.1, dark: 1.0 };
+      grindSetting = `${espressoGrind[bean.roast] || 1.3} دورة`;
+    } else if (selectedMethod === 'moka') {
+      grindSetting = '1.8 - 2.0 دورة';
+    } else {
+      grindSetting = '2.4 - 2.6 دورة';
+    }
+    grindGrinder = '1Zpresso J-Ultra';
+  } else if (equip.grinders && equip.grinders.includes('ode2')) {
+    const odeMap = { nordic: 3, light: 3, light_medium: 4, medium: 5, medium_dark: 5, dark: 6 };
+    grindSetting = `${odeMap[bean.roast] || 4}`;
+    grindGrinder = 'Fellow Ode Gen 2';
+  } else {
+    grindSetting = 'متوسط (مثل ملح الطعام)';
+    grindGrinder = 'مطحنتك';
+  }
+
+  // Filter selection
+  const filterPriority = {
+    bright: ['sibarist', 'cafec_light', 'cafec_abaca', 'hario'],
+    balanced: ['cafec_abaca', 'origami_filter', 'hario', 'cafec_light'],
+    heavy: ['cafec_dark', 'hario', 'cafec_abaca'],
+    espresso: [],
+    creamy: []
+  };
+  const prefFilters = filterPriority[pref.taste] || filterPriority.balanced;
+  const selectedFilter = prefFilters.find(f => equip.filters && equip.filters.includes(f)) || (equip.filters && equip.filters[0]) || null;
+
+  // WATER ANALYSIS
+  let waterAnalysis = null;
+  if (water.tds || water.ca || water.mg) {
+    waterAnalysis = analyzeWater(water);
+  }
+
+  // Adjust based on water
+  if (waterAnalysis && waterAnalysis.lowMg) temp += 1;
+  if (waterAnalysis && waterAnalysis.highBicarb) ratio -= 0.5;
+
+  // POUR SCHEDULE (for filter methods)
+  const pours = [];
+  if (['v60', 'origami', 'b75', 'kalita', 'aiden', 'chemex'].includes(selectedMethod)) {
+    const bloomAmount = Math.round(dose * 3);
+    const stage2 = Math.round(waterAmount * 0.6);
+    pours.push({
+      time: '0:00',
+      name: 'الإزهار · Bloom',
+      detail: 'صبة دائرية سريعة من المركز للخارج · ثم Swirl لطيف',
+      amount: bloomAmount + 'جم',
+      duration: '8-10 ثانية ثم انتظر'
+    });
+    pours.push({
+      time: '0:45',
+      name: 'الصبة الرئيسية',
+      detail: 'دوائر متحدة المركز · تدفق متوسط 6جم/ثانية · بدون لمس الجدار',
+      amount: `حتى ${stage2}جم`,
+      duration: '15-18 ثانية'
+    });
+    pours.push({
+      time: '1:30',
+      name: 'صبة التذوق',
+      detail: 'دوائر صغيرة في المركز · تدفق أبطأ 5جم/ثانية · ثم Swirl خفيف',
+      amount: `حتى ${waterAmount}جم`,
+      duration: '15-20 ثانية'
+    });
+  }
+
+  // FLAVOR PREDICTION
+  const flavorPrediction = predictFlavor(bean, water, waterAnalysis, roastAgeStatus);
+
+  // METHOD NAMES IN ARABIC
+  const methodNames = {
+    v60: 'Hario V60',
+    origami: 'Origami',
+    b75: 'Hario B75',
+    kalita: 'Kalita Wave',
+    aeropress: 'AeroPress',
+    french_press: 'French Press',
+    moka: 'Moka Pot',
+    espresso: 'Espresso',
+    aiden: 'Fellow Aiden',
+    turkish: 'ركوة تركية',
+    dallah: 'دلة عربية',
+    chemex: 'Chemex'
+  };
+
+  const filterNames = {
+    hario: 'Hario Tabbed (أبيض)',
+    cafec_abaca: 'Cafec Abaca T-90',
+    cafec_light: 'Cafec Light Roast',
+    cafec_dark: 'Cafec Dark Roast',
+    sibarist: 'Sibarist Fast',
+    origami_filter: 'Origami المخصص',
+    chemex_filter: 'Chemex المخصص'
+  };
+
+  // RENDER
+  const html = `
+    <div class="recipe-card">
+      <div class="recipe-header">
+        <div class="recipe-eyebrow">RECIPE · TODAY</div>
+        <div class="recipe-title">${bean.lotName || 'محصول'} · ${methodNames[selectedMethod] || selectedMethod}</div>
+        <div class="recipe-meta">
+          ${bean.roaster ? `<div class="recipe-meta-item"><strong>محمصة</strong> ${bean.roaster}</div>` : ''}
+          ${bean.origin ? `<div class="recipe-meta-item"><strong>منشأ</strong> ${originName(bean.origin)}</div>` : ''}
+          ${daysSinceRoast !== null ? `<div class="recipe-meta-item"><strong>عمر</strong> ${daysSinceRoast} يوم</div>` : ''}
+        </div>
+      </div>
+      <div class="recipe-body">
+
+        <!-- Roast Age Alert -->
+        ${roastAgeAlert(roastAgeStatus, daysSinceRoast)}
+
+        <!-- Taste Prediction -->
+        <div class="taste-section">
+          <h3 class="section-title" data-num="01">الطعم المتوقع</h3>
+          <p style="color: var(--ink-soft); margin-bottom: 16px; line-height: 1.7;">${flavorPrediction.description}</p>
+          <div class="taste-notes">
+            ${flavorPrediction.primary.map(n => `<span class="taste-note primary">${n}</span>`).join('')}
+            ${flavorPrediction.secondary.map(n => `<span class="taste-note secondary">${n}</span>`).join('')}
+            ${flavorPrediction.subtle.map(n => `<span class="taste-note">${n}</span>`).join('')}
+          </div>
+        </div>
+
+        <!-- Specs -->
+        <div class="taste-section">
+          <h3 class="section-title" data-num="02">المواصفات</h3>
+          <div class="specs">
+            <div class="spec">
+              <div class="spec-label">الأداة</div>
+              <div class="spec-value" style="font-size: 18px;">${methodNames[selectedMethod] || selectedMethod}</div>
+            </div>
+            ${selectedFilter ? `<div class="spec">
+              <div class="spec-label">الفلتر</div>
+              <div class="spec-value" style="font-size: 14px;">${filterNames[selectedFilter] || selectedFilter}</div>
+            </div>` : ''}
+            <div class="spec">
+              <div class="spec-label">جرعة البن</div>
+              <div class="spec-value">${dose.toFixed(1)}<span class="spec-unit">جم</span></div>
+            </div>
+            <div class="spec">
+              <div class="spec-label">كمية الماء</div>
+              <div class="spec-value">${waterAmount}<span class="spec-unit">جم</span></div>
+            </div>
+            <div class="spec">
+              <div class="spec-label">النسبة</div>
+              <div class="spec-value">1:${ratio}</div>
+            </div>
+            <div class="spec">
+              <div class="spec-label">الحرارة</div>
+              <div class="spec-value">${temp}<span class="spec-unit">°م</span></div>
+            </div>
+            <div class="spec">
+              <div class="spec-label">الطحن</div>
+              <div class="spec-value" style="font-size: 14px;">${grindSetting}</div>
+              <div class="spec-label" style="margin-top: 2px;">${grindGrinder}</div>
+            </div>
+            <div class="spec">
+              <div class="spec-label">الزمن الكلي</div>
+              <div class="spec-value">3:00<span class="spec-unit">- 3:30</span></div>
+            </div>
+          </div>
+        </div>
+
+        ${pours.length > 0 ? `
+        <!-- Pour Schedule -->
+        <div class="taste-section">
+          <h3 class="section-title" data-num="03">جدول الصبات</h3>
+          <div class="pours">
+            ${pours.map(p => `
+              <div class="pour">
+                <div class="pour-time">${p.time}</div>
+                <div class="pour-content">
+                  <div class="pour-name">${p.name}</div>
+                  <div class="pour-detail">${p.detail} · ${p.duration}</div>
+                </div>
+                <div class="pour-amount">${p.amount}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        ` : ''}
+
+        <!-- Water Analysis -->
+        ${waterAnalysis ? `
+        <div class="taste-section">
+          <h3 class="section-title" data-num="04">تحليل الماء · ${water.name || ''}</h3>
+          <p style="color: var(--ink-soft); margin-bottom: 16px;">${waterAnalysis.summary}</p>
+          <div class="water-grid">
+            ${waterAnalysis.stats.map(s => `
+              <div class="water-stat ${s.status}">
+                <div class="water-stat-label">${s.label}</div>
+                <div class="water-stat-value">${s.value}</div>
+                <div class="water-stat-status" style="color: ${s.status === 'good' ? 'var(--olive)' : s.status === 'warn' ? '#8a6a20' : 'var(--accent)'}">${s.note}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        ` : ''}
+
+        <!-- Pro Tips -->
+        <div class="taste-section" style="border-bottom: none; padding-bottom: 0;">
+          <h3 class="section-title" data-num="05">نصائح الضبط</h3>
+          <div class="alert success">
+            <div class="alert-title">✓ إذا طلعت متوازنة وحلوة</div>
+            احتفظ بهذه الإعدادات. سجلها في الوصفات المحفوظة.
+          </div>
+          <div class="alert">
+            <div class="alert-title">⚠ إذا طلعت حامضة جداً</div>
+            اطحن أنعم بكليكين (-2 clicks)، أو ارفع الحرارة 1°م، أو زد زمن الصبة الأخيرة.
+          </div>
+          <div class="alert warning">
+            <div class="alert-title">⚠ إذا طلعت مرّة أو قابضة</div>
+            اطحن أخشن بكليكين (+2 clicks)، أو خفض الحرارة 1°م، أو قلل النسبة (ماء أكثر).
+          </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-section">
+          <div class="recipe-eyebrow" style="color: var(--gold)">BREW TIMER</div>
+          <div class="timer-display" id="timerDisplay">00:00</div>
+          <div class="timer-stage" id="timerStage">جاهز للبدء</div>
+          <div class="timer-controls">
+            <button class="timer-btn" onclick="startTimer()">▶ ابدأ</button>
+            <button class="timer-btn" onclick="pauseTimer()">⏸ إيقاف</button>
+            <button class="timer-btn" onclick="resetTimer()">↻ تصفير</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `;
+
+  document.getElementById('recipeOutput').innerHTML = html;
+  goToStep(5);
+  renderSavedRecipes();
+}
+
+// HELPER: Origin name
+function originName(o) {
+  const map = {
+    ethiopia: 'إثيوبيا', kenya: 'كينيا', colombia: 'كولومبيا',
+    brazil: 'البرازيل', yemen: 'اليمن', panama: 'بنما',
+    costa_rica: 'كوستاريكا', indonesia: 'إندونيسيا', rwanda: 'رواندا',
+    el_salvador: 'السلفادور', guatemala: 'غواتيمالا', honduras: 'هندوراس'
+  };
+  return map[o] || o;
+}
+
+// HELPER: Roast age alert
+function roastAgeAlert(status, days) {
+  if (!status) return '';
+  const alerts = {
+    too_fresh: { type: 'warning', title: '⚠ البن طازج جداً', text: `${days} يوم فقط — يحتاج راحة إضافية. النكهات قد تكون غير مستقرة بسبب CO₂.` },
+    peak: { type: 'success', title: '✓ في ذروة النكهة', text: `${days} يوم — وقت مثالي. توقع نكهات واضحة ومتوازنة.` },
+    good: { type: 'success', title: '✓ في حالة جيدة', text: `${days} يوم — لا يزال ممتاز. النكهات الزهرية الطيارة قد تكون أقل قليلاً.` },
+    aging: { type: 'warning', title: '⚠ بدأ يفقد نضارته', text: `${days} يوم — الحموضة المشرقة والنوتات الطيارة تراجعت. الوصفة معدلة لإبراز الحلاوة والجسم.` },
+    old: { type: 'warning', title: '⚠ تجاوز فترة الذروة', text: `${days} يوم — البن لا يزال صالحاً لكن النكهات الأساسية فقط (شوكولاتة، كراميل، مكسرات).` }
+  };
+  const a = alerts[status];
+  return `<div class="alert ${a.type}"><div class="alert-title">${a.title}</div>${a.text}</div>`;
+}
+
+// HELPER: Predict flavor
+function predictFlavor(bean, water, waterAnalysis, roastAgeStatus) {
+  const flavorMap = {
+    ethiopia_natural: { primary: ['توت بري', 'فراولة', 'مشمش'], secondary: ['عسل', 'شوكولاتة'], subtle: ['ياسمين', 'برتقال'] },
+    ethiopia_washed: { primary: ['ياسمين', 'برغموت', 'ليمون'], secondary: ['شاي أسود', 'لافندر'], subtle: ['عسل', 'بسكويت'] },
+    kenya_washed: { primary: ['كشمش أسود', 'توت', 'طماطم'], secondary: ['نبيذ أحمر', 'فواكه استوائية'], subtle: ['كراميل', 'حمضيات'] },
+    colombia_washed: { primary: ['كراميل', 'شوكولاتة حليب', 'مكسرات'], secondary: ['تفاح', 'برتقال'], subtle: ['عسل', 'فانيلا'] },
+    brazil_natural: { primary: ['شوكولاتة', 'مكسرات', 'كراميل'], secondary: ['تفاح', 'تبغ'], subtle: ['فاكهة مجففة'] },
+    yemen_natural: { primary: ['فواكه مجففة', 'توابل', 'كاكاو'], secondary: ['تمر', 'نبيذي'], subtle: ['عسل', 'هيل'] },
+    indonesia_washed: { primary: ['شوكولاتة داكنة', 'جوز هند', 'تبغ'], secondary: ['ترابي', 'أعشاب'], subtle: ['توابل'] }
+  };
+
+  const key = `${bean.origin}_${bean.process}`;
+  let profile = flavorMap[key] || flavorMap[`${bean.origin}_washed`] || { primary: ['متوازن'], secondary: ['حلو'], subtle: [] };
+
+  // Override with user-declared notes
+  if (bean.flavorNotes) {
+    const userNotes = bean.flavorNotes.split(/[,،]/).map(s => s.trim()).filter(Boolean);
+    if (userNotes.length) {
+      profile = {
+        primary: userNotes.slice(0, 3),
+        secondary: userNotes.slice(3, 5),
+        subtle: userNotes.slice(5)
+      };
+    }
+  }
+
+  // Adjust for aging
+  if (roastAgeStatus === 'aging' || roastAgeStatus === 'old') {
+    // Move bright notes to subtle
+    profile = {
+      primary: profile.secondary.length ? profile.secondary : profile.primary,
+      secondary: ['حلاوة', 'جسم حريري'],
+      subtle: profile.primary.concat(profile.subtle).slice(0, 3)
+    };
+  }
+
+  let description = `بناءً على ${originName(bean.origin) || 'المنشأ'} `;
+  if (bean.process) description += `(${bean.process === 'natural' ? 'مجفف طبيعياً' : bean.process === 'washed' ? 'مغسول' : bean.process})`;
+  description += ' وتركيبة الماء، توقّع: نكهات بارزة، حلاوة واضحة، جسم متوازن.';
+
+  return { description, ...profile };
+}
+
+// HELPER: Water analysis
+function analyzeWater(w) {
+  const stats = [];
+  let summary = 'تحليل: ';
+  let lowMg = false;
+  let highBicarb = false;
+
+  if (w.tds !== null) {
+    let status = 'good';
+    let note = 'مثالي';
+    if (w.tds < 75) { status = 'warn'; note = 'منخفض'; }
+    if (w.tds > 175) { status = 'warn'; note = 'مرتفع'; }
+    if (w.tds > 250) { status = 'bad'; note = 'مرتفع جداً'; }
+    stats.push({ label: 'TDS', value: w.tds, note, status });
+  }
+  if (w.ca !== null) {
+    let status = 'good';
+    let note = 'مثالي';
+    if (w.ca < 17) { status = 'warn'; note = 'منخفض'; }
+    if (w.ca > 85) { status = 'warn'; note = 'مرتفع'; }
+    stats.push({ label: 'Ca²⁺', value: w.ca, note, status });
+  }
+  if (w.mg !== null) {
+    let status = 'good';
+    let note = 'جيد';
+    if (w.mg < 5) { status = 'bad'; note = 'منخفض جداً'; lowMg = true; }
+    else if (w.mg < 8) { status = 'warn'; note = 'منخفض'; }
+    if (w.mg > 20) { status = 'warn'; note = 'مرتفع'; }
+    stats.push({ label: 'Mg²⁺', value: w.mg, note, status });
+  }
+  if (w.bicarb !== null) {
+    let status = 'good';
+    let note = 'جيد';
+    if (w.bicarb < 25) { status = 'warn'; note = 'منخفض'; }
+    if (w.bicarb > 75) { status = 'warn'; note = 'مرتفع'; highBicarb = true; }
+    stats.push({ label: 'HCO₃⁻', value: w.bicarb, note, status });
+  }
+  if (w.ph !== null) {
+    let status = 'good';
+    let note = 'متعادل';
+    if (w.ph < 6.5 || w.ph > 7.5) { status = 'warn'; note = 'خارج النطاق'; }
+    stats.push({ label: 'pH', value: w.ph, note, status });
+  }
+
+  if (lowMg) summary += 'مغنيسيوم منخفض → النكهات الفاكهية قد تخفت. ';
+  else summary += 'تركيبة المعادن مناسبة. ';
+  if (highBicarb) summary += 'بيكربونات مرتفعة → الحموضة الطبيعية قد تتعادل. ';
+  summary += 'الوصفة معدلة لتعويض الفروقات.';
+
+  return { stats, summary, lowMg, highBicarb };
+}
+
+function resetForm() {
+  if (confirm('هل أنت متأكد من تفريغ النموذج؟')) {
+    document.querySelectorAll('.input, .select').forEach(i => i.value = '');
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    userData = {};
+    goToStep(1);
+  }
+}
+
+// SAVED RECIPES
+async function saveRecipe() {
+  collectStepData();
+  const recipe = {
+    id: 'recipe_' + Date.now(),
+    name: `${userData.bean?.lotName || 'محصول'} · ${new Date().toLocaleDateString('ar-SA')}`,
+    data: userData,
+    savedAt: new Date().toISOString()
+  };
+  try {
+    await window.storage.set(recipe.id, JSON.stringify(recipe));
+    await loadSavedRecipes();
+    renderSavedRecipes();
+    alert('✓ تم حفظ الوصفة بنجاح');
+  } catch (e) {
+    // Fallback to memory
+    savedRecipes.push(recipe);
+    renderSavedRecipes();
+  }
+}
+
+async function loadSavedRecipes() {
+  try {
+    const list = await window.storage.list('recipe_');
+    if (list && list.keys) {
+      savedRecipes = [];
+      for (const k of list.keys) {
+        try {
+          const r = await window.storage.get(k);
+          if (r) savedRecipes.push(JSON.parse(r.value));
+        } catch (e) {}
+      }
+    }
+  } catch (e) {
+    console.log('Storage not available');
+  }
+}
+
+function renderSavedRecipes() {
+  const container = document.getElementById('savedList');
+  if (!container) return;
+  if (savedRecipes.length === 0) {
+    container.innerHTML = '<div class="saved-empty">لا توجد وصفات محفوظة بعد</div>';
+    return;
+  }
+  container.innerHTML = savedRecipes.map(r => `
+    <div class="saved-item" onclick="loadRecipe('${r.id}')">
+      <span>${r.name}</span>
+      <span style="font-size: 11px; color: var(--ink-soft); font-family: 'JetBrains Mono', monospace;">${new Date(r.savedAt).toLocaleDateString('ar-SA')}</span>
+    </div>
+  `).join('');
+}
+
+function loadRecipe(id) {
+  const r = savedRecipes.find(x => x.id === id);
+  if (!r) return;
+  userData = r.data;
+  // Re-fill form
+  // (Could be enhanced to repopulate all fields)
+  generateRecipe();
+}
+
+// TIMER
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+
+function startTimer() {
+  if (timerRunning) return;
+  timerRunning = true;
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    updateTimer();
+  }, 1000);
+}
+
+function pauseTimer() {
+  timerRunning = false;
+  if (timerInterval) clearInterval(timerInterval);
+}
+
+function resetTimer() {
+  pauseTimer();
+  timerSeconds = 0;
+  updateTimer();
+  const ts = document.getElementById('timerStage');
+  if (ts) ts.textContent = 'جاهز للبدء';
+}
+
+function updateTimer() {
+  const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+  const s = String(timerSeconds % 60).padStart(2, '0');
+  const display = document.getElementById('timerDisplay');
+  if (display) display.textContent = `${m}:${s}`;
+  // Update stage
+  const stage = document.getElementById('timerStage');
+  if (stage) {
+    if (timerSeconds < 10) stage.textContent = '🌸 الإزهار · صب الـ Bloom';
+    else if (timerSeconds < 45) stage.textContent = '⏳ انتظار · دع البن يتنفس';
+    else if (timerSeconds < 67) stage.textContent = '💧 الصبة الرئيسية';
+    else if (timerSeconds < 90) stage.textContent = '⏸ انتظار · دع الماء ينزل';
+    else if (timerSeconds < 110) stage.textContent = '💧 صبة التذوق · Swirl نهائي';
+    else if (timerSeconds < 180) stage.textContent = '⌛ التصفية الأخيرة';
+    else stage.textContent = '☕ جاهز! تمتع بالكوب';
+  }
+}
+
+// INIT
+loadSavedRecipes().then(() => renderSavedRecipes());
+</script>
+
+</body>
+</html>
