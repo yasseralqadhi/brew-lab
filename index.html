@@ -1350,6 +1350,9 @@ html, body {
 [dir="rtl"] .lang-toggle { left: 16px; }
 [dir="ltr"] .lang-toggle { right: 16px; }
 
+/* Hide lang toggle in task screens — user is in an action */
+.app.in-task .lang-toggle { display: none; }
+
 @media (prefers-color-scheme: dark) {
   .lang-toggle { background: rgba(28,28,30,0.9); }
 }
@@ -1731,6 +1734,42 @@ html, body {
 </div>
 
 <!-- ============================================================
+     EQUIPMENT
+     ============================================================ -->
+<div class="screen" data-screen="equipment">
+  <div class="nav-bar compact">
+    <button class="nav-button" onclick="goBack()" data-i18n="settings_title">الإعدادات</button>
+    <div class="nav-title-compact" data-i18n="equipment_title">المعدّات</div>
+    <div style="width:40px"></div>
+  </div>
+  <div class="scroll-content no-tab" id="equipmentContent"></div>
+</div>
+
+<!-- ============================================================
+     CUSTOM GRINDER EDIT
+     ============================================================ -->
+<div class="screen" data-screen="grinderEdit">
+  <div class="nav-bar compact">
+    <button class="nav-button" onclick="goBack()" data-i18n="cancel">إلغاء</button>
+    <div class="nav-title-compact" data-i18n="grinder_edit_title">مطحنة مخصّصة</div>
+    <button class="nav-button bold" onclick="saveCustomGrinder()" data-i18n="save">حفظ</button>
+  </div>
+  <div class="scroll-content no-tab" id="grinderEditContent"></div>
+</div>
+
+<!-- ============================================================
+     CUSTOM FILTER EDIT
+     ============================================================ -->
+<div class="screen" data-screen="filterEdit">
+  <div class="nav-bar compact">
+    <button class="nav-button" onclick="goBack()" data-i18n="cancel">إلغاء</button>
+    <div class="nav-title-compact" data-i18n="filter_edit_title">فلتر مخصّص</div>
+    <button class="nav-button bold" onclick="saveCustomFilter()" data-i18n="save">حفظ</button>
+  </div>
+  <div class="scroll-content no-tab" id="filterEditContent"></div>
+</div>
+
+<!-- ============================================================
      SETTINGS
      ============================================================ -->
 <div class="screen" data-screen="settings">
@@ -1844,11 +1883,6 @@ html, body {
 
 <input type="file" id="imageUploadInput" class="hidden-input" accept="image/*" capture="environment">
 
-<button class="feedback-fab" onclick="showSheet('feedbackSheet')">
-  <svg class="icon" style="width:14px;height:14px"><use href="#i-message"/></svg>
-  <span data-i18n="feedback_btn">ملاحظات</span>
-</button>
-
 <div class="toast" id="toast">—</div>
 
 </div>
@@ -1861,11 +1895,14 @@ const state = {
   beans: [], waters: [], recipes: [], iterations: [],
   currentLang: 'ar', hasOnboarded: false,
   beanDraft: null, waterDraft: null,
-  recipeDraft: { beanId: null, waterId: null, method: 'v60', grinder: null, taste: 'balanced', strength: 'medium', cupSize: 'medium' },
+  recipeDraft: { beanId: null, waterId: null, method: 'v60', grinder: null, filter: null, taste: 'balanced', strength: 'medium', cupSize: 'medium' },
   currentRecipe: null,
   beanFormPhoto: null, waterFormPhoto: null,
   brewTimer: { seconds: 0, running: false, interval: null, schedule: null, currentStage: 0, _lastStage: -1 },
-  navStack: ['home']
+  navStack: ['home'],
+  preferences: { defaultGrinder: null, defaultFilter: null },
+  grinderDraft: null,
+  filterDraft: null
 };
 
 const FREE_LIMITS = { beans: 5, waters: 3 };
@@ -1874,23 +1911,58 @@ const FREE_LIMITS = { beans: 5, waters: 3 };
    DATA TABLES
    ============================================================ */
 const GRINDERS = {
+  // 1Zpresso family
   zp6: { name: '1Zpresso ZP6', minMicron: 240, maxMicron: 1050, espressoCapable: false,
     display: (m) => { const c = Math.round(m / 22); return c/10 + ' (' + c + ' كليك)'; }},
   jultra: { name: '1Zpresso J-Ultra', minMicron: 150, maxMicron: 900, espressoCapable: true,
     display: (m) => { const c = Math.round(m / 8); return c/10 + ' (' + c + ' كليك)'; }},
   jx: { name: '1Zpresso JX-Pro', minMicron: 200, maxMicron: 1200, espressoCapable: true,
     display: (m) => Math.round(m / 12.5) + ' كليك' },
+  kpro: { name: '1Zpresso K-Pro', minMicron: 200, maxMicron: 1200, espressoCapable: true,
+    display: (m) => Math.round(m / 22) + ' كليك' },
+  // Fellow
   ode2: { name: 'Fellow Ode Gen 2', minMicron: 275, maxMicron: 1160, espressoCapable: false,
     display: (m) => (((m - 250) / 25) + 1).toFixed(1) + ' على القرص' },
+  opus: { name: 'Fellow Opus', minMicron: 200, maxMicron: 1400, espressoCapable: true,
+    display: (m) => Math.round((m - 100) / 28) + ' من 41' },
+  // Comandante & similar
   comandante: { name: 'Comandante C40', minMicron: 200, maxMicron: 1300, espressoCapable: true,
     display: (m) => Math.round(m / 30) + ' كليك' },
-  timemore: { name: 'Timemore C2/C3', minMicron: 300, maxMicron: 1300, espressoCapable: true,
+  timemore_c2: { name: 'Timemore C2/C3', minMicron: 300, maxMicron: 1300, espressoCapable: true,
     display: (m) => Math.round(m / 36) + ' كليك' },
-  niche: { name: 'Niche Zero', minMicron: 200, maxMicron: 1100, espressoCapable: true,
+  timemore_chestnut_x: { name: 'Timemore Chestnut X', minMicron: 180, maxMicron: 1200, espressoCapable: true,
+    display: (m) => Math.round(m / 16) + ' كليك' },
+  // Niche
+  niche_zero: { name: 'Niche Zero', minMicron: 200, maxMicron: 1100, espressoCapable: true,
     display: (m) => { if (m < 350) return '10-20'; if (m < 600) return '25-35'; if (m < 850) return '40-55'; return '60-80'; }},
+  niche_duo: { name: 'Niche Duo', minMicron: 180, maxMicron: 1200, espressoCapable: true,
+    display: (m) => { if (m < 350) return '10-20'; if (m < 600) return '25-35'; if (m < 850) return '40-55'; return '60-80'; }},
+  // Baratza
+  encore: { name: 'Baratza Encore', minMicron: 250, maxMicron: 1300, espressoCapable: false,
+    display: (m) => Math.max(1, Math.min(40, Math.round((m - 200) / 28))) + ' من 40' },
+  encore_esp: { name: 'Baratza Encore ESP', minMicron: 200, maxMicron: 1300, espressoCapable: true,
+    display: (m) => Math.max(1, Math.min(40, Math.round((m - 150) / 29))) + ' من 40' },
+  // Eureka
+  eureka_mignon: { name: 'Eureka Mignon Specialità', minMicron: 180, maxMicron: 1000, espressoCapable: true,
+    display: (m) => Math.round((m - 150) / 14) + ' من 60' },
+  // DF / Lagom
+  df64: { name: 'DF64 / DF64 Gen 2', minMicron: 180, maxMicron: 1300, espressoCapable: true,
+    display: (m) => Math.round((m - 150) / 15) + ' من 80' },
+  lagom_p64: { name: 'Lagom P64', minMicron: 150, maxMicron: 1200, espressoCapable: true,
+    display: (m) => (((m - 100) / 1100) * 11).toFixed(1) + ' دوران' },
+  // Mahlkönig
+  mahlkonig_x54: { name: 'Mahlkönig X54', minMicron: 180, maxMicron: 1200, espressoCapable: true,
+    display: (m) => Math.max(1, Math.min(80, Math.round((m - 150) / 13))) + ' من 80' },
+  // Acaia
+  acaia_orbit: { name: 'Acaia Orbit', minMicron: 150, maxMicron: 1100, espressoCapable: true,
+    display: (m) => Math.round((m - 100) / 10) + ' من 100' },
+  // Fallback
   other: { name: 'مطحنة أخرى', minMicron: 100, maxMicron: 1300, espressoCapable: true,
     display: (m) => '~' + m + ' ميكرون' }
 };
+
+// User-defined custom grinders (loaded from localStorage)
+let CUSTOM_GRINDERS = {};
 
 const METHOD_MICRONS = {
   turkish: { min: 40, ideal: 130, max: 220 }, espresso: { min: 180, ideal: 280, max: 380 },
@@ -1898,12 +1970,45 @@ const METHOD_MICRONS = {
   v60: { min: 400, ideal: 650, max: 800 }, origami: { min: 400, ideal: 650, max: 800 },
   b75: { min: 450, ideal: 700, max: 850 }, kalita: { min: 450, ideal: 680, max: 850 },
   chemex: { min: 550, ideal: 750, max: 900 }, aiden: { min: 450, ideal: 680, max: 850 },
-  french_press: { min: 690, ideal: 950, max: 1300 }
+  french_press: { min: 690, ideal: 950, max: 1300 },
+  // New methods
+  switch: { min: 500, ideal: 750, max: 1000 },
+  clever: { min: 500, ideal: 750, max: 1000 },
+  cold_brew: { min: 800, ideal: 1000, max: 1300 },
+  cupping: { min: 650, ideal: 800, max: 950 }
 };
 
 const ROAST_MICRON_SHIFT = { nordic: -80, light: -50, light_medium: -20, medium: 0, medium_dark: 30, dark: 60 };
 
-const METHOD_NAMES = { v60: 'Hario V60', origami: 'Origami', b75: 'Hario B75', kalita: 'Kalita Wave', aeropress: 'AeroPress', french_press: 'French Press', moka: 'Moka Pot', espresso: 'Espresso', aiden: 'Fellow Aiden', turkish: 'ركوة تركية', chemex: 'Chemex' };
+const METHOD_NAMES = {
+  v60: 'Hario V60', origami: 'Origami', b75: 'Hario B75', kalita: 'Kalita Wave',
+  aeropress: 'AeroPress', french_press: 'French Press', moka: 'Moka Pot',
+  espresso: 'Espresso', aiden: 'Fellow Aiden', turkish: 'ركوة تركية', chemex: 'Chemex',
+  switch: 'Hario Switch', clever: 'Clever Dripper', cold_brew: 'Cold Brew', cupping: 'Cupping'
+};
+
+// Filters catalog — paper/metal/cloth filters per method category
+const FILTERS = {
+  cafec_abaca: { name: 'Cafec Abaca', methods: ['v60', 'origami', 'b75', 'aiden', 'kalita', 'switch', 'clever'] },
+  cafec_t90: { name: 'Cafec T-90', methods: ['v60', 'origami', 'aiden', 'switch', 'clever'] },
+  cafec_light: { name: 'Cafec Light Roast', methods: ['v60', 'origami', 'aiden'] },
+  cafec_medium: { name: 'Cafec Medium-Dark', methods: ['v60', 'origami', 'aiden'] },
+  hario_white: { name: 'Hario V60 White', methods: ['v60', 'origami', 'switch'] },
+  hario_brown: { name: 'Hario V60 Brown', methods: ['v60', 'origami', 'switch'] },
+  sibarist_fast: { name: 'Sibarist FAST', methods: ['v60', 'origami', 'aiden'] },
+  sibarist_flat: { name: 'Sibarist Flat', methods: ['kalita', 'b75'] },
+  origami_air: { name: 'Origami Air', methods: ['origami'] },
+  kalita_wave_155: { name: 'Kalita Wave 155', methods: ['kalita'] },
+  kalita_wave_185: { name: 'Kalita Wave 185', methods: ['kalita'] },
+  chemex_bonded: { name: 'Chemex Bonded', methods: ['chemex'] },
+  aeropress_paper: { name: 'AeroPress Paper', methods: ['aeropress'] },
+  aeropress_metal: { name: 'AeroPress Metal', methods: ['aeropress'] },
+  fp_mesh: { name: 'فلتر شبكي', methods: ['french_press', 'cupping'] },
+  none: { name: 'بدون فلتر', methods: ['espresso', 'moka', 'turkish', 'cold_brew'] }
+};
+
+// User-defined custom filters
+let CUSTOM_FILTERS = {};
 const ORIGIN_NAMES = { ethiopia: 'إثيوبيا', kenya: 'كينيا', colombia: 'كولومبيا', brazil: 'البرازيل', yemen: 'اليمن', panama: 'بنما', costa_rica: 'كوستاريكا', indonesia: 'إندونيسيا', rwanda: 'رواندا', el_salvador: 'السلفادور', guatemala: 'غواتيمالا', honduras: 'هندوراس', other: 'أخرى' };
 const PROCESS_NAMES = { washed: 'مغسولة', natural: 'طبيعية', honey: 'عسلية', anaerobic: 'لاهوائي', wet_hulled: 'شبه مغسولة' };
 const ROAST_NAMES = { nordic: 'فاتح جداً', light: 'فاتح', light_medium: 'فاتح-متوسط', medium: 'متوسط', medium_dark: 'متوسط-غامق', dark: 'غامق' };
@@ -1923,6 +2028,9 @@ const FLAVOR_MAP = {
    ============================================================ */
 function loadAll() {
   state.beans = []; state.waters = []; state.recipes = []; state.iterations = [];
+  CUSTOM_GRINDERS = {};
+  CUSTOM_FILTERS = {};
+  state.preferences = { defaultGrinder: null, defaultFilter: null };
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
     if (!k) continue;
@@ -1932,14 +2040,25 @@ function loadAll() {
       else if (k.startsWith('water_')) state.waters.push(item);
       else if (k.startsWith('recipe_')) state.recipes.push(item);
       else if (k.startsWith('iter_')) state.iterations.push(item);
+      else if (k.startsWith('cgrinder_')) CUSTOM_GRINDERS[item.id] = item;
+      else if (k.startsWith('cfilter_')) CUSTOM_FILTERS[item.id] = item;
       else if (k === 'brewlab_onboarded') state.hasOnboarded = item === true;
       else if (k === 'brewlab_lang') state.currentLang = item;
+      else if (k === 'brewlab_prefs') state.preferences = Object.assign(state.preferences, item);
     } catch (e) {}
   }
   state.beans.sort((a, b) => new Date(b.updatedAt || b.savedAt) - new Date(a.updatedAt || a.savedAt));
   state.waters.sort((a, b) => new Date(b.updatedAt || b.savedAt) - new Date(a.updatedAt || a.savedAt));
   state.recipes.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
   state.iterations.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+}
+
+// Helper: returns merged catalog (built-in + custom)
+function getAllGrinders() { return Object.assign({}, GRINDERS, CUSTOM_GRINDERS); }
+function getAllFilters() { return Object.assign({}, FILTERS, CUSTOM_FILTERS); }
+
+function savePrefs() {
+  localStorage.setItem('brewlab_prefs', JSON.stringify(state.preferences));
 }
 
 function saveItem(item) {
@@ -2115,6 +2234,31 @@ const i18n = {
     settings_pro: 'Brew Lab Pro',
     settings_pro_sub: 'كاميرا ذكية · محاصيل بلا حدود · مزامنة',
 
+    // Equipment (new)
+    settings_equipment: 'معدّاتك',
+    equipment_title: 'المعدّات',
+    equipment_grinders: 'المطاحن',
+    equipment_filters: 'الفلاتر',
+    equipment_default_grinder: 'المطحنة الافتراضية',
+    equipment_default_filter: 'الفلتر الافتراضي',
+    equipment_add_grinder: 'إضافة مطحنة مخصّصة',
+    equipment_add_filter: 'إضافة فلتر مخصّص',
+    grinder_edit_title: 'مطحنة مخصّصة',
+    grinder_label_name: 'الاسم',
+    grinder_label_min: 'أنعم طحن (ميكرون)',
+    grinder_label_max: 'أخشن طحن (ميكرون)',
+    grinder_label_espresso: 'تصلح للإسبريسو',
+    grinder_label_step: 'ميكرون لكل كليك',
+    grinder_step_help: 'اتركه فارغاً إذا كنت لا تعرفه، وسيُعرض الإعداد كنطاق تقديري',
+    grinder_min_help: 'القيمة التقريبية لأنعم إعداد في مطحنتك',
+    grinder_max_help: 'القيمة التقريبية لأخشن إعداد في مطحنتك',
+    filter_edit_title: 'فلتر مخصّص',
+    filter_label_name: 'الاسم',
+    custom_badge: 'مخصّص',
+    none_label: 'بدون',
+    not_set: 'لم يُحدّد',
+    select_filter: 'الفلتر',
+
     // Confirmations
     confirm_delete: 'حذف هذا الملف؟ الحذف نهائي.',
     confirm_clear: 'حذف جميع المحاصيل والمياه والوصفات؟ الحذف نهائي.',
@@ -2206,6 +2350,29 @@ const i18n = {
     settings_general: 'GENERAL', settings_language: 'Language', settings_appearance: 'Appearance',
     settings_about: 'ABOUT', settings_version: 'Version', settings_clear: 'Clear All Data',
     settings_pro: 'Brew Lab Pro', settings_pro_sub: 'Smart camera · Unlimited · Sync',
+    settings_equipment: 'Your Gear',
+    equipment_title: 'Equipment',
+    equipment_grinders: 'Grinders',
+    equipment_filters: 'Filters',
+    equipment_default_grinder: 'Default Grinder',
+    equipment_default_filter: 'Default Filter',
+    equipment_add_grinder: 'Add Custom Grinder',
+    equipment_add_filter: 'Add Custom Filter',
+    grinder_edit_title: 'Custom Grinder',
+    grinder_label_name: 'Name',
+    grinder_label_min: 'Finest grind (microns)',
+    grinder_label_max: 'Coarsest grind (microns)',
+    grinder_label_espresso: 'Espresso capable',
+    grinder_label_step: 'Microns per click',
+    grinder_step_help: 'Leave blank if unknown; setting will be shown as an approximate range',
+    grinder_min_help: 'Approximate finest setting your grinder reaches',
+    grinder_max_help: 'Approximate coarsest setting your grinder reaches',
+    filter_edit_title: 'Custom Filter',
+    filter_label_name: 'Name',
+    custom_badge: 'CUSTOM',
+    none_label: 'None',
+    not_set: 'Not set',
+    select_filter: 'Filter',
     confirm_clear: 'Delete all beans, waters, and recipes? Cannot be undone.',
     cleared: 'All data cleared',
     main_pour: 'Main Pour', bloom: 'Bloom', tasting_pour: 'Tasting Pour', finished: 'Finished',
@@ -2277,12 +2444,20 @@ function goScreen(name, pushStack) {
     const sc = target.querySelector('.scroll-content');
     if (sc) sc.scrollTo(0, 0);
   }
+  // Hide lang toggle on task screens (edit, recipe creation, brew mode)
+  const taskScreens = ['beanEdit', 'waterEdit', 'newRecipe', 'recipe', 'brewMode', 'grinderEdit', 'filterEdit', 'equipment'];
+  const app = document.querySelector('.app');
+  if (app) {
+    if (taskScreens.includes(name)) app.classList.add('in-task');
+    else app.classList.remove('in-task');
+  }
   if (pushStack && state.navStack[state.navStack.length - 1] !== name) state.navStack.push(name);
   if (name === 'home') renderHome();
   else if (name === 'beans') renderBeans();
   else if (name === 'waters') renderWaters();
   else if (name === 'newRecipe') renderNewRecipe();
   else if (name === 'settings') renderSettings();
+  else if (name === 'equipment') renderEquipment();
 }
 
 function goBack() {
@@ -2448,7 +2623,7 @@ function renderBeanEdit() {
 
   html += '<div class="list-section-header">' + (state.currentLang === 'ar' ? 'تفاصيل إضافية' : 'OPTIONAL') + '</div>' +
     '<div class="list-card">' +
-    '<div class="form-row"><span class="form-label">' + t('bean_label_variety') + '</span><input class="form-input" id="bean_variety" placeholder="Heirloom..." value="' + escapeAttr(draft.variety || '') + '"></div>' +
+    '<div class="form-row"><span class="form-label">' + t('bean_label_variety') + '</span><input class="form-input" id="bean_variety" placeholder="' + (state.currentLang === 'ar' ? 'هيرلوم، تيبيكا، بوربون...' : 'Heirloom, Typica, Bourbon...') + '" value="' + escapeAttr(draft.variety || '') + '"></div>' +
     '<div class="form-row"><span class="form-label">' + t('bean_label_altitude') + '</span><input class="form-input" id="bean_altitude" type="number" inputmode="numeric" placeholder="1900" value="' + escapeAttr(draft.altitude || '') + '"></div>' +
     '<div class="form-row" style="flex-direction:column; align-items:stretch; padding:11px 16px;"><div style="font-size:13px; color:var(--ios-label-secondary); margin-bottom:4px;">' + t('bean_label_notes') + '</div><input class="form-input" id="bean_flavorNotes" style="text-align:start; padding:4px 0;" placeholder="blackberry, apricot..." value="' + escapeAttr(draft.flavorNotes || '') + '"></div>' +
     '</div>';
@@ -2665,7 +2840,8 @@ function startNewRecipe() {
     beanId: state.beans[0].id,
     waterId: state.waters[0] ? state.waters[0].id : null,
     method: 'v60',
-    grinder: null,
+    grinder: state.preferences.defaultGrinder || null,
+    filter: state.preferences.defaultFilter || null,
     taste: 'balanced',
     strength: 'medium',
     cupSize: 'medium'
@@ -2679,7 +2855,10 @@ function renderNewRecipe() {
   const d = state.recipeDraft;
   const bean = state.beans.find(b => b.id === d.beanId);
   const water = state.waters.find(w => w.id === d.waterId);
-  const grinder = d.grinder ? GRINDERS[d.grinder] : null;
+  const allG = getAllGrinders();
+  const allF = getAllFilters();
+  const grinder = d.grinder ? allG[d.grinder] : null;
+  const filter = d.filter ? allF[d.filter] : null;
 
   let html = '';
 
@@ -2698,7 +2877,8 @@ function renderNewRecipe() {
   html += '<div class="list-section-header">' + t('method_section') + '</div>' +
     '<div class="list-card">' +
     '<div class="list-item" onclick="showOptionPicker(\'method\',\'' + d.method + '\',\'recipe\')"><div class="list-label"><span>' + (state.currentLang === 'ar' ? 'الطريقة' : 'Method') + '</span></div><span class="list-value">' + (METHOD_NAMES[d.method] || d.method) + '</span><span class="list-chevron"></span></div>' +
-    '<div class="list-item" onclick="showOptionPicker(\'grinder\',\'' + (d.grinder || '') + '\',\'recipe\')"><div class="list-label"><span>' + t('select_grinder') + '</span></div><span class="list-value">' + (grinder ? grinder.name : (state.currentLang === 'ar' ? 'بدون' : 'None')) + '</span><span class="list-chevron"></span></div>' +
+    '<div class="list-item" onclick="showOptionPicker(\'grinder\',\'' + (d.grinder || '') + '\',\'recipe\')"><div class="list-label"><span>' + t('select_grinder') + '</span></div><span class="list-value">' + (grinder ? grinder.name : t('none_label')) + '</span><span class="list-chevron"></span></div>' +
+    '<div class="list-item" onclick="showOptionPicker(\'filter\',\'' + (d.filter || '') + '\',\'recipe\')"><div class="list-label"><span>' + t('select_filter') + '</span></div><span class="list-value">' + (filter ? filter.name : t('none_label')) + '</span><span class="list-chevron"></span></div>' +
     '</div>';
 
   html += '<div class="list-section-header">' + t('water_section') + '</div>' +
@@ -2749,9 +2929,26 @@ function showOptionPicker(type, currentVal, context) {
   else if (type === 'process') { title = t('pick_process'); options = Object.entries(PROCESS_NAMES).map(([k, v]) => ({ value: k, label: v })); }
   else if (type === 'roast') { title = t('pick_roast'); options = Object.entries(ROAST_NAMES).map(([k, v]) => ({ value: k, label: v })); }
   else if (type === 'method') { title = t('pick_method'); options = Object.entries(METHOD_NAMES).map(([k, v]) => ({ value: k, label: v })); }
-  else if (type === 'grinder') { title = t('pick_grinder'); options = [{ value: '', label: state.currentLang === 'ar' ? 'بدون' : 'None' }].concat(Object.entries(GRINDERS).map(([k, v]) => ({ value: k, label: v.name }))); }
+  else if (type === 'grinder' || type === 'default_grinder') {
+    title = t('pick_grinder');
+    const all = getAllGrinders();
+    options = [{ value: '', label: t('none_label') }].concat(Object.entries(all).map(([k, v]) => ({ value: k, label: v.name + (v.isCustom ? ' ★' : '') })));
+  }
+  else if (type === 'filter' || type === 'default_filter') {
+    title = t('select_filter');
+    const all = getAllFilters();
+    // For recipe context, filter list by current method if known
+    const currentMethod = (context === 'recipe' && state.recipeDraft) ? state.recipeDraft.method : null;
+    let filterEntries = Object.entries(all);
+    if (currentMethod && context === 'recipe') {
+      filterEntries = filterEntries.filter(([k, f]) =>
+        !f.methods || f.methods.length === 0 || f.methods.includes(currentMethod)
+      );
+    }
+    options = [{ value: '', label: t('none_label') }].concat(filterEntries.map(([k, v]) => ({ value: k, label: v.name + (v.isCustom ? ' ★' : '') })));
+  }
   else if (type === 'bean') { title = t('select_bean'); options = state.beans.map(b => ({ value: b.id, label: b.lotName || b.roaster || 'بن', sublabel: [b.roaster, ORIGIN_NAMES[b.origin]].filter(Boolean).join(' · ') })); }
-  else if (type === 'water') { title = t('select_water'); options = [{ value: '', label: state.currentLang === 'ar' ? 'بدون' : 'None' }].concat(state.waters.map(w => ({ value: w.id, label: w.name }))); }
+  else if (type === 'water') { title = t('select_water'); options = [{ value: '', label: t('none_label') }].concat(state.waters.map(w => ({ value: w.id, label: w.name }))); }
 
   document.getElementById('pickerTitle').textContent = title;
   let html = '<div class="picker-options">';
@@ -2777,8 +2974,14 @@ function pickerSelect(type, value, context) {
     if (type === 'bean') state.recipeDraft.beanId = value;
     else if (type === 'water') state.recipeDraft.waterId = value || null;
     else if (type === 'grinder') state.recipeDraft.grinder = value || null;
+    else if (type === 'filter') state.recipeDraft.filter = value || null;
     else state.recipeDraft[type] = value;
     renderNewRecipe();
+  } else if (context === 'prefs') {
+    if (type === 'default_grinder') state.preferences.defaultGrinder = value || null;
+    else if (type === 'default_filter') state.preferences.defaultFilter = value || null;
+    savePrefs();
+    renderSettings();
   }
 }
 
@@ -2845,7 +3048,7 @@ function generateRecipe() {
 
   const recipe = {
     id: 'recipe_' + Date.now(),
-    beanId: d.beanId, waterId: d.waterId, method: d.method, grinder: d.grinder,
+    beanId: d.beanId, waterId: d.waterId, method: d.method, grinder: d.grinder, filter: d.filter,
     taste: d.taste, strength: d.strength, cupSize: d.cupSize,
     dose: Math.round(dose * 10) / 10, waterAmount, ratio, temp,
     targetMicron: grindResult.targetMicron, grindMin: grindResult.minMicron, grindMax: grindResult.maxMicron,
@@ -2875,11 +3078,19 @@ function calculateGrind(method, roast, ageStatus, grinderKey) {
   const maxMicron = Math.min(range.max, target + 60);
 
   let display = null, warning = null;
-  if (grinderKey && GRINDERS[grinderKey]) {
-    const g = GRINDERS[grinderKey];
+  const allG = getAllGrinders();
+  if (grinderKey && allG[grinderKey]) {
+    const g = allG[grinderKey];
     if (method === 'espresso' && !g.espressoCapable) warning = t('espresso_warn').replace('{g}', g.name);
     else if (target < g.minMicron || target > g.maxMicron) warning = t('out_of_range').replace('{g}', g.name);
-    else display = { grinder: g.name, setting: g.display(target), minSetting: g.display(minMicron), maxSetting: g.display(maxMicron) };
+    else {
+      // Built-in grinder has display function; custom grinder needs runtime calc
+      let setting;
+      if (typeof g.display === 'function') setting = g.display(target);
+      else if (g.micronsPerStep) setting = Math.round((target - g.minMicron) / g.micronsPerStep) + ' كليك';
+      else setting = '~' + target + ' ميكرون';
+      display = { grinder: g.name, setting: setting };
+    }
   }
   return { targetMicron: target, minMicron, maxMicron, display, warning };
 }
@@ -3159,12 +3370,36 @@ function updateBrewStage() {
    ============================================================ */
 function renderSettings() {
   const c = document.getElementById('settingsContent');
+
+  // Build default-grinder display
+  const allG = getAllGrinders();
+  const defGrinder = state.preferences.defaultGrinder && allG[state.preferences.defaultGrinder] ? allG[state.preferences.defaultGrinder].name : t('not_set');
+  const allF = getAllFilters();
+  const defFilter = state.preferences.defaultFilter && allF[state.preferences.defaultFilter] ? allF[state.preferences.defaultFilter].name : t('not_set');
+
   c.innerHTML =
     '<div class="list-card" style="margin-top:8px;">' +
     '<div class="list-item" onclick="showPaywall()">' +
     '<div class="list-icon"><svg class="icon" style="width:16px;height:16px;fill:white"><use href="#i-sparkle"/></svg></div>' +
     '<div class="list-label"><span>' + t('settings_pro') + '</span><span class="list-sublabel">' + t('settings_pro_sub') + '</span></div>' +
     '<span class="list-chevron"></span></div></div>' +
+
+    '<div class="list-section-header">' + t('settings_equipment') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="list-item" onclick="goScreen(\'equipment\')">' +
+    '<div class="list-icon blue"><svg class="icon" style="width:16px;height:16px;fill:white"><use href="#i-gear"/></svg></div>' +
+    '<div class="list-label">' + t('equipment_title') + '</div>' +
+    '<span class="list-value">' + Object.keys(CUSTOM_GRINDERS).length + ' + ' + Object.keys(CUSTOM_FILTERS).length + '</span>' +
+    '<span class="list-chevron"></span></div>' +
+    '<div class="list-item" onclick="showOptionPicker(\'default_grinder\', \'' + (state.preferences.defaultGrinder || '') + '\', \'prefs\')">' +
+    '<div class="list-label">' + t('equipment_default_grinder') + '</div>' +
+    '<span class="list-value">' + defGrinder + '</span>' +
+    '<span class="list-chevron"></span></div>' +
+    '<div class="list-item" onclick="showOptionPicker(\'default_filter\', \'' + (state.preferences.defaultFilter || '') + '\', \'prefs\')">' +
+    '<div class="list-label">' + t('equipment_default_filter') + '</div>' +
+    '<span class="list-value">' + defFilter + '</span>' +
+    '<span class="list-chevron"></span></div>' +
+    '</div>' +
 
     '<div class="list-section-header">' + t('settings_general') + '</div>' +
     '<div class="list-card">' +
@@ -3178,12 +3413,191 @@ function renderSettings() {
 
     '<div class="list-section-header">' + t('settings_about') + '</div>' +
     '<div class="list-card">' +
-    '<div class="list-item"><div class="list-label">' + t('settings_version') + '</div><span class="list-value">0.3 · Prototype</span></div>' +
+    '<div class="list-item"><div class="list-label">' + t('settings_version') + '</div><span class="list-value">0.4 · Prototype</span></div>' +
     '<div class="list-item" onclick="showSheet(\'feedbackSheet\')"><div class="list-icon" style="background:var(--ios-tint);"><svg class="icon" style="width:16px;height:16px;fill:white"><use href="#i-message"/></svg></div><div class="list-label">' + t('feedback_btn') + '</div><span class="list-chevron"></span></div>' +
     '<div class="list-item" onclick="clearAllData()"><div class="list-icon red"><svg class="icon" style="width:16px;height:16px;fill:white"><use href="#i-trash"/></svg></div><div class="list-label" style="color:var(--ios-system-red)">' + t('settings_clear') + '</div></div>' +
     '</div>' +
 
     '<div style="text-align:center; padding:32px 16px 80px; color:var(--ios-label-tertiary); font-size:11px;">Brew Lab · Designed in Riyadh</div>';
+}
+
+/* ============================================================
+   EQUIPMENT
+   ============================================================ */
+function renderEquipment() {
+  const c = document.getElementById('equipmentContent');
+  let html = '';
+
+  // Grinders section
+  html += '<div class="list-section-header"><span>' + t('equipment_grinders') + '</span><span class="list-section-action" onclick="addCustomGrinder()">+ ' + t('add') + '</span></div>';
+  html += '<div class="list-card">';
+  // Built-in grinders (read-only)
+  Object.entries(GRINDERS).forEach(([k, g]) => {
+    if (k === 'other') return;
+    html += '<div class="list-item">' +
+      '<div class="list-label">' +
+      '<span>' + escapeHTML(g.name) + '</span>' +
+      '<span class="list-sublabel">' + g.minMicron + '-' + g.maxMicron + ' ميكرون' + (g.espressoCapable ? ' · إسبريسو' : '') + '</span>' +
+      '</div></div>';
+  });
+  // Custom grinders (editable)
+  Object.entries(CUSTOM_GRINDERS).forEach(([k, g]) => {
+    html += '<div class="list-item" onclick="editCustomGrinder(\'' + k + '\')">' +
+      '<div class="list-label">' +
+      '<span>' + escapeHTML(g.name) + ' <span class="pro-badge" style="background:var(--ios-system-blue); font-size:9px;">' + t('custom_badge') + '</span></span>' +
+      '<span class="list-sublabel">' + g.minMicron + '-' + g.maxMicron + ' ميكرون' + (g.espressoCapable ? ' · إسبريسو' : '') + '</span>' +
+      '</div><span class="list-chevron"></span></div>';
+  });
+  html += '</div>';
+
+  // Filters section
+  html += '<div class="list-section-header"><span>' + t('equipment_filters') + '</span><span class="list-section-action" onclick="addCustomFilter()">+ ' + t('add') + '</span></div>';
+  html += '<div class="list-card">';
+  Object.entries(FILTERS).forEach(([k, f]) => {
+    if (k === 'none') return;
+    html += '<div class="list-item">' +
+      '<div class="list-label"><span>' + escapeHTML(f.name) + '</span></div></div>';
+  });
+  Object.entries(CUSTOM_FILTERS).forEach(([k, f]) => {
+    html += '<div class="list-item" onclick="editCustomFilter(\'' + k + '\')">' +
+      '<div class="list-label"><span>' + escapeHTML(f.name) + ' <span class="pro-badge" style="background:var(--ios-system-blue); font-size:9px;">' + t('custom_badge') + '</span></span></div>' +
+      '<span class="list-chevron"></span></div>';
+  });
+  html += '</div>';
+
+  c.innerHTML = html;
+}
+
+function addCustomGrinder() {
+  state.grinderDraft = null;
+  renderGrinderEdit();
+  goScreen('grinderEdit');
+}
+
+function editCustomGrinder(id) {
+  state.grinderDraft = Object.assign({}, CUSTOM_GRINDERS[id]);
+  renderGrinderEdit();
+  goScreen('grinderEdit');
+}
+
+function renderGrinderEdit() {
+  const d = state.grinderDraft || { id: 'cgrinder_' + Date.now(), savedAt: new Date().toISOString() };
+  const isEditing = !!state.grinderDraft;
+  document.getElementById('grinderEditContent').innerHTML =
+    '<div class="list-section-header">' + (state.currentLang === 'ar' ? 'الأساسيات' : 'BASICS') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="form-row"><span class="form-label">' + t('grinder_label_name') + ' *</span><input class="form-input" id="cg_name" value="' + escapeAttr(d.name || '') + '" placeholder="' + (state.currentLang === 'ar' ? 'مثل: Niche Zero' : 'e.g. Niche Zero') + '"></div>' +
+    '</div>' +
+
+    '<div class="list-section-header">' + (state.currentLang === 'ar' ? 'النطاق' : 'RANGE') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="form-row"><span class="form-label">' + t('grinder_label_min') + '</span><input class="form-input" id="cg_min" type="number" inputmode="numeric" value="' + (d.minMicron == null ? '' : d.minMicron) + '" placeholder="200"></div>' +
+    '<div class="form-row"><span class="form-label">' + t('grinder_label_max') + '</span><input class="form-input" id="cg_max" type="number" inputmode="numeric" value="' + (d.maxMicron == null ? '' : d.maxMicron) + '" placeholder="1200"></div>' +
+    '</div>' +
+    '<div class="list-section-footer">' + t('grinder_min_help') + '</div>' +
+
+    '<div class="list-section-header">' + (state.currentLang === 'ar' ? 'دقّة الإعداد' : 'PRECISION') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="form-row"><span class="form-label">' + t('grinder_label_step') + '</span><input class="form-input" id="cg_step" type="number" inputmode="decimal" step="any" value="' + (d.micronsPerStep == null ? '' : d.micronsPerStep) + '" placeholder="' + (state.currentLang === 'ar' ? 'اختياري' : 'optional') + '"></div>' +
+    '<div class="form-row" onclick="document.getElementById(\'cg_espresso\').click()">' +
+    '<span class="form-label">' + t('grinder_label_espresso') + '</span>' +
+    '<input type="checkbox" id="cg_espresso" ' + (d.espressoCapable ? 'checked' : '') + ' style="width:18px; height:18px; margin-inline-start:auto;">' +
+    '</div>' +
+    '</div>' +
+    '<div class="list-section-footer">' + t('grinder_step_help') + '</div>' +
+
+    (isEditing ? '<div style="padding: 24px 16px;"><button class="btn-tinted" style="color:var(--ios-system-red); background:rgba(255,59,48,0.1);" onclick="deleteCustomGrinder(\'' + d.id + '\')"><svg class="icon" style="width:18px;height:18px;fill:var(--ios-system-red)"><use href="#i-trash"/></svg><span>' + t('delete') + '</span></button></div>' : '');
+}
+
+function saveCustomGrinder() {
+  const name = document.getElementById('cg_name').value.trim();
+  const minM = parseFloat(document.getElementById('cg_min').value);
+  const maxM = parseFloat(document.getElementById('cg_max').value);
+  const stepM = parseFloat(document.getElementById('cg_step').value);
+  const esp = document.getElementById('cg_espresso').checked;
+
+  if (!name) { alert(state.currentLang === 'ar' ? 'الاسم مطلوب' : 'Name is required'); return; }
+  if (!minM || !maxM || minM >= maxM) { alert(state.currentLang === 'ar' ? 'أدخل نطاق ميكرون صحيح' : 'Enter a valid micron range'); return; }
+
+  const d = state.grinderDraft || { id: 'cgrinder_' + Date.now(), savedAt: new Date().toISOString() };
+  d.name = name;
+  d.minMicron = minM;
+  d.maxMicron = maxM;
+  d.micronsPerStep = stepM || null;
+  d.espressoCapable = esp;
+  d.updatedAt = new Date().toISOString();
+
+  // Reconstruct display function at runtime
+  if (d.micronsPerStep) {
+    d._stepValue = d.micronsPerStep;
+  }
+  d.isCustom = true;
+
+  if (saveItem(d)) {
+    state.grinderDraft = null;
+    loadAll();
+    showToast(t('profile_saved'));
+    goBack();
+  }
+}
+
+function deleteCustomGrinder(id) {
+  if (!confirm(t('confirm_delete'))) return;
+  deleteItem(id);
+  state.grinderDraft = null;
+  // Clear from preferences if it was default
+  if (state.preferences.defaultGrinder === id) { state.preferences.defaultGrinder = null; savePrefs(); }
+  loadAll();
+  showToast(t('profile_deleted'));
+  goBack();
+}
+
+function addCustomFilter() {
+  state.filterDraft = null;
+  renderFilterEdit();
+  goScreen('filterEdit');
+}
+
+function editCustomFilter(id) {
+  state.filterDraft = Object.assign({}, CUSTOM_FILTERS[id]);
+  renderFilterEdit();
+  goScreen('filterEdit');
+}
+
+function renderFilterEdit() {
+  const d = state.filterDraft || { id: 'cfilter_' + Date.now(), savedAt: new Date().toISOString() };
+  const isEditing = !!state.filterDraft;
+  document.getElementById('filterEditContent').innerHTML =
+    '<div class="list-card" style="margin-top:24px;">' +
+    '<div class="form-row"><span class="form-label">' + t('filter_label_name') + ' *</span><input class="form-input" id="cf_name" value="' + escapeAttr(d.name || '') + '" placeholder="' + (state.currentLang === 'ar' ? 'مثل: Cafec Light Roast' : 'e.g. Cafec Light Roast') + '"></div>' +
+    '</div>' +
+    (isEditing ? '<div style="padding: 24px 16px;"><button class="btn-tinted" style="color:var(--ios-system-red); background:rgba(255,59,48,0.1);" onclick="deleteCustomFilter(\'' + d.id + '\')"><svg class="icon" style="width:18px;height:18px;fill:var(--ios-system-red)"><use href="#i-trash"/></svg><span>' + t('delete') + '</span></button></div>' : '');
+}
+
+function saveCustomFilter() {
+  const name = document.getElementById('cf_name').value.trim();
+  if (!name) { alert(state.currentLang === 'ar' ? 'الاسم مطلوب' : 'Name is required'); return; }
+  const d = state.filterDraft || { id: 'cfilter_' + Date.now(), savedAt: new Date().toISOString() };
+  d.name = name;
+  d.methods = []; // applies to all methods for custom filters
+  d.isCustom = true;
+  d.updatedAt = new Date().toISOString();
+  if (saveItem(d)) {
+    state.filterDraft = null;
+    loadAll();
+    showToast(t('profile_saved'));
+    goBack();
+  }
+}
+
+function deleteCustomFilter(id) {
+  if (!confirm(t('confirm_delete'))) return;
+  deleteItem(id);
+  state.filterDraft = null;
+  if (state.preferences.defaultFilter === id) { state.preferences.defaultFilter = null; savePrefs(); }
+  loadAll();
+  showToast(t('profile_deleted'));
+  goBack();
 }
 
 function clearAllData() {
