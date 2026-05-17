@@ -2,2022 +2,3095 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brew Lab — مختبر القهوة المختصة</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#8B4513">
+<meta name="description" content="مختبر القهوة المختصة — وصفات دقيقة بنظام الميكرون">
+<title>Brew Lab</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%238B4513'/%3E%3Ctext x='50%25' y='62%25' text-anchor='middle' font-size='110' font-family='-apple-system'%3E%E2%98%95%3C/text%3E%3C/svg%3E">
+
 <style>
 :root {
-  --bg: #f4ede2;
-  --bg-dark: #2a1f17;
-  --paper: #faf5ec;
-  --ink: #1a1410;
-  --ink-soft: #4a3a2e;
-  --accent: #8b3a1a;
-  --accent-dark: #5e2410;
-  --gold: #c89849;
-  --olive: #6b6a3a;
-  --rust: #a64a2a;
-  --line: #3a2a1f;
-  --line-soft: #d4c4ae;
-  --shadow: rgba(42, 31, 23, 0.12);
+  --ios-bg: #f2f2f7;
+  --ios-bg-elevated: #ffffff;
+  --ios-bg-tertiary: #f2f2f7;
+  --ios-separator: rgba(60, 60, 67, 0.18);
+  --ios-separator-opaque: #c6c6c8;
+  --ios-label: #000000;
+  --ios-label-secondary: rgba(60, 60, 67, 0.6);
+  --ios-label-tertiary: rgba(60, 60, 67, 0.3);
+  --ios-tint: #8B4513;
+  --ios-tint-light: #C68B5C;
+  --ios-tint-soft: rgba(139, 69, 19, 0.08);
+  --ios-system-blue: #007AFF;
+  --ios-system-green: #34C759;
+  --ios-system-orange: #FF9500;
+  --ios-system-red: #FF3B30;
+  --ios-system-yellow: #FFCC00;
+  --ios-system-gray: #8E8E93;
+  --ios-system-gray3: #C7C7CC;
+  --ios-system-gray4: #D1D1D6;
+  --ios-system-gray5: #E5E5EA;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ios-bg: #000000;
+    --ios-bg-elevated: #1c1c1e;
+    --ios-bg-tertiary: #2c2c2e;
+    --ios-separator: rgba(84, 84, 88, 0.65);
+    --ios-separator-opaque: #38383a;
+    --ios-label: #ffffff;
+    --ios-label-secondary: rgba(235, 235, 245, 0.6);
+    --ios-label-tertiary: rgba(235, 235, 245, 0.3);
+    --ios-tint-soft: rgba(198, 139, 92, 0.12);
+    --ios-tint: #C68B5C;
+    --ios-system-gray5: #2c2c2e;
+  }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 html, body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Tajawal', sans-serif;
-  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+  background: var(--ios-bg);
+  color: var(--ios-label);
+  font-size: 17px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+  overscroll-behavior: none;
+}
+
+[dir="rtl"] {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Arabic', 'SF Pro Display', 'Geeza Pro', system-ui, sans-serif;
   line-height: 1.6;
-  min-height: 100vh;
-  background-image:
-    radial-gradient(at 20% 10%, rgba(139, 58, 26, 0.04) 0px, transparent 50%),
-    radial-gradient(at 80% 90%, rgba(107, 106, 58, 0.05) 0px, transparent 50%);
 }
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.serif { font-family: 'Cormorant Garamond', serif; }
-.mono { font-family: 'JetBrains Mono', monospace; }
 
 .app {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--ios-bg);
   position: relative;
-  z-index: 2;
-  max-width: 1100px;
+  overflow: hidden;
+  max-width: 500px;
   margin: 0 auto;
-  padding: 32px 24px 80px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.1);
 }
 
-/* HEADER */
-.header {
-  text-align: center;
-  padding: 24px 0 40px;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 40px;
-  position: relative;
-}
-.header::before, .header::after {
-  content: '';
+.status-bar { height: var(--safe-top); }
+
+.screen {
   position: absolute;
-  bottom: -3px;
-  width: 80px;
-  height: 5px;
-  background: var(--ink);
-}
-.header::before { right: calc(50% - 250px); }
-.header::after { left: calc(50% - 250px); }
-
-.brand-mark {
-  display: inline-block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  color: var(--accent);
-  margin-bottom: 12px;
-  text-transform: uppercase;
-}
-
-.title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(40px, 7vw, 72px);
-  font-weight: 500;
-  line-height: 1;
-  color: var(--ink);
-  font-style: italic;
-  letter-spacing: -0.02em;
-}
-
-.title-ar {
-  font-family: 'Tajawal', sans-serif;
-  font-size: clamp(20px, 3vw, 28px);
-  font-weight: 300;
-  color: var(--ink-soft);
-  margin-top: 8px;
-  letter-spacing: 0.1em;
-}
-
-.subtitle {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.25em;
-  color: var(--ink-soft);
-  margin-top: 16px;
-  text-transform: uppercase;
-}
-
-/* STEPPER */
-.stepper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 48px;
-  padding: 0 16px;
-  position: relative;
-}
-.stepper::before {
-  content: '';
-  position: absolute;
-  top: 18px;
-  right: 30px;
-  left: 30px;
-  height: 1px;
-  background: var(--line-soft);
-  z-index: 0;
-}
-.step {
-  display: flex;
+  inset: 0;
+  display: none;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-  z-index: 1;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  background: var(--ios-bg);
 }
-.step-circle {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1.5px solid var(--line-soft);
+.screen.active { display: flex; }
+
+/* Navigation */
+.nav-bar {
+  background: var(--ios-bg);
+  padding: 0 16px;
+  padding-top: var(--safe-top);
+  position: relative;
+  z-index: 10;
+}
+
+.nav-bar.compact {
+  padding: 8px 16px;
+  padding-top: calc(var(--safe-top) + 8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: calc(var(--safe-top) + 44px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(242, 242, 247, 0.78);
+}
+
+@media (prefers-color-scheme: dark) {
+  .nav-bar.compact { background: rgba(28,28,30,0.78); }
+}
+
+.nav-title-large {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  padding: 8px 0 4px;
+  color: var(--ios-label);
+}
+
+.nav-subtitle-large {
+  font-size: 14px;
+  color: var(--ios-label-secondary);
+  padding: 0 0 12px;
+}
+
+.nav-title-compact {
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+  padding: 0 8px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-title-compact .compact-eyebrow {
+  font-size: 12px;
+  opacity: 0.5;
+  font-weight: 400;
+  display: block;
+}
+
+.nav-button {
+  color: var(--ios-tint);
+  font-size: 17px;
+  font-weight: 400;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  font-family: inherit;
+}
+.nav-button.bold { font-weight: 600; }
+.nav-button:disabled { opacity: 0.4; }
+
+.nav-button-icon {
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ink-soft);
-  transition: all 0.3s ease;
-}
-.step.active .step-circle {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper);
-  transform: scale(1.1);
-}
-.step.completed .step-circle {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--paper);
-}
-.step-label {
-  font-size: 11px;
-  color: var(--ink-soft);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-}
-.step.active .step-label { color: var(--ink); font-weight: 700; }
-
-/* PANELS */
-.panel {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  padding: 40px;
-  margin-bottom: 24px;
-  position: relative;
-  box-shadow: 4px 4px 0 var(--ink);
-  display: none;
-}
-.panel.active { display: block; animation: fadeIn 0.4s ease; }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.panel-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 28px;
-  padding-bottom: 16px;
-  border-bottom: 1px dashed var(--line-soft);
-}
-.panel-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px;
-  font-weight: 600;
-  font-style: italic;
-  color: var(--ink);
-}
-.panel-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--accent);
-  letter-spacing: 0.2em;
-}
-
-/* FORM */
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px 24px;
-}
-.field-full { grid-column: 1 / -1; }
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.field-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: 0.05em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.field-label::before {
-  content: '';
-  width: 4px;
-  height: 4px;
-  background: var(--accent);
-  border-radius: 50%;
-}
-.field-hint {
-  font-size: 11px;
-  color: var(--ink-soft);
-  margin-top: 2px;
-  font-style: italic;
-}
-.input, .select, .textarea {
-  background: var(--bg);
-  border: 1px solid var(--line-soft);
-  padding: 12px 14px;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 14px;
-  color: var(--ink);
-  transition: all 0.2s ease;
-  font-weight: 500;
-  width: 100%;
-}
-.input:focus, .select:focus, .textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-  background: var(--paper);
-  box-shadow: 0 0 0 3px rgba(139, 58, 26, 0.1);
-}
-.textarea { min-height: 70px; resize: vertical; }
-
-/* CHIPS */
-.chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip {
-  padding: 8px 14px;
-  background: var(--bg);
-  border: 1px solid var(--line-soft);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-  font-family: 'Tajawal', sans-serif;
-}
-.chip:hover { border-color: var(--accent); }
-.chip.selected {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
-}
-
-/* BUTTONS */
-.actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px dashed var(--line-soft);
-}
-.btn {
-  padding: 14px 28px;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1.5px solid var(--ink);
+  color: var(--ios-tint);
   background: transparent;
-  color: var(--ink);
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-.btn:hover { background: var(--ink); color: var(--paper); }
-.btn-primary { background: var(--ink); color: var(--paper); }
-.btn-primary:hover { background: var(--accent); border-color: var(--accent); }
-.btn-accent { background: var(--accent); color: var(--paper); border-color: var(--accent); }
-.btn-accent:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
-.btn-ghost { border-color: var(--line-soft); }
-.btn-small {
-  padding: 8px 14px;
-  font-size: 12px;
-  border-width: 1px;
-}
-
-/* IMAGE UPLOAD ZONE */
-.image-zone {
-  border: 2px dashed var(--line-soft);
-  background: var(--bg);
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 24px;
-  transition: all 0.2s ease;
+  border: none;
   cursor: pointer;
 }
-.image-zone:hover { border-color: var(--accent); background: var(--paper); }
-.image-zone.has-image { padding: 12px; border-style: solid; }
-.image-zone-icon {
-  font-size: 28px;
-  margin-bottom: 8px;
-}
-.image-zone-text {
-  font-size: 13px;
-  color: var(--ink-soft);
-  font-weight: 500;
-}
-.image-zone-hint {
-  font-size: 11px;
-  color: var(--ink-soft);
-  font-style: italic;
-  margin-top: 4px;
-}
-.image-preview-wrap {
+
+/* Search */
+.search-bar {
+  margin: 0 16px 12px;
+  background: rgba(118, 118, 128, 0.12);
+  border-radius: 10px;
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  align-items: center;
+  padding: 7px 8px;
+  gap: 6px;
 }
-.image-preview {
-  max-width: 180px;
-  max-height: 180px;
-  border: 1px solid var(--line);
-  object-fit: cover;
+
+.search-icon { color: var(--ios-label-secondary); width: 16px; height: 16px; }
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  color: var(--ios-label);
+  font-family: inherit;
 }
-.image-preview-actions {
+
+/* Scroll */
+.scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(100px + var(--safe-bottom));
+}
+.scroll-content.no-tab { padding-bottom: 40px; }
+
+/* Sections */
+.list-section-header {
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--ios-label-secondary);
+  letter-spacing: 0.06em;
+  padding: 24px 32px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.list-section-action {
+  text-transform: none;
+  font-size: 15px;
+  letter-spacing: 0;
+  color: var(--ios-tint);
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.list-section-footer {
+  font-size: 13px;
+  color: var(--ios-label-secondary);
+  padding: 8px 32px 0;
+  line-height: 1.4;
+}
+
+.list-card {
+  background: var(--ios-bg-elevated);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 16px;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 11px 16px;
+  min-height: 44px;
+  cursor: pointer;
+  position: relative;
+  background: var(--ios-bg-elevated);
+}
+.list-item:active { background: var(--ios-system-gray5); }
+
+.list-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 16px;
+  left: 0;
+  height: 0.5px;
+  background: var(--ios-separator);
+}
+[dir="rtl"] .list-item:not(:last-child)::after { right: 0; left: 16px; }
+
+.list-icon {
+  width: 29px;
+  height: 29px;
+  border-radius: 6.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+  background: var(--ios-tint);
+}
+[dir="rtl"] .list-icon { margin-left: 12px; }
+[dir="ltr"] .list-icon { margin-right: 12px; }
+
+.list-icon.blue { background: var(--ios-system-blue); }
+.list-icon.green { background: var(--ios-system-green); }
+.list-icon.orange { background: var(--ios-system-orange); }
+.list-icon.gray { background: var(--ios-system-gray); }
+.list-icon.red { background: var(--ios-system-red); }
+.list-icon.purple { background: #AF52DE; }
+
+.list-label {
+  flex: 1;
+  font-size: 17px;
+  color: var(--ios-label);
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  flex: 1;
-  min-width: 150px;
-}
-.image-note {
-  font-size: 12px;
-  color: var(--ink-soft);
-  background: var(--paper);
-  border-right: 3px solid var(--gold);
-  padding: 10px 12px;
-  line-height: 1.6;
+  min-width: 0;
 }
 
-/* PROFILE BAR */
-.profile-bar {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 14px 16px;
-  background: var(--bg);
-  border: 1px solid var(--line-soft);
-  margin-bottom: 24px;
-}
-.profile-bar-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--ink);
-}
-.profile-select {
-  flex: 1;
-  min-width: 160px;
-  background: var(--paper);
-  border: 1px solid var(--line-soft);
-  padding: 8px 12px;
-  font-family: 'Tajawal', sans-serif;
+.list-sublabel {
   font-size: 13px;
-  color: var(--ink);
+  color: var(--ios-label-secondary);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* RECIPE CARD */
-.recipe-card {
-  background: var(--paper);
-  border: 2px solid var(--ink);
-  position: relative;
+.list-value {
+  font-size: 17px;
+  color: var(--ios-label-secondary);
+  margin-inline-start: 8px;
+  white-space: nowrap;
+  max-width: 50%;
   overflow: hidden;
-  box-shadow: 6px 6px 0 var(--accent);
+  text-overflow: ellipsis;
 }
-.recipe-header {
-  background: var(--ink);
-  color: var(--paper);
-  padding: 32px 40px;
-  position: relative;
+
+.list-chevron {
+  color: var(--ios-system-gray3);
+  font-size: 18px;
+  font-weight: 600;
+  margin-inline-start: 4px;
+  flex-shrink: 0;
 }
-.recipe-header::after {
-  content: '';
+[dir="rtl"] .list-chevron::before { content: '‹'; }
+[dir="ltr"] .list-chevron::before { content: '›'; }
+
+/* Buttons */
+.btn-filled {
+  background: var(--ios-tint);
+  color: white;
+  font-size: 17px;
+  font-weight: 600;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 20px;
+  width: 100%;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-filled:active { opacity: 0.7; transform: scale(0.98); }
+.btn-filled:disabled { opacity: 0.4; }
+
+.btn-tinted {
+  background: var(--ios-tint-soft);
+  color: var(--ios-tint);
+  font-size: 17px;
+  font-weight: 600;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 20px;
+  width: 100%;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-plain {
+  background: transparent;
+  color: var(--ios-tint);
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 8px 16px;
+}
+
+.btn-destructive { color: var(--ios-system-red); }
+
+/* Tab Bar */
+.tab-bar {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 12px, var(--gold) 12px, var(--gold) 24px);
+  background: rgba(242, 242, 247, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 0.33px solid var(--ios-separator-opaque);
+  padding-bottom: var(--safe-bottom);
+  z-index: 50;
 }
-.recipe-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 8px;
+@media (prefers-color-scheme: dark) {
+  .tab-bar { background: rgba(20, 20, 22, 0.85); }
 }
-.recipe-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 32px;
-  font-weight: 500;
-  font-style: italic;
-  line-height: 1.1;
-}
-.recipe-meta {
+
+.tab-bar-items { display: flex; height: 49px; }
+
+.tab-item {
+  flex: 1;
   display: flex;
-  gap: 24px;
-  margin-top: 16px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: rgba(250, 245, 236, 0.7);
-  flex-wrap: wrap;
-}
-.recipe-meta-item { display: flex; gap: 6px; }
-.recipe-meta-item strong { color: var(--gold); font-weight: 700; }
-.recipe-body { padding: 40px; }
-
-.taste-section {
-  margin-bottom: 32px;
-  padding-bottom: 32px;
-  border-bottom: 1px dashed var(--line-soft);
-}
-.section-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 24px;
-  font-weight: 600;
-  font-style: italic;
-  color: var(--ink);
-  margin-bottom: 16px;
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-}
-.section-title::before {
-  content: attr(data-num);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--accent);
-  font-style: normal;
-  letter-spacing: 0.15em;
-}
-.taste-notes { display: flex; flex-wrap: wrap; gap: 8px; }
-.taste-note {
-  padding: 6px 12px;
-  background: var(--bg);
-  border: 1px solid var(--line-soft);
-  font-size: 13px;
-  color: var(--ink);
-  font-weight: 500;
-}
-.taste-note.primary { background: var(--accent); color: var(--paper); border-color: var(--accent); }
-.taste-note.secondary { background: var(--gold); border-color: var(--gold); }
-
-.specs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  border: 1px solid var(--line-soft);
-}
-.spec {
-  padding: 16px 18px;
-  border-left: 1px dashed var(--line-soft);
-  border-bottom: 1px dashed var(--line-soft);
-}
-.spec-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--ink-soft);
-  letter-spacing: 0.1em;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-}
-.spec-value {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--ink);
-}
-.spec-unit {
-  font-size: 12px;
-  color: var(--ink-soft);
-  font-family: 'JetBrains Mono', monospace;
-  margin-right: 4px;
-}
-.spec-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--accent);
-  margin-top: 3px;
-}
-
-.pours {
-  border: 1px solid var(--line);
-  background: var(--bg);
-}
-.pour {
-  padding: 20px 24px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 20px;
+  flex-direction: column;
   align-items: center;
-  border-bottom: 1px dashed var(--line-soft);
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ios-system-gray);
+  font-size: 10px;
+  font-weight: 500;
+  padding-top: 4px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  gap: 2px;
 }
-.pour:last-child { border-bottom: none; }
-.pour-time {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--accent);
-  min-width: 60px;
+.tab-item.active { color: var(--ios-tint); }
+.tab-item .icon { width: 24px; height: 24px; }
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  fill: currentColor;
 }
-.pour-content { display: flex; flex-direction: column; gap: 4px; }
-.pour-name { font-weight: 700; font-size: 15px; color: var(--ink); }
-.pour-detail {
+
+/* Featured Recipe Card */
+.featured-recipe {
+  margin: 8px 16px 24px;
+  background: var(--ios-bg-elevated);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.featured-image {
+  height: 140px;
+  background: linear-gradient(135deg, var(--ios-tint) 0%, #5C2D0E 100%);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+  color: white;
+}
+
+.featured-method {
   font-size: 12px;
-  color: var(--ink-soft);
-  font-family: 'JetBrains Mono', monospace;
-}
-.pour-amount {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 24px;
   font-weight: 600;
-  color: var(--ink);
-  font-style: italic;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  position: relative;
+  z-index: 1;
 }
 
-.alert {
-  padding: 16px 20px;
-  background: var(--bg);
-  border-right: 4px solid var(--accent);
-  margin: 20px 0;
+.featured-content { padding: 16px; }
+
+.featured-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.featured-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ios-tint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.featured-time {
   font-size: 13px;
-  color: var(--ink);
-  line-height: 1.7;
+  color: var(--ios-label-secondary);
 }
-.alert.warning { border-right-color: var(--gold); }
-.alert.success { border-right-color: var(--olive); }
-.alert-title { font-weight: 700; margin-bottom: 6px; color: var(--accent); }
-.alert.warning .alert-title { color: #8a6a20; }
-.alert.success .alert-title { color: var(--olive); }
 
-.water-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 12px;
-  margin: 20px 0;
+.featured-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ios-label);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
 }
-.water-stat {
-  padding: 14px;
-  background: var(--bg);
-  border: 1px solid var(--line-soft);
+
+.featured-meta {
+  font-size: 15px;
+  color: var(--ios-label-secondary);
+  margin-bottom: 12px;
+}
+
+.featured-cta {
+  display: flex;
+  gap: 8px;
+}
+
+.featured-cta-btn {
+  flex: 1;
+  background: var(--ios-tint);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.featured-cta-btn.secondary {
+  background: var(--ios-tint-soft);
+  color: var(--ios-tint);
+  flex: 0 0 44px;
+  padding: 0;
+}
+
+/* Recipe Row */
+.recipe-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  min-height: 60px;
+  cursor: pointer;
+  position: relative;
+  background: var(--ios-bg-elevated);
+}
+
+.recipe-row:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 76px;
+  left: 0;
+  height: 0.5px;
+  background: var(--ios-separator);
+}
+[dir="rtl"] .recipe-row:not(:last-child)::after { right: 0; left: 76px; }
+
+.recipe-row-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--ios-tint-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ios-tint);
+  flex-shrink: 0;
+}
+[dir="rtl"] .recipe-row-icon { margin-left: 12px; }
+[dir="ltr"] .recipe-row-icon { margin-right: 12px; }
+
+.recipe-row-content { flex: 1; min-width: 0; }
+.recipe-row-name {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ios-label);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.recipe-row-meta {
+  font-size: 13px;
+  color: var(--ios-label-secondary);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.recipe-row-rating {
+  color: var(--ios-system-yellow);
+  font-size: 12px;
+  margin-inline-start: 8px;
+}
+
+/* Onboarding */
+.onboarding {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+
+.onb-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 32px 16px;
   text-align: center;
 }
-.water-stat.good { border-color: var(--olive); background: rgba(107, 106, 58, 0.06); }
-.water-stat.warn { border-color: var(--gold); background: rgba(200, 152, 73, 0.08); }
-.water-stat.bad { border-color: var(--accent); background: rgba(139, 58, 26, 0.06); }
-.water-stat-label {
-  font-size: 10px;
-  color: var(--ink-soft);
-  letter-spacing: 0.1em;
-  font-family: 'JetBrains Mono', monospace;
-  margin-bottom: 4px;
-}
-.water-stat-value {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--ink);
-}
-.water-stat-status { font-size: 10px; font-weight: 700; margin-top: 4px; letter-spacing: 0.05em; }
 
-.saved-section {
-  margin-top: 32px;
-  padding: 24px;
-  background: var(--paper);
-  border: 1px solid var(--line-soft);
+.onb-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 18px;
+  background: var(--ios-tint);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
 }
-.saved-title {
-  font-family: 'Cormorant Garamond', serif;
+
+.onb-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  color: var(--ios-label);
+}
+
+.onb-text {
+  font-size: 17px;
+  color: var(--ios-label-secondary);
+  line-height: 1.5;
+  max-width: 320px;
+  margin-bottom: 32px;
+}
+
+.onb-features {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.onb-feature {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  text-align: start;
+}
+
+.onb-feature-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--ios-tint-soft);
+  color: var(--ios-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.onb-feature-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ios-label);
+  margin-bottom: 2px;
+}
+
+.onb-feature-text {
+  font-size: 14px;
+  color: var(--ios-label-secondary);
+  line-height: 1.4;
+}
+
+.onb-footer {
+  padding: 16px 32px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 32px;
+}
+
+.empty-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--ios-tint-soft);
+  color: var(--ios-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.empty-title {
   font-size: 22px;
-  font-style: italic;
-  margin-bottom: 16px;
-  color: var(--ink);
+  font-weight: 700;
+  color: var(--ios-label);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
 }
-.saved-list { display: flex; flex-direction: column; gap: 8px; }
-.saved-item {
-  padding: 12px 14px;
-  background: var(--bg);
-  border: 1px solid var(--line-soft);
-  cursor: pointer;
-  transition: all 0.2s;
+
+.empty-text {
+  font-size: 15px;
+  color: var(--ios-label-secondary);
+  line-height: 1.5;
+  max-width: 280px;
+  margin-bottom: 24px;
+}
+
+/* Specs hierarchy */
+.specs-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px;
+}
+
+.spec-hero-card {
+  background: var(--ios-bg-elevated);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.spec-hero-label {
+  font-size: 13px;
+  color: var(--ios-label-secondary);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.spec-hero-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ios-label);
+  letter-spacing: -0.02em;
+  font-feature-settings: 'tnum';
+  line-height: 1;
+}
+
+.spec-hero-unit {
+  font-size: 17px;
+  color: var(--ios-label-secondary);
+  font-weight: 500;
+  margin-inline-start: 4px;
+}
+
+.spec-hero-sub {
+  font-size: 12px;
+  color: var(--ios-tint);
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.specs-secondary {
+  background: var(--ios-bg-elevated);
+  border-radius: 14px;
+  margin: 0 16px 16px;
+  overflow: hidden;
+}
+
+.spec-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 13px;
-}
-.saved-item:hover { border-color: var(--accent); transform: translateX(-4px); }
-.saved-empty {
-  text-align: center;
-  color: var(--ink-soft);
-  font-size: 13px;
-  font-style: italic;
-  padding: 20px;
+  padding: 12px 16px;
+  position: relative;
 }
 
-.timer-section {
-  margin-top: 24px;
-  padding: 24px;
-  background: var(--ink);
-  color: var(--paper);
-  text-align: center;
-}
-.timer-display {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 64px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  margin: 16px 0;
-  color: var(--gold);
-}
-.timer-controls { display: flex; gap: 12px; justify-content: center; }
-.timer-btn {
-  padding: 10px 20px;
-  background: transparent;
-  border: 1px solid var(--paper);
-  color: var(--paper);
-  font-family: 'Tajawal', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.timer-btn:hover { background: var(--paper); color: var(--ink); }
-.timer-stage {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 18px;
-  margin-top: 12px;
-  color: var(--gold);
+.spec-row:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 0.5px;
+  background: var(--ios-separator);
 }
 
-.divider-stamp {
-  text-align: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  color: var(--ink-soft);
-  margin: 24px 0;
+.spec-row-label { font-size: 15px; color: var(--ios-label-secondary); }
+.spec-row-value {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ios-label);
+  font-feature-settings: 'tnum';
+}
+
+/* Brew Mode */
+.brew-mode {
+  background: var(--ios-label);
+  color: white;
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+}
+.brew-mode.active { display: flex; }
+
+.brew-mode-header {
+  padding: calc(var(--safe-top) + 16px) 16px 0;
   display: flex;
   align-items: center;
-  gap: 16px;
-}
-.divider-stamp::before, .divider-stamp::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--line-soft);
+  justify-content: space-between;
 }
 
-.footer {
-  text-align: center;
-  margin-top: 60px;
-  padding-top: 32px;
-  border-top: 1px solid var(--line-soft);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  color: var(--ink-soft);
-}
-.footer-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-style: italic;
-  color: var(--ink);
-  margin-bottom: 8px;
-  letter-spacing: 0;
-}
-
-.section-divider {
-  margin: 28px 0;
+.brew-mode-close {
+  background: rgba(255,255,255,0.1);
   border: none;
-  border-top: 1px dashed var(--line-soft);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media (max-width: 700px) {
-  .app { padding: 20px 14px 60px; }
-  .panel { padding: 24px 20px; }
-  .form-grid { grid-template-columns: 1fr; }
-  .recipe-header { padding: 24px; }
-  .recipe-body { padding: 24px; }
-  .step-label { display: none; }
-  .stepper::before { right: 18px; left: 18px; }
-  .panel-title { font-size: 26px; }
-  .recipe-meta { gap: 10px; font-size: 10px; }
-  .pour { grid-template-columns: 1fr; gap: 8px; }
-  .pour-time { font-size: 14px; }
-  .actions { flex-direction: column-reverse; }
-  .btn { width: 100%; justify-content: center; }
-  .header::before, .header::after { display: none; }
+.brew-mode-title {
+  font-size: 15px;
+  font-weight: 600;
+  opacity: 0.7;
 }
+
+.brew-mode-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.brew-progress-ring {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+
+.brew-progress-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.brew-progress-bg {
+  fill: none;
+  stroke: rgba(255,255,255,0.1);
+  stroke-width: 8;
+}
+
+.brew-progress-fg {
+  fill: none;
+  stroke: var(--ios-tint-light);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.brew-time-display {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.brew-time {
+  font-size: 56px;
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  font-feature-settings: 'tnum';
+  line-height: 1;
+}
+
+.brew-stage-name {
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+.brew-pour-info {
+  background: rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 16px 20px;
+  width: 100%;
+  text-align: start;
+  margin-bottom: 16px;
+}
+
+.brew-pour-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.brew-pour-action {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.brew-pour-detail {
+  font-size: 13px;
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.brew-pour-target {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ios-tint-light);
+  font-feature-settings: 'tnum';
+  margin-top: 8px;
+}
+
+.brew-mode-actions {
+  padding: 16px 16px calc(var(--safe-bottom) + 16px);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.brew-action-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brew-action-btn.primary {
+  width: 72px;
+  height: 72px;
+  background: var(--ios-tint-light);
+  color: var(--ios-label);
+}
+
+/* Photo Card */
+.photo-card {
+  background: var(--ios-bg-elevated);
+  border-radius: 14px;
+  margin: 8px 16px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.photo-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--ios-tint);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.photo-info { flex: 1; min-width: 0; }
+.photo-title {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ios-label);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.photo-subtitle {
+  font-size: 13px;
+  color: var(--ios-label-secondary);
+  margin-top: 2px;
+}
+
+.photo-preview-img {
+  width: 100%;
+  border-radius: 12px;
+  margin-top: 8px;
+  max-height: 240px;
+  object-fit: cover;
+  display: block;
+}
+
+.free-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: var(--ios-system-green);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+}
+
+.pro-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: var(--ios-tint);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+}
+
+/* Forms */
+.form-row {
+  display: flex;
+  align-items: center;
+  padding: 11px 16px;
+  min-height: 44px;
+  background: var(--ios-bg-elevated);
+  position: relative;
+  gap: 8px;
+}
+.form-row:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 16px;
+  left: 0;
+  height: 0.5px;
+  background: var(--ios-separator);
+}
+[dir="rtl"] .form-row:not(:last-child)::after { right: 0; left: 16px; }
+
+.form-label {
+  font-size: 17px;
+  color: var(--ios-label);
+  min-width: 110px;
+  flex-shrink: 0;
+}
+
+.form-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  color: var(--ios-label);
+  font-family: inherit;
+  text-align: end;
+  padding: 8px 0;
+  min-width: 0;
+}
+
+.form-input::placeholder { color: var(--ios-label-tertiary); }
+.form-unit {
+  color: var(--ios-label-secondary);
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+/* Sheet / Modal */
+.sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 300;
+  display: none;
+  align-items: flex-end;
+}
+.sheet-backdrop.active { display: flex; }
+
+.sheet {
+  background: var(--ios-bg-elevated);
+  width: 100%;
+  border-radius: 14px 14px 0 0;
+  max-height: 88%;
+  display: flex;
+  flex-direction: column;
+  animation: sheetUp 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  padding-bottom: var(--safe-bottom);
+}
+
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.sheet-handle {
+  width: 36px;
+  height: 5px;
+  background: var(--ios-system-gray3);
+  border-radius: 3px;
+  margin: 6px auto 0;
+}
+
+.sheet-close {
+  position: absolute;
+  top: 14px;
+  background: rgba(118, 118, 128, 0.2);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ios-label-secondary);
+  cursor: pointer;
+  z-index: 10;
+}
+[dir="rtl"] .sheet-close { left: 16px; }
+[dir="ltr"] .sheet-close { right: 16px; }
+
+.sheet-title-bar {
+  padding: 16px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 600;
+  border-bottom: 0.5px solid var(--ios-separator);
+}
+
+.sheet-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0 16px;
+}
+
+/* Paywall */
+.paywall-hero {
+  padding: 32px 24px 16px;
+  text-align: center;
+}
+
+.paywall-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: var(--ios-tint);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.paywall-title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.paywall-sub {
+  font-size: 15px;
+  color: var(--ios-label-secondary);
+  margin-bottom: 16px;
+}
+
+.paywall-features {
+  padding: 0 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.paywall-feature {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.paywall-check {
+  color: var(--ios-tint);
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+}
+
+.paywall-feature-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ios-label);
+}
+
+.paywall-feature-text {
+  font-size: 13px;
+  color: var(--ios-label-secondary);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.paywall-fineprint {
+  font-size: 11px;
+  color: var(--ios-label-tertiary);
+  text-align: center;
+  padding: 16px 24px 0;
+  line-height: 1.5;
+}
+
+/* Chips */
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px 16px;
+}
+
+.chip {
+  background: var(--ios-bg-elevated);
+  color: var(--ios-label);
+  border: none;
+  border-radius: 100px;
+  padding: 8px 14px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.chip.selected {
+  background: var(--ios-tint);
+  color: white;
+}
+
+.chip.taste-primary {
+  background: var(--ios-tint);
+  color: white;
+}
+.chip.taste-secondary {
+  background: rgba(255, 204, 0, 0.18);
+  color: #8a6a20;
+}
+
+/* Segmented */
+.segmented {
+  display: flex;
+  background: rgba(118, 118, 128, 0.12);
+  border-radius: 9px;
+  padding: 2px;
+  margin: 8px 16px;
+}
+
+.segmented-item {
+  flex: 1;
+  text-align: center;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ios-label);
+  cursor: pointer;
+  border-radius: 7px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+}
+
+.segmented-item.active {
+  background: var(--ios-bg-elevated);
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+/* Inline alerts */
+.note-inline {
+  background: var(--ios-tint-soft);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 8px 16px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: var(--ios-label);
+  line-height: 1.4;
+}
+
+.note-inline.warning { background: rgba(255, 149, 0, 0.12); }
+.note-inline.danger { background: rgba(255, 59, 48, 0.10); }
+.note-inline.success { background: rgba(52, 199, 89, 0.12); }
+
+.note-inline-icon {
+  color: var(--ios-tint);
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+.note-inline.warning .note-inline-icon { color: var(--ios-system-orange); }
+.note-inline.danger .note-inline-icon { color: var(--ios-system-red); }
+.note-inline.success .note-inline-icon { color: var(--ios-system-green); }
+
+/* Quota */
+.quota-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ios-label-secondary);
+  background: rgba(118, 118, 128, 0.12);
+  padding: 3px 8px;
+  border-radius: 100px;
+}
+
+.quota-indicator.warn {
+  color: var(--ios-system-orange);
+  background: rgba(255, 149, 0, 0.12);
+}
+
+.quota-indicator.full {
+  color: var(--ios-system-red);
+  background: rgba(255, 59, 48, 0.12);
+}
+
+/* Lang toggle */
+.lang-toggle {
+  position: absolute;
+  top: calc(var(--safe-top) + 12px);
+  z-index: 60;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--ios-separator);
+  border-radius: 100px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ios-tint);
+  cursor: pointer;
+}
+[dir="rtl"] .lang-toggle { left: 16px; }
+[dir="ltr"] .lang-toggle { right: 16px; }
+
+@media (prefers-color-scheme: dark) {
+  .lang-toggle { background: rgba(28,28,30,0.9); }
+}
+
+/* Picker */
+.picker-options {
+  background: var(--ios-bg-elevated);
+  margin: 0 16px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.picker-option {
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.picker-option:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 0.5px;
+  background: var(--ios-separator);
+}
+
+.picker-option.selected {
+  color: var(--ios-tint);
+  font-weight: 600;
+}
+
+.picker-check {
+  color: var(--ios-tint);
+  width: 18px;
+  height: 18px;
+}
+
+/* Rating */
+.rating-stars {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 16px;
+}
+
+.rating-star {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  color: var(--ios-system-gray3);
+}
+
+.rating-star.active { color: var(--ios-system-yellow); }
+
+.hidden-input { display: none; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: calc(80px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(28, 28, 30, 0.95);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 500;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  backdrop-filter: blur(20px);
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Feedback button */
+.feedback-fab {
+  position: fixed;
+  bottom: calc(80px + var(--safe-bottom));
+  z-index: 40;
+  background: var(--ios-tint);
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+}
+[dir="rtl"] .feedback-fab { left: 16px; }
+[dir="ltr"] .feedback-fab { right: 16px; }
 </style>
 </head>
 <body>
 
 <div class="app">
 
-<header class="header">
-  <div class="brand-mark">EST · 2026 · RIYADH</div>
-  <h1 class="title">Brew Lab</h1>
-  <div class="title-ar">مختبر القهوة المختصة</div>
-  <div class="subtitle">PRECISION · ORIGIN · METHOD</div>
-</header>
+<button class="lang-toggle" onclick="toggleLang()">EN</button>
 
-<div class="stepper">
-  <div class="step active" data-step="1" onclick="goToStep(1)">
-    <div class="step-circle">١</div>
-    <div class="step-label">المحصول</div>
-  </div>
-  <div class="step" data-step="2" onclick="goToStep(2)">
-    <div class="step-circle">٢</div>
-    <div class="step-label">المعدات</div>
-  </div>
-  <div class="step" data-step="3" onclick="goToStep(3)">
-    <div class="step-circle">٣</div>
-    <div class="step-label">الماء</div>
-  </div>
-  <div class="step" data-step="4" onclick="goToStep(4)">
-    <div class="step-circle">٤</div>
-    <div class="step-label">التفضيلات</div>
-  </div>
-  <div class="step" data-step="5" onclick="goToStep(5)">
-    <div class="step-circle">٥</div>
-    <div class="step-label">الوصفة</div>
-  </div>
-</div>
+<!-- SVG icon definitions -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-coffee" viewBox="0 0 24 24"><path d="M4 8h13a3 3 0 0 1 0 6h-1v.5a4.5 4.5 0 0 1-4.5 4.5h-3A4.5 4.5 0 0 1 4 14.5V8zm12 2v4a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M19 3c-7 0-13 3-13 11 0 4 2 6 4 7l2-9 6 1c4-1 5-5 1-10zM5 21l3-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2s-7 8-7 13a7 7 0 0 0 14 0c0-5-7-13-7-13z"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 8a4 4 0 100 8 4 4 0 000-8zm-2 4a2 2 0 114 0 2 2 0 01-4 0z"/><path d="M19.4 13c.04-.32.06-.65.06-1s-.02-.68-.07-1l2.11-1.65a.5.5 0 00.12-.64l-2-3.46a.5.5 0 00-.61-.22l-2.49 1a7.3 7.3 0 00-1.73-1l-.38-2.65A.49.49 0 0014 2h-4a.49.49 0 00-.49.42L9.13 5.07a7.68 7.68 0 00-1.73 1l-2.49-1a.5.5 0 00-.61.22l-2 3.46a.5.5 0 00.12.64L4.54 11c-.05.32-.09.65-.09 1s.02.68.07 1l-2.11 1.65a.5.5 0 00-.12.64l2 3.46a.5.5 0 00.61.22l2.49-1c.52.4 1.1.73 1.73 1l.38 2.65c.05.24.25.42.49.42h4a.49.49 0 00.49-.42l.38-2.65c.63-.27 1.21-.6 1.73-1l2.49 1a.5.5 0 00.61-.22l2-3.46a.5.5 0 00-.12-.64L19.4 13z"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M9 3l-2 2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3l-2-2H9zm3 5a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6z"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" fill="none"/><path d="M16 16l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 14-7l3-3v8h-8l3-3a6 6 0 0 0-9 5M21 12a9 9 0 0 1-14 7l-3 3v-8h8l-3 3a6 6 0 0 0 9-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2l2 7 7 2-7 2-2 7-2-7-7-2 7-2zM19 14l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></symbol>
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a2 2 0 0 1-2 2h-3v-7h-8v7H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 4h3v16H7zM14 4h3v16h-3z"/></symbol>
+    <symbol id="i-skip" viewBox="0 0 24 24"><path d="M5 4v16l10-8zM16 4h2v16h-2z"/></symbol>
+    <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M3 7l4 4 2-2-2-2 2-2 2 2 2-2-4-4-6 6z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18 2l4 4-12 12H6v-4L18 2z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
 
-<!-- STEP 1: BEAN -->
-<div class="panel active" data-panel="1">
-  <div class="panel-header">
-    <h2 class="panel-title">معلومات المحصول</h2>
-    <div class="panel-num">STEP 01 / 05</div>
-  </div>
+<!-- ============================================================
+     ONBOARDING SCREEN
+     ============================================================ -->
+<div class="screen" data-screen="onboarding">
+  <div class="onboarding">
+    <div class="onb-content">
+      <div class="onb-icon">
+        <svg class="icon" style="width:48px;height:48px"><use href="#i-sparkle"/></svg>
+      </div>
+      <div class="onb-title" data-i18n="onb_title">قهوتك، مع كل تفصيلة</div>
+      <div class="onb-text" data-i18n="onb_text">سجّل بنّك وطريقتك ومذاقك. مع الوقت يصبح Brew Lab مرجعك الشخصي للتحضير المثالي.</div>
 
-  <!-- Saved bean profiles -->
-  <div class="profile-bar">
-    <span class="profile-bar-label">📁 ملف بن محفوظ:</span>
-    <select class="profile-select" id="beanProfileSelect" onchange="loadBeanProfile(this.value)">
-      <option value="">— اختر ملف بن سابق —</option>
-    </select>
-    <button class="btn btn-small" onclick="saveBeanProfile()">💾 حفظ كملف بن</button>
-  </div>
+      <div class="onb-features">
+        <div class="onb-feature">
+          <div class="onb-feature-icon">
+            <svg class="icon" style="width:18px;height:18px"><use href="#i-ruler"/></svg>
+          </div>
+          <div>
+            <div class="onb-feature-title" data-i18n="onb_f1_t">حسابات بالميكرون</div>
+            <div class="onb-feature-text" data-i18n="onb_f1_d">معايرة دقيقة لكل مطحنة وطريقة تحضير</div>
+          </div>
+        </div>
+        <div class="onb-feature">
+          <div class="onb-feature-icon">
+            <svg class="icon" style="width:18px;height:18px"><use href="#i-drop"/></svg>
+          </div>
+          <div>
+            <div class="onb-feature-title" data-i18n="onb_f2_t">تحليل الماء</div>
+            <div class="onb-feature-text" data-i18n="onb_f2_d">يأخذ تركيبة الماء بعين الاعتبار في كل وصفة</div>
+          </div>
+        </div>
+        <div class="onb-feature">
+          <div class="onb-feature-icon">
+            <svg class="icon" style="width:18px;height:18px"><use href="#i-chart"/></svg>
+          </div>
+          <div>
+            <div class="onb-feature-title" data-i18n="onb_f3_t">سجل تطور ذوقك</div>
+            <div class="onb-feature-text" data-i18n="onb_f3_d">كل تحضير يبني مكتبتك الشخصية</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <!-- Image upload for bean -->
-  <div class="image-zone" id="beanImageZone" onclick="document.getElementById('beanImageInput').click()">
-    <div class="image-zone-icon">📷</div>
-    <div class="image-zone-text">صوّر أو ارفع صورة كيس البن</div>
-    <div class="image-zone-hint">سيظهر الملصق هنا لتعبئة الحقول بسهولة · الاستخراج التلقائي قريباً</div>
-  </div>
-  <input type="file" id="beanImageInput" accept="image/*" capture="environment" style="display:none" onchange="handleImageUpload(event, 'bean')">
-
-  <div class="form-grid">
-    <div class="field">
-      <label class="field-label">اسم المحمصة</label>
-      <input class="input" id="roaster" placeholder="مثال: كاميل، ميلكين، خواجة...">
-    </div>
-    <div class="field">
-      <label class="field-label">اسم المحصول/المزرعة</label>
-      <input class="input" id="lotName" placeholder="مثال: أوروميا، Yirgacheffe...">
-    </div>
-    <div class="field">
-      <label class="field-label">المنشأ</label>
-      <select class="select" id="origin">
-        <option value="">اختر...</option>
-        <option value="ethiopia">إثيوبيا</option>
-        <option value="kenya">كينيا</option>
-        <option value="colombia">كولومبيا</option>
-        <option value="brazil">البرازيل</option>
-        <option value="yemen">اليمن</option>
-        <option value="panama">بنما</option>
-        <option value="costa_rica">كوستاريكا</option>
-        <option value="indonesia">إندونيسيا</option>
-        <option value="rwanda">رواندا</option>
-        <option value="el_salvador">السلفادور</option>
-        <option value="guatemala">غواتيمالا</option>
-        <option value="honduras">هندوراس</option>
-      </select>
-    </div>
-    <div class="field">
-      <label class="field-label">طريقة المعالجة</label>
-      <select class="select" id="process">
-        <option value="">اختر...</option>
-        <option value="washed">مغسولة (Washed)</option>
-        <option value="natural">طبيعية / مجففة (Natural)</option>
-        <option value="honey">عسلية (Honey)</option>
-        <option value="anaerobic">تخمير لاهوائي (Anaerobic)</option>
-        <option value="wet_hulled">شبه مغسولة (Wet-Hulled)</option>
-      </select>
-    </div>
-    <div class="field">
-      <label class="field-label">درجة التحميص</label>
-      <select class="select" id="roast">
-        <option value="">اختر...</option>
-        <option value="nordic">فاتح جداً (Nordic)</option>
-        <option value="light">فاتح (Light)</option>
-        <option value="light_medium">فاتح-متوسط</option>
-        <option value="medium">متوسط (Medium)</option>
-        <option value="medium_dark">متوسط-غامق</option>
-        <option value="dark">غامق (Dark)</option>
-      </select>
-    </div>
-    <div class="field">
-      <label class="field-label">تاريخ التحميص</label>
-      <input class="input" type="date" id="roastDate">
-    </div>
-    <div class="field">
-      <label class="field-label">الصنف (Variety) — اختياري</label>
-      <input class="input" id="variety" placeholder="Heirloom, Geisha, SL28, Bourbon...">
-    </div>
-    <div class="field">
-      <label class="field-label">الارتفاع (متر) — اختياري</label>
-      <input class="input" type="number" id="altitude" placeholder="1900">
-    </div>
-    <div class="field field-full">
-      <label class="field-label">نوتات النكهة المعلنة</label>
-      <input class="input" id="flavorNotes" placeholder="بلاك بيري، مشمش، عسل، ياسمين...">
-      <span class="field-hint">كما هو مكتوب على كيس المحصول</span>
-    </div>
-  </div>
-
-  <div class="actions">
-    <button class="btn btn-ghost" onclick="resetForm()">↻ تفريغ</button>
-    <button class="btn btn-primary" onclick="nextStep()">التالي ←</button>
-  </div>
-</div>
-
-<!-- STEP 2: EQUIPMENT -->
-<div class="panel" data-panel="2">
-  <div class="panel-header">
-    <h2 class="panel-title">المعدات المتوفرة</h2>
-    <div class="panel-num">STEP 02 / 05</div>
-  </div>
-
-  <div class="field" style="margin-bottom: 24px;">
-    <label class="field-label">طرق التحضير المتوفرة عندك</label>
-    <span class="field-hint">يمكنك اختيار أكثر من خيار — سيختار النظام الأنسب</span>
-    <div class="chips" id="brewMethods" style="margin-top: 10px;">
-      <div class="chip" data-value="v60">V60</div>
-      <div class="chip" data-value="origami">Origami</div>
-      <div class="chip" data-value="b75">Hario B75</div>
-      <div class="chip" data-value="kalita">Kalita Wave</div>
-      <div class="chip" data-value="aeropress">AeroPress</div>
-      <div class="chip" data-value="french_press">French Press</div>
-      <div class="chip" data-value="moka">Moka Pot</div>
-      <div class="chip" data-value="espresso">Espresso Machine</div>
-      <div class="chip" data-value="aiden">Fellow Aiden</div>
-      <div class="chip" data-value="turkish">ركوة تركية</div>
-      <div class="chip" data-value="dallah">دلة عربية</div>
-      <div class="chip" data-value="chemex">Chemex</div>
-    </div>
-  </div>
-
-  <div class="field" style="margin-bottom: 24px;">
-    <label class="field-label">المطاحن المتوفرة</label>
-    <div class="chips" id="grinders" style="margin-top: 10px;">
-      <div class="chip" data-value="zp6">1Zpresso ZP6</div>
-      <div class="chip" data-value="jultra">1Zpresso J-Ultra</div>
-      <div class="chip" data-value="jx">1Zpresso JX/JX-Pro</div>
-      <div class="chip" data-value="ode2">Fellow Ode Gen 2</div>
-      <div class="chip" data-value="comandante">Comandante C40</div>
-      <div class="chip" data-value="timemore">Timemore C2/C3</div>
-      <div class="chip" data-value="niche">Niche Zero</div>
-      <div class="chip" data-value="other_burr">مطحنة Burr أخرى</div>
-      <div class="chip" data-value="blade">مطحنة شفرات</div>
-    </div>
-  </div>
-
-  <div class="field">
-    <label class="field-label">الفلاتر المتوفرة</label>
-    <div class="chips" id="filters" style="margin-top: 10px;">
-      <div class="chip" data-value="hario">Hario Tabbed</div>
-      <div class="chip" data-value="cafec_abaca">Cafec Abaca</div>
-      <div class="chip" data-value="cafec_light">Cafec Light Roast</div>
-      <div class="chip" data-value="cafec_dark">Cafec Dark Roast</div>
-      <div class="chip" data-value="sibarist">Sibarist Fast</div>
-      <div class="chip" data-value="origami_filter">Origami فلتر</div>
-      <div class="chip" data-value="aeropress_paper">AeroPress ورقي</div>
-      <div class="chip" data-value="aeropress_metal">AeroPress معدني</div>
-      <div class="chip" data-value="chemex_filter">Chemex</div>
-    </div>
-  </div>
-
-  <div class="actions">
-    <button class="btn" onclick="prevStep()">→ السابق</button>
-    <button class="btn btn-primary" onclick="nextStep()">التالي ←</button>
-  </div>
-</div>
-
-<!-- STEP 3: WATER -->
-<div class="panel" data-panel="3">
-  <div class="panel-header">
-    <h2 class="panel-title">معلومات الماء</h2>
-    <div class="panel-num">STEP 03 / 05</div>
-  </div>
-
-  <!-- Saved water profiles -->
-  <div class="profile-bar">
-    <span class="profile-bar-label">📁 ملف ماء محفوظ:</span>
-    <select class="profile-select" id="waterProfileSelect" onchange="loadWaterProfile(this.value)">
-      <option value="">— اختر ملف ماء سابق —</option>
-    </select>
-    <button class="btn btn-small" onclick="saveWaterProfile()">💾 حفظ كملف ماء</button>
-  </div>
-
-  <!-- Image upload for water -->
-  <div class="image-zone" id="waterImageZone" onclick="document.getElementById('waterImageInput').click()">
-    <div class="image-zone-icon">📷</div>
-    <div class="image-zone-text">صوّر أو ارفع صورة ملصق عبوة الماء</div>
-    <div class="image-zone-hint">سيظهر الملصق هنا لتعبئة الحقول بسهولة · الاستخراج التلقائي قريباً</div>
-  </div>
-  <input type="file" id="waterImageInput" accept="image/*" capture="environment" style="display:none" onchange="handleImageUpload(event, 'water')">
-
-  <div class="alert">
-    <div class="alert-title">💧 لماذا الماء مهم؟</div>
-    الماء = 98.5% من فنجان القهوة. تركيبته المعدنية تحدد كيفية استخراج النكهات. أدخل المعلومات من ملصق العبوة.
-  </div>
-
-  <div class="form-grid">
-    <div class="field">
-      <label class="field-label">اسم الماء</label>
-      <input class="input" id="waterName" placeholder="نستله، نوفا، Volvic...">
-    </div>
-    <div class="field">
-      <label class="field-label">TDS (إجمالي المواد الذائبة)</label>
-      <input class="input" type="number" id="waterTds" placeholder="120">
-      <span class="field-hint">ppm أو mg/L</span>
-    </div>
-    <div class="field">
-      <label class="field-label">الكالسيوم (Ca²⁺)</label>
-      <input class="input" type="number" id="waterCa" placeholder="27">
-      <span class="field-hint">mg/L</span>
-    </div>
-    <div class="field">
-      <label class="field-label">المغنيسيوم (Mg²⁺)</label>
-      <input class="input" type="number" step="0.1" id="waterMg" placeholder="2.3">
-      <span class="field-hint">mg/L</span>
-    </div>
-    <div class="field">
-      <label class="field-label">البيكربونات (HCO₃⁻)</label>
-      <input class="input" type="number" id="waterBicarb" placeholder="50">
-      <span class="field-hint">mg/L</span>
-    </div>
-    <div class="field">
-      <label class="field-label">الصوديوم (Na⁺) — اختياري</label>
-      <input class="input" type="number" step="0.1" id="waterNa" placeholder="9.5">
-    </div>
-    <div class="field">
-      <label class="field-label">العسر الكلي — اختياري</label>
-      <input class="input" type="number" id="waterHardness" placeholder="76">
-      <span class="field-hint">ppm CaCO₃</span>
-    </div>
-    <div class="field">
-      <label class="field-label">pH — اختياري</label>
-      <input class="input" type="number" step="0.1" id="waterPh" placeholder="7.0">
-    </div>
-  </div>
-
-  <div class="actions">
-    <button class="btn" onclick="prevStep()">→ السابق</button>
-    <button class="btn btn-primary" onclick="nextStep()">التالي ←</button>
-  </div>
-</div>
-
-<!-- STEP 4: PREFERENCES -->
-<div class="panel" data-panel="4">
-  <div class="panel-header">
-    <h2 class="panel-title">التفضيلات الذوقية</h2>
-    <div class="panel-num">STEP 04 / 05</div>
-  </div>
-
-  <div class="field" style="margin-bottom: 24px;">
-    <label class="field-label">ما الملف الذوقي اللي تبيه؟</label>
-    <div class="chips" id="tasteProfile" style="margin-top: 10px;" data-single="true">
-      <div class="chip" data-value="bright">فواكه ومشرق وحامضي</div>
-      <div class="chip selected" data-value="balanced">حلاوة وتوازن وجسم</div>
-      <div class="chip" data-value="heavy">جسم ثقيل وشوكولاتي</div>
-      <div class="chip" data-value="espresso">إسبريسو مركز وكثيف</div>
-    </div>
-  </div>
-
-  <div class="field" style="margin-bottom: 24px;">
-    <label class="field-label">قوة التركيز</label>
-    <div class="chips" id="strength" style="margin-top: 10px;" data-single="true">
-      <div class="chip" data-value="light">خفيف (1:17)</div>
-      <div class="chip selected" data-value="medium">متوسط (1:16)</div>
-      <div class="chip" data-value="strong">قوي (1:15)</div>
-    </div>
-  </div>
-
-  <div class="field">
-    <label class="field-label">حجم الكوب المستهدف</label>
-    <div class="chips" id="cupSize" style="margin-top: 10px;" data-single="true">
-      <div class="chip" data-value="single">فنجان واحد (~200مل)</div>
-      <div class="chip selected" data-value="medium">متوسط (~250مل)</div>
-      <div class="chip" data-value="large">كبير (~350مل)</div>
-      <div class="chip" data-value="double">كوبين (~500مل)</div>
-    </div>
-  </div>
-
-  <div class="actions">
-    <button class="btn" onclick="prevStep()">→ السابق</button>
-    <button class="btn btn-accent" onclick="generateRecipe()">✨ توليد الوصفة</button>
-  </div>
-</div>
-
-<!-- STEP 5: RECIPE -->
-<div class="panel" data-panel="5" style="background: transparent; border: none; box-shadow: none; padding: 0;">
-  <div id="recipeOutput"></div>
-  <div class="actions" style="margin-top: 32px;">
-    <button class="btn" onclick="prevStep()">→ تعديل المدخلات</button>
-    <button class="btn btn-primary" onclick="saveRecipe()">💾 حفظ الوصفة</button>
-  </div>
-  <div class="saved-section">
-    <div class="saved-title">الوصفات المحفوظة</div>
-    <div class="saved-list" id="savedList">
-      <div class="saved-empty">لا توجد وصفات محفوظة بعد</div>
+    <div class="onb-footer">
+      <button class="btn-filled" onclick="completeOnboarding()" data-i18n="onb_start">ابدأ</button>
+      <div style="text-align:center; padding-top:8px; font-size:13px; color:var(--ios-label-tertiary);" data-i18n="onb_prototype">
+        نسخة تجريبية · بياناتك تُحفظ على جهازك فقط
+      </div>
     </div>
   </div>
 </div>
 
-<footer class="footer">
-  <div class="footer-brand">Brew Lab</div>
-  <div>PROTOTYPE v0.2 · MADE FOR COFFEE PURISTS</div>
-</footer>
+<!-- ============================================================
+     HOME SCREEN
+     ============================================================ -->
+<div class="screen" data-screen="home">
+  <div class="nav-bar">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+      <div>
+        <div class="nav-title-large" data-i18n="home_title">قهوتي</div>
+        <div class="nav-subtitle-large" id="homeSubtitle"></div>
+      </div>
+      <button class="nav-button-icon" onclick="startNewRecipe()" style="margin-bottom:8px;">
+        <svg class="icon" style="width:26px;height:26px"><use href="#i-plus"/></svg>
+      </button>
+    </div>
+    <div class="search-bar">
+      <svg class="icon search-icon"><use href="#i-search"/></svg>
+      <input class="search-input" id="homeSearch" data-i18n-ph="search_recipes" placeholder="ابحث في وصفاتك...">
+    </div>
+  </div>
+
+  <div class="scroll-content" id="homeContent"></div>
+
+  <div class="tab-bar">
+    <div class="tab-bar-items">
+      <button class="tab-item active" onclick="goScreen('home')">
+        <svg class="icon"><use href="#i-house"/></svg>
+        <span data-i18n="tab_home">الرئيسية</span>
+      </button>
+      <button class="tab-item" onclick="goScreen('beans')">
+        <svg class="icon"><use href="#i-leaf"/></svg>
+        <span data-i18n="tab_beans">البن</span>
+      </button>
+      <button class="tab-item" onclick="goScreen('waters')">
+        <svg class="icon"><use href="#i-drop"/></svg>
+        <span data-i18n="tab_water">الماء</span>
+      </button>
+      <button class="tab-item" onclick="goScreen('settings')">
+        <svg class="icon"><use href="#i-gear"/></svg>
+        <span data-i18n="tab_settings">الإعدادات</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     BEANS LIBRARY
+     ============================================================ -->
+<div class="screen" data-screen="beans">
+  <div class="nav-bar">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+      <div>
+        <div class="nav-title-large" data-i18n="beans_title">البن</div>
+        <div class="nav-subtitle-large" id="beansSubtitle"></div>
+      </div>
+      <button class="nav-button-icon" onclick="addBean()" style="margin-bottom:8px;">
+        <svg class="icon" style="width:26px;height:26px"><use href="#i-plus"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="scroll-content" id="beansContent"></div>
+  <div class="tab-bar">
+    <div class="tab-bar-items">
+      <button class="tab-item" onclick="goScreen('home')"><svg class="icon"><use href="#i-house"/></svg><span data-i18n="tab_home">الرئيسية</span></button>
+      <button class="tab-item active"><svg class="icon"><use href="#i-leaf"/></svg><span data-i18n="tab_beans">البن</span></button>
+      <button class="tab-item" onclick="goScreen('waters')"><svg class="icon"><use href="#i-drop"/></svg><span data-i18n="tab_water">الماء</span></button>
+      <button class="tab-item" onclick="goScreen('settings')"><svg class="icon"><use href="#i-gear"/></svg><span data-i18n="tab_settings">الإعدادات</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     WATERS LIBRARY
+     ============================================================ -->
+<div class="screen" data-screen="waters">
+  <div class="nav-bar">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+      <div>
+        <div class="nav-title-large" data-i18n="waters_title">الماء</div>
+        <div class="nav-subtitle-large" id="watersSubtitle"></div>
+      </div>
+      <button class="nav-button-icon" onclick="addWater()" style="margin-bottom:8px;">
+        <svg class="icon" style="width:26px;height:26px"><use href="#i-plus"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="scroll-content" id="watersContent"></div>
+  <div class="tab-bar">
+    <div class="tab-bar-items">
+      <button class="tab-item" onclick="goScreen('home')"><svg class="icon"><use href="#i-house"/></svg><span data-i18n="tab_home">الرئيسية</span></button>
+      <button class="tab-item" onclick="goScreen('beans')"><svg class="icon"><use href="#i-leaf"/></svg><span data-i18n="tab_beans">البن</span></button>
+      <button class="tab-item active"><svg class="icon"><use href="#i-drop"/></svg><span data-i18n="tab_water">الماء</span></button>
+      <button class="tab-item" onclick="goScreen('settings')"><svg class="icon"><use href="#i-gear"/></svg><span data-i18n="tab_settings">الإعدادات</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     BEAN EDIT
+     ============================================================ -->
+<div class="screen" data-screen="beanEdit">
+  <div class="nav-bar compact">
+    <button class="nav-button" onclick="goBack()" data-i18n="cancel">إلغاء</button>
+    <div class="nav-title-compact" id="beanEditTitle" data-i18n="bean_edit_title">ملف البن</div>
+    <button class="nav-button bold" onclick="saveBean()" data-i18n="save">حفظ</button>
+  </div>
+  <div class="scroll-content no-tab" id="beanEditContent"></div>
+</div>
+
+<!-- ============================================================
+     WATER EDIT
+     ============================================================ -->
+<div class="screen" data-screen="waterEdit">
+  <div class="nav-bar compact">
+    <button class="nav-button" onclick="goBack()" data-i18n="cancel">إلغاء</button>
+    <div class="nav-title-compact" id="waterEditTitle" data-i18n="water_edit_title">ملف الماء</div>
+    <button class="nav-button bold" onclick="saveWater()" data-i18n="save">حفظ</button>
+  </div>
+  <div class="scroll-content no-tab" id="waterEditContent"></div>
+</div>
+
+<!-- ============================================================
+     NEW RECIPE
+     ============================================================ -->
+<div class="screen" data-screen="newRecipe">
+  <div class="nav-bar compact">
+    <button class="nav-button" onclick="goScreen('home')" data-i18n="cancel">إلغاء</button>
+    <div class="nav-title-compact" data-i18n="new_recipe_title">وصفة جديدة</div>
+    <button class="nav-button bold" id="generateBtn" onclick="generateRecipe()" data-i18n="generate">توليد</button>
+  </div>
+  <div class="scroll-content no-tab" id="newRecipeContent"></div>
+</div>
+
+<!-- ============================================================
+     RECIPE RESULT
+     ============================================================ -->
+<div class="screen" data-screen="recipe">
+  <div class="nav-bar compact">
+    <button class="nav-button" onclick="goScreen('home')" data-i18n="done">تم</button>
+    <div class="nav-title-compact" id="recipeNavTitle"></div>
+    <button class="nav-button" onclick="editCurrentRecipe()" data-i18n="edit">تعديل</button>
+  </div>
+  <div class="scroll-content no-tab" id="recipeContent"></div>
+</div>
+
+<!-- ============================================================
+     BREW MODE
+     ============================================================ -->
+<div class="screen brew-mode" data-screen="brewMode">
+  <div class="brew-mode-header">
+    <button class="brew-mode-close" onclick="exitBrewMode()">
+      <svg class="icon" style="width:14px;height:14px;fill:white"><use href="#i-x"/></svg>
+    </button>
+    <div class="brew-mode-title" id="brewModeTitle">—</div>
+    <div style="width:36px"></div>
+  </div>
+  <div class="brew-mode-body">
+    <div class="brew-progress-ring">
+      <svg viewBox="0 0 280 280">
+        <circle class="brew-progress-bg" cx="140" cy="140" r="128"/>
+        <circle class="brew-progress-fg" id="brewProgress" cx="140" cy="140" r="128"/>
+      </svg>
+      <div class="brew-time-display">
+        <div class="brew-time" id="brewTime">0:00</div>
+        <div class="brew-stage-name" id="brewStageName" data-i18n="ready">جاهز</div>
+      </div>
+    </div>
+    <div class="brew-pour-info" id="brewPourInfo">
+      <div class="brew-pour-label" data-i18n="next_step">الخطوة التالية</div>
+      <div class="brew-pour-action" data-i18n="press_start">اضغط ابدأ لتفعيل المؤقت</div>
+      <div class="brew-pour-detail" data-i18n="follow_steps">سيرشدك التطبيق خطوة بخطوة</div>
+    </div>
+  </div>
+  <div class="brew-mode-actions">
+    <button class="brew-action-btn" onclick="brewSkip()">
+      <svg class="icon" style="width:20px;height:20px;fill:white"><use href="#i-skip"/></svg>
+    </button>
+    <button class="brew-action-btn primary" id="brewToggle" onclick="brewToggle()">
+      <svg class="icon" style="width:24px;height:24px;fill:currentColor"><use href="#i-play"/></svg>
+    </button>
+    <button class="brew-action-btn" onclick="brewReset()">
+      <svg class="icon" style="width:18px;height:18px;fill:white" style="transform: rotate(45deg)"><use href="#i-repeat"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SETTINGS
+     ============================================================ -->
+<div class="screen" data-screen="settings">
+  <div class="nav-bar">
+    <div class="nav-title-large" data-i18n="settings_title">الإعدادات</div>
+  </div>
+  <div class="scroll-content" id="settingsContent"></div>
+  <div class="tab-bar">
+    <div class="tab-bar-items">
+      <button class="tab-item" onclick="goScreen('home')"><svg class="icon"><use href="#i-house"/></svg><span data-i18n="tab_home">الرئيسية</span></button>
+      <button class="tab-item" onclick="goScreen('beans')"><svg class="icon"><use href="#i-leaf"/></svg><span data-i18n="tab_beans">البن</span></button>
+      <button class="tab-item" onclick="goScreen('waters')"><svg class="icon"><use href="#i-drop"/></svg><span data-i18n="tab_water">الماء</span></button>
+      <button class="tab-item active"><svg class="icon"><use href="#i-gear"/></svg><span data-i18n="tab_settings">الإعدادات</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SHEETS / MODALS
+     ============================================================ -->
+<div class="sheet-backdrop" id="pickerSheet" onclick="hideSheet(event, 'pickerSheet')">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <button class="sheet-close" onclick="hideSheet(null, 'pickerSheet')">
+      <svg class="icon" style="width:12px;height:12px"><use href="#i-x"/></svg>
+    </button>
+    <div class="sheet-title-bar" id="pickerTitle">—</div>
+    <div class="sheet-body" id="pickerBody"></div>
+  </div>
+</div>
+
+<div class="sheet-backdrop" id="paywallSheet" onclick="hideSheet(event, 'paywallSheet')">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <button class="sheet-close" onclick="hideSheet(null, 'paywallSheet')">
+      <svg class="icon" style="width:12px;height:12px"><use href="#i-x"/></svg>
+    </button>
+    <div class="sheet-body">
+      <div class="paywall-hero">
+        <div class="paywall-icon"><svg class="icon" style="width:32px;height:32px;fill:white"><use href="#i-sparkle"/></svg></div>
+        <div class="paywall-title">Brew Lab Pro</div>
+        <div class="paywall-sub" data-i18n="paywall_sub">ارفع تجربتك للمستوى الاحترافي</div>
+      </div>
+      <div class="paywall-features">
+        <div class="paywall-feature">
+          <svg class="icon paywall-check"><use href="#i-check"/></svg>
+          <div>
+            <div class="paywall-feature-title" data-i18n="pw_f1_t">كاميرا ذكية</div>
+            <div class="paywall-feature-text" data-i18n="pw_f1_d">صوّر كيس البن واستخرج المعلومات تلقائياً</div>
+          </div>
+        </div>
+        <div class="paywall-feature">
+          <svg class="icon paywall-check"><use href="#i-check"/></svg>
+          <div>
+            <div class="paywall-feature-title" data-i18n="pw_f2_t">ملفات بن وماء غير محدودة</div>
+            <div class="paywall-feature-text" data-i18n="pw_f2_d">سجّل كل محصول جرّبته</div>
+          </div>
+        </div>
+        <div class="paywall-feature">
+          <svg class="icon paywall-check"><use href="#i-check"/></svg>
+          <div>
+            <div class="paywall-feature-title" data-i18n="pw_f3_t">مزامنة iCloud</div>
+            <div class="paywall-feature-text" data-i18n="pw_f3_d">بياناتك على جميع أجهزتك</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 0 16px 8px;">
+        <button class="btn-filled" onclick="hideSheet(null, 'paywallSheet'); showToast('🚧 ميزات Pro قيد التطوير')" data-i18n="coming_soon">قريباً</button>
+      </div>
+      <div class="paywall-fineprint" data-i18n="prototype_note">
+        هذه نسخة تجريبية. شارك ملاحظاتك من زر "ملاحظات".
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-backdrop" id="feedbackSheet" onclick="hideSheet(event, 'feedbackSheet')">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <button class="sheet-close" onclick="hideSheet(null, 'feedbackSheet')">
+      <svg class="icon" style="width:12px;height:12px"><use href="#i-x"/></svg>
+    </button>
+    <div class="sheet-title-bar" data-i18n="feedback_title">ملاحظاتك</div>
+    <div class="sheet-body" style="padding: 16px;">
+      <div style="font-size:15px; color:var(--ios-label-secondary); line-height:1.6; margin-bottom:16px;" data-i18n="feedback_intro">
+        تجربتك مهمة. ساعدنا نطوّر التطبيق:
+      </div>
+      <div class="list-card" style="margin: 0 0 16px;">
+        <div class="form-row" style="flex-direction:column; align-items:stretch; min-height:auto; padding:11px 16px;">
+          <div style="font-size:13px; color:var(--ios-label-secondary); margin-bottom:4px;" data-i18n="fb_q1">ما الذي أعجبك؟</div>
+          <textarea id="fb1" style="background:transparent; border:none; outline:none; font-family:inherit; font-size:17px; color:var(--ios-label); resize:none; width:100%;" rows="2" data-i18n-ph="fb_q1_ph" placeholder="..."></textarea>
+        </div>
+        <div class="form-row" style="flex-direction:column; align-items:stretch; min-height:auto; padding:11px 16px;">
+          <div style="font-size:13px; color:var(--ios-label-secondary); margin-bottom:4px;" data-i18n="fb_q2">ما الذي محبط أو غير دقيق؟</div>
+          <textarea id="fb2" style="background:transparent; border:none; outline:none; font-family:inherit; font-size:17px; color:var(--ios-label); resize:none; width:100%;" rows="2" data-i18n-ph="fb_q2_ph" placeholder="..."></textarea>
+        </div>
+        <div class="form-row" style="flex-direction:column; align-items:stretch; min-height:auto; padding:11px 16px;">
+          <div style="font-size:13px; color:var(--ios-label-secondary); margin-bottom:4px;" data-i18n="fb_q3">هل النتائج دقيقة لقهوتك؟</div>
+          <textarea id="fb3" style="background:transparent; border:none; outline:none; font-family:inherit; font-size:17px; color:var(--ios-label); resize:none; width:100%;" rows="2" data-i18n-ph="fb_q3_ph" placeholder="..."></textarea>
+        </div>
+        <div class="form-row" style="flex-direction:column; align-items:stretch; min-height:auto; padding:11px 16px;">
+          <div style="font-size:13px; color:var(--ios-label-secondary); margin-bottom:4px;" data-i18n="fb_q4">لو دفعت 4.99$/شهر، ما الميزة التي تقنعك؟</div>
+          <textarea id="fb4" style="background:transparent; border:none; outline:none; font-family:inherit; font-size:17px; color:var(--ios-label); resize:none; width:100%;" rows="2" data-i18n-ph="fb_q4_ph" placeholder="..."></textarea>
+        </div>
+      </div>
+      <button class="btn-filled" onclick="submitFeedback()" data-i18n="send_feedback">إرسال الملاحظات</button>
+      <div class="paywall-fineprint" style="padding-top:12px;" data-i18n="feedback_note">سترسلها لك واتساب/إيميل لاحقاً. لا تُحفظ أي بيانات في خادم.</div>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="imageUploadInput" class="hidden-input" accept="image/*" capture="environment">
+
+<button class="feedback-fab" onclick="showSheet('feedbackSheet')">
+  <svg class="icon" style="width:14px;height:14px"><use href="#i-message"/></svg>
+  <span data-i18n="feedback_btn">ملاحظات</span>
+</button>
+
+<div class="toast" id="toast">—</div>
 
 </div>
 
 <script>
 /* ============================================================
-   BREW LAB — v0.2
-   التحديثات: محرك ميكرون مصحح · أزرار صور · ملفات بن وماء محفوظة
+   STATE
    ============================================================ */
+const state = {
+  beans: [], waters: [], recipes: [], iterations: [],
+  currentLang: 'ar', hasOnboarded: false,
+  beanDraft: null, waterDraft: null,
+  recipeDraft: { beanId: null, waterId: null, method: 'v60', grinder: null, taste: 'balanced', strength: 'medium', cupSize: 'medium' },
+  currentRecipe: null,
+  beanFormPhoto: null, waterFormPhoto: null,
+  brewTimer: { seconds: 0, running: false, interval: null, schedule: null, currentStage: 0, _lastStage: -1 },
+  navStack: ['home']
+};
 
-let currentStep = 1;
-let userData = {};
-let savedRecipes = [];
-let beanProfiles = [];
-let waterProfiles = [];
-let uploadedImages = { bean: null, water: null };
+const FREE_LIMITS = { beans: 5, waters: 3 };
 
-/* ---------- GRINDER CALIBRATION DATA (موثّقة من مصادر متخصصة) ----------
-   كل مطحنة: نطاق الميكرون، الميكرون لكل خطوة، خطوات لكل دورة، الوحدة
-   ZP6:      240–1050 ميكرون · 22 ميكرون/كليك · 90 كليك/دورة
-   J-Ultra:  ~150–900  ميكرون · 8 ميكرون/كليك · 100 كليك/دورة
-   Ode Gen2: 275–1160 ميكرون · ~25 ميكرون/خطوة · يبدأ من ~250
-------------------------------------------------------------------- */
+/* ============================================================
+   DATA TABLES
+   ============================================================ */
 const GRINDERS = {
-  zp6: {
-    name: '1Zpresso ZP6',
-    micronsPerStep: 22,
-    stepsPerRotation: 90,
-    minMicron: 240,
-    maxMicron: 1050,
-    unit: 'click',
-    espressoCapable: false,
-    display: (microns) => {
-      // ZP6: العرض كـ "رقم.كليك" — 90 كليك = 9 أرقام، 10 كليك/رقم
-      const totalClicks = Math.round((microns - 0) / 22); // من نقطة الصفر
-      const num = Math.floor(totalClicks / 10);
-      const clk = totalClicks % 10;
-      return `${num}.${clk} (${totalClicks} كليك)`;
-    }
-  },
-  jultra: {
-    name: '1Zpresso J-Ultra',
-    micronsPerStep: 8,
-    stepsPerRotation: 100,
-    minMicron: 150,
-    maxMicron: 900,
-    unit: 'click',
-    espressoCapable: true,
-    display: (microns) => {
-      const totalClicks = Math.round(microns / 8);
-      const num = Math.floor(totalClicks / 10);
-      const clk = totalClicks % 10;
-      return `${num}.${clk} (${totalClicks} كليك)`;
-    }
-  },
-  ode2: {
-    name: 'Fellow Ode Gen 2',
-    micronsPerStep: 25,
-    stepsPerRotation: 1, // قرص مرقّم 1-11
-    minMicron: 275,
-    maxMicron: 1160,
-    unit: 'setting',
-    espressoCapable: false,
-    display: (microns) => {
-      // Ode Gen2 يبدأ ~250 ميكرون عند الإعداد 1
-      const setting = ((microns - 250) / 25) + 1;
-      return `${setting.toFixed(1)} على القرص`;
-    }
-  },
-  jx: {
-    name: '1Zpresso JX/JX-Pro',
-    micronsPerStep: 12.5,
-    stepsPerRotation: 40,
-    minMicron: 200,
-    maxMicron: 1200,
-    unit: 'click',
-    espressoCapable: true,
-    display: (microns) => {
-      const totalClicks = Math.round(microns / 12.5);
-      return `${totalClicks} كليك من الصفر`;
-    }
-  },
-  comandante: {
-    name: 'Comandante C40',
-    micronsPerStep: 30,
-    stepsPerRotation: 40,
-    minMicron: 200,
-    maxMicron: 1300,
-    unit: 'click',
-    espressoCapable: true,
-    display: (microns) => {
-      const totalClicks = Math.round(microns / 30);
-      return `${totalClicks} كليك من الصفر`;
-    }
-  },
-  timemore: {
-    name: 'Timemore C2/C3',
-    micronsPerStep: 36,
-    stepsPerRotation: 36,
-    minMicron: 300,
-    maxMicron: 1300,
-    unit: 'click',
-    espressoCapable: true,
-    display: (microns) => {
-      const totalClicks = Math.round(microns / 36);
-      return `${totalClicks} كليك من الصفر`;
-    }
-  },
-  niche: {
-    name: 'Niche Zero',
-    micronsPerStep: null,
-    stepsPerRotation: null,
-    minMicron: 200,
-    maxMicron: 1100,
-    unit: 'dial',
-    espressoCapable: true,
-    display: (microns) => {
-      // Niche قرص متدرّج تقريبي
-      if (microns < 350) return '~10-20 (إسبريسو)';
-      if (microns < 600) return '~25-35 (موكا/إيرو)';
-      if (microns < 850) return '~40-55 (مقطرة)';
-      return '~60-80 (فرنش بريس)';
-    }
-  }
+  zp6: { name: '1Zpresso ZP6', minMicron: 240, maxMicron: 1050, espressoCapable: false,
+    display: (m) => { const c = Math.round(m / 22); return c/10 + ' (' + c + ' كليك)'; }},
+  jultra: { name: '1Zpresso J-Ultra', minMicron: 150, maxMicron: 900, espressoCapable: true,
+    display: (m) => { const c = Math.round(m / 8); return c/10 + ' (' + c + ' كليك)'; }},
+  jx: { name: '1Zpresso JX-Pro', minMicron: 200, maxMicron: 1200, espressoCapable: true,
+    display: (m) => Math.round(m / 12.5) + ' كليك' },
+  ode2: { name: 'Fellow Ode Gen 2', minMicron: 275, maxMicron: 1160, espressoCapable: false,
+    display: (m) => (((m - 250) / 25) + 1).toFixed(1) + ' على القرص' },
+  comandante: { name: 'Comandante C40', minMicron: 200, maxMicron: 1300, espressoCapable: true,
+    display: (m) => Math.round(m / 30) + ' كليك' },
+  timemore: { name: 'Timemore C2/C3', minMicron: 300, maxMicron: 1300, espressoCapable: true,
+    display: (m) => Math.round(m / 36) + ' كليك' },
+  niche: { name: 'Niche Zero', minMicron: 200, maxMicron: 1100, espressoCapable: true,
+    display: (m) => { if (m < 350) return '10-20'; if (m < 600) return '25-35'; if (m < 850) return '40-55'; return '60-80'; }},
+  other: { name: 'مطحنة أخرى', minMicron: 100, maxMicron: 1300, espressoCapable: true,
+    display: (m) => '~' + m + ' ميكرون' }
 };
 
-/* ---------- نطاقات الميكرون لكل طريقة (موثّقة) ----------
-   تركي: 40–220 · إسبريسو: 180–380 · موكا: 360–660
-   مقطرة (V60/Aiden/Kalita/Origami/B75/Chemex): 400–800
-   إيروبريس: 400–900 · فرنش بريس: 690–1300
------------------------------------------------------------- */
 const METHOD_MICRONS = {
-  turkish:      { min: 40,  ideal: 130,  max: 220 },
-  espresso:     { min: 180, ideal: 280,  max: 380 },
-  moka:         { min: 360, ideal: 480,  max: 660 },
-  aeropress:    { min: 400, ideal: 600,  max: 900 },
-  v60:          { min: 400, ideal: 650,  max: 800 },
-  origami:      { min: 400, ideal: 650,  max: 800 },
-  b75:          { min: 450, ideal: 700,  max: 850 },
-  kalita:       { min: 450, ideal: 680,  max: 850 },
-  chemex:       { min: 550, ideal: 750,  max: 900 },
-  aiden:        { min: 450, ideal: 680,  max: 850 },
-  french_press: { min: 690, ideal: 950,  max: 1300 },
-  dallah:       { min: 500, ideal: 700,  max: 900 }
+  turkish: { min: 40, ideal: 130, max: 220 }, espresso: { min: 180, ideal: 280, max: 380 },
+  moka: { min: 360, ideal: 480, max: 660 }, aeropress: { min: 400, ideal: 600, max: 900 },
+  v60: { min: 400, ideal: 650, max: 800 }, origami: { min: 400, ideal: 650, max: 800 },
+  b75: { min: 450, ideal: 700, max: 850 }, kalita: { min: 450, ideal: 680, max: 850 },
+  chemex: { min: 550, ideal: 750, max: 900 }, aiden: { min: 450, ideal: 680, max: 850 },
+  french_press: { min: 690, ideal: 950, max: 1300 }
 };
 
-/* تعديل الميكرون المستهدف حسب درجة التحميص:
-   فاتح → أنعم قليلاً (استخراج أصعب) · غامق → أخشن قليلاً */
-const ROAST_MICRON_SHIFT = {
-  nordic: -80, light: -50, light_medium: -20,
-  medium: 0, medium_dark: 30, dark: 60
+const ROAST_MICRON_SHIFT = { nordic: -80, light: -50, light_medium: -20, medium: 0, medium_dark: 30, dark: 60 };
+
+const METHOD_NAMES = { v60: 'Hario V60', origami: 'Origami', b75: 'Hario B75', kalita: 'Kalita Wave', aeropress: 'AeroPress', french_press: 'French Press', moka: 'Moka Pot', espresso: 'Espresso', aiden: 'Fellow Aiden', turkish: 'ركوة تركية', chemex: 'Chemex' };
+const ORIGIN_NAMES = { ethiopia: 'إثيوبيا', kenya: 'كينيا', colombia: 'كولومبيا', brazil: 'البرازيل', yemen: 'اليمن', panama: 'بنما', costa_rica: 'كوستاريكا', indonesia: 'إندونيسيا', rwanda: 'رواندا', el_salvador: 'السلفادور', guatemala: 'غواتيمالا', honduras: 'هندوراس', other: 'أخرى' };
+const PROCESS_NAMES = { washed: 'مغسولة', natural: 'طبيعية', honey: 'عسلية', anaerobic: 'لاهوائي', wet_hulled: 'شبه مغسولة' };
+const ROAST_NAMES = { nordic: 'فاتح جداً', light: 'فاتح', light_medium: 'فاتح-متوسط', medium: 'متوسط', medium_dark: 'متوسط-غامق', dark: 'غامق' };
+
+const FLAVOR_MAP = {
+  ethiopia_natural: { primary: ['توت بري', 'فراولة', 'مشمش'], secondary: ['عسل', 'شوكولاتة'], subtle: ['ياسمين'] },
+  ethiopia_washed: { primary: ['ياسمين', 'برغموت', 'ليمون'], secondary: ['شاي', 'لافندر'], subtle: ['عسل'] },
+  kenya_washed: { primary: ['كشمش', 'توت', 'طماطم'], secondary: ['نبيذ', 'فواكه'], subtle: ['كراميل'] },
+  colombia_washed: { primary: ['كراميل', 'شوكولاتة', 'مكسرات'], secondary: ['تفاح', 'برتقال'], subtle: ['عسل'] },
+  brazil_natural: { primary: ['شوكولاتة', 'مكسرات', 'كراميل'], secondary: ['تفاح', 'تبغ'], subtle: [] },
+  yemen_natural: { primary: ['فواكه مجففة', 'توابل', 'كاكاو'], secondary: ['تمر', 'نبيذي'], subtle: ['هيل'] },
+  indonesia_washed: { primary: ['شوكولاتة داكنة', 'جوز هند', 'تبغ'], secondary: ['ترابي'], subtle: ['توابل'] }
 };
 
-/* ---------- INIT CHIPS ---------- */
-document.querySelectorAll('.chips').forEach(group => {
-  const isSingle = group.dataset.single === 'true';
-  group.addEventListener('click', (e) => {
-    if (!e.target.classList.contains('chip')) return;
-    if (isSingle) {
-      group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-      e.target.classList.add('selected');
-    } else {
-      e.target.classList.toggle('selected');
-    }
+const originalAr = {};
+
+/* ============================================================
+   STORAGE
+   ============================================================ */
+function loadAll() {
+  state.beans = []; state.waters = []; state.recipes = []; state.iterations = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k) continue;
+    try {
+      const item = JSON.parse(localStorage.getItem(k));
+      if (k.startsWith('bean_')) state.beans.push(item);
+      else if (k.startsWith('water_')) state.waters.push(item);
+      else if (k.startsWith('recipe_')) state.recipes.push(item);
+      else if (k.startsWith('iter_')) state.iterations.push(item);
+      else if (k === 'brewlab_onboarded') state.hasOnboarded = item === true;
+      else if (k === 'brewlab_lang') state.currentLang = item;
+    } catch (e) {}
+  }
+  state.beans.sort((a, b) => new Date(b.updatedAt || b.savedAt) - new Date(a.updatedAt || a.savedAt));
+  state.waters.sort((a, b) => new Date(b.updatedAt || b.savedAt) - new Date(a.updatedAt || a.savedAt));
+  state.recipes.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+  state.iterations.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
+}
+
+function saveItem(item) {
+  try { localStorage.setItem(item.id, JSON.stringify(item)); return true; }
+  catch (e) { alert('فشل الحفظ — التخزين ممتلئ'); return false; }
+}
+
+function deleteItem(id) { try { localStorage.removeItem(id); return true; } catch (e) { return false; } }
+
+/* ============================================================
+   I18N
+   ============================================================ */
+const i18n = { en: {
+  home_title: 'My Coffee', tab_home: 'Home', tab_beans: 'Beans', tab_water: 'Water', tab_settings: 'Settings',
+  beans_title: 'Beans', waters_title: 'Water', settings_title: 'Settings',
+  cancel: 'Cancel', save: 'Save', generate: 'Generate', done: 'Done', edit: 'Edit',
+  bean_edit_title: 'Bean Profile', water_edit_title: 'Water Profile', new_recipe_title: 'New Recipe',
+  search_recipes: 'Search your recipes...',
+  onb_title: 'Your coffee, every detail',
+  onb_text: 'Log your beans, methods, and tastes. Brew Lab becomes your personal reference.',
+  onb_f1_t: 'Micron-precise calculations', onb_f1_d: 'Accurate calibration for every grinder and method',
+  onb_f2_t: 'Water analysis', onb_f2_d: 'Water composition factored into every recipe',
+  onb_f3_t: 'Track your taste evolution', onb_f3_d: 'Every brew builds your personal library',
+  onb_start: 'Get Started', onb_prototype: 'Prototype · Data stays on your device',
+  last_brew: 'LAST BREW', brew_again: 'Brew Again', previous_brews: 'Previous Brews',
+  this_month: 'This month', favorite_method: 'Favorite method', origins_tried: 'Origins tried',
+  no_recipes_title: 'Brew your first cup', no_recipes_text: 'Add a bean profile and water source, then generate your first precision recipe.',
+  no_beans_title: 'Add your first bean', no_beans_text: 'Track every bag. The app remembers details so you do not have to re-enter them.',
+  no_beans_btn: 'Add Bean',
+  no_waters_title: 'Add your water', no_waters_text: 'Water composition (TDS, calcium, magnesium) affects extraction.',
+  no_waters_btn: 'Add Water',
+  add_bean_paywall: 'Reached free limit (5 beans). Upgrade for unlimited.',
+  add_water_paywall: 'Reached free limit (3 waters). Upgrade for unlimited.',
+  recipe_for: 'Recipe for',
+  expected_taste: 'Expected Taste', critical_specs: 'KEY METRICS',
+  grind_microns: 'Target Grind', dose: 'Dose', temp: 'Temperature', water: 'Water',
+  start_brew: 'Start Brewing', brew_history: 'Brew log', add_iteration: '+ Log brew',
+  bean_section: 'BEAN', method_section: 'METHOD', water_section: 'WATER', pref_section: 'PREFERENCES',
+  select_bean: 'Bean', select_water: 'Water', select_grinder: 'Grinder',
+  no_bean_selected: 'Select a bean', no_water_selected: 'Optional',
+  generate_recipe: 'Generate Recipe',
+  no_bean_warning: 'Select or add a bean to generate a recipe.',
+  ready: 'Ready', next_step: 'NEXT STEP', press_start: 'Tap play to start the timer', follow_steps: 'The app guides you step by step',
+  paywall_sub: 'Elevate your coffee craft',
+  pw_f1_t: 'Smart Camera', pw_f1_d: 'Scan bean bags and auto-fill info',
+  pw_f2_t: 'Unlimited profiles', pw_f2_d: 'Save every bean and water you try',
+  pw_f3_t: 'iCloud Sync', pw_f3_d: 'Your data across all devices',
+  coming_soon: 'Coming soon', prototype_note: 'This is a prototype. Share feedback via "Feedback" button.',
+  feedback_title: 'Your Feedback', feedback_intro: 'Your experience matters. Help us improve:',
+  fb_q1: 'What did you like?', fb_q1_ph: 'I liked...',
+  fb_q2: 'What was frustrating or inaccurate?', fb_q2_ph: 'Frustrating was...',
+  fb_q3: 'Are results accurate for your coffee?', fb_q3_ph: 'The grind setting was...',
+  fb_q4: 'If you paid $4.99/mo, which feature convinces you?', fb_q4_ph: 'Smart camera, sync...',
+  send_feedback: 'Send Feedback', feedback_note: 'Will copy to clipboard for WhatsApp/email.',
+  feedback_btn: 'Feedback',
+  photo_bean_title: 'Scan bean bag', photo_bean_sub: 'Auto-extract info · Coming in Pro',
+  photo_water_title: 'Scan water label', photo_water_sub: 'Auto-extract info · Coming in Pro',
+  free_try: 'TRY FREE', pro: 'PRO',
+  bean_label_roaster: 'Roaster', bean_label_lot: 'Lot name', bean_label_origin: 'Origin',
+  bean_label_process: 'Process', bean_label_roast: 'Roast level', bean_label_date: 'Roast date',
+  bean_label_variety: 'Variety', bean_label_altitude: 'Altitude (m)', bean_label_notes: 'Flavor notes',
+  water_label_name: 'Name',
+  pick_origin: 'Origin', pick_process: 'Process', pick_roast: 'Roast', pick_method: 'Method', pick_grinder: 'Grinder',
+  bean_footer_optional: 'All fields except roast level are optional. The app infers the rest.',
+  taste_bright: 'Bright & fruity', taste_balanced: 'Sweet & balanced', taste_heavy: 'Heavy & chocolatey',
+  str_light: 'Light 1:17', str_medium: 'Medium 1:16', str_strong: 'Strong 1:15',
+  cup_200: '200ml', cup_250: '250ml', cup_350: '350ml', cup_500: '500ml',
+  strength_label: 'Strength', cup_size_label: 'Cup size',
+  delete: 'Delete', confirm_delete: 'Delete this? Cannot be undone.',
+  used_in_recipes: 'Used in {n} recipes',
+  no_brews_yet: 'No brews logged for this recipe',
+  grind_explanation: 'Grind setting is a starting point — calibrate to your taste.',
+  espresso_warn: '{g} not suitable for espresso. Use a dedicated espresso grinder.',
+  out_of_range: '{g} cannot reach this micron range.',
+  profile_saved: 'Saved', profile_deleted: 'Deleted', recipe_generated: 'Recipe generated',
+  feedback_sent: 'Feedback copied — paste in WhatsApp or email',
+  settings_general: 'GENERAL', settings_language: 'Language', settings_appearance: 'Appearance',
+  settings_about: 'ABOUT', settings_version: 'Version', settings_clear: 'Clear All Data',
+  settings_pro: 'Brew Lab Pro', settings_pro_sub: 'Smart camera · Unlimited · Sync',
+  confirm_clear: 'Delete all beans, waters, and recipes? Cannot be undone.',
+  cleared: 'All data cleared',
+  main_pour: 'Main Pour', bloom: 'Bloom', tasting_pour: 'Tasting Pour', finished: 'Finished',
+  pour_to: 'Pour to', pour_swirl: 'Swirl gently when done', pour_concentric: 'Concentric circles from center',
+  pour_wait: 'Wait — let CO2 escape', g: 'g',
+  micron_range: '{min}-{max}µm range',
+  age_warn_past_peak: 'Past peak ({d} days)', age_warn_past_peak_d: 'Recipe adjusted to emphasize sweetness.',
+  age_warn_old: 'Beyond freshness ({d} days)', age_warn_old_d: 'Mostly chocolate/caramel notes remain.',
+  age_warn_fresh: 'Very fresh ({d} days)', age_warn_fresh_d: 'Rest a few more days for stable flavor.',
+  age_peak: 'In peak window ({d} days)', age_peak_d: 'Ideal time for clear, balanced flavors.'
+}};
+
+function t(key) {
+  if (state.currentLang === 'en' && i18n.en[key]) return i18n.en[key];
+  return originalAr[key] || key;
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+function escapeHTML(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s) { return escapeHTML(s); }
+
+function formatTimeAgo(iso) {
+  const d = new Date(iso);
+  const diff = Date.now() - d.getTime();
+  const mins = Math.floor(diff / 60000);
+  const hrs = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+  if (state.currentLang === 'ar') {
+    if (mins < 1) return 'الآن';
+    if (mins < 60) return 'قبل ' + mins + ' د';
+    if (hrs < 24) return 'قبل ' + hrs + ' س';
+    if (days < 7) return 'قبل ' + days + ' يوم';
+    return d.toLocaleDateString('ar-SA');
+  }
+  if (mins < 1) return 'now';
+  if (mins < 60) return mins + 'm ago';
+  if (hrs < 24) return hrs + 'h ago';
+  if (days < 7) return days + 'd ago';
+  return d.toLocaleDateString('en-US');
+}
+
+function showSheet(id) { document.getElementById(id).classList.add('active'); }
+function hideSheet(e, id) { if (e && e.target !== e.currentTarget) return; document.getElementById(id).classList.remove('active'); }
+function showPaywall(reason) { showSheet('paywallSheet'); }
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function goScreen(name, pushStack) {
+  if (pushStack === undefined) pushStack = true;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.querySelector('[data-screen="' + name + '"]');
+  if (target) {
+    target.classList.add('active');
+    const sc = target.querySelector('.scroll-content');
+    if (sc) sc.scrollTo(0, 0);
+  }
+  if (pushStack && state.navStack[state.navStack.length - 1] !== name) state.navStack.push(name);
+  if (name === 'home') renderHome();
+  else if (name === 'beans') renderBeans();
+  else if (name === 'waters') renderWaters();
+  else if (name === 'newRecipe') renderNewRecipe();
+  else if (name === 'settings') renderSettings();
+}
+
+function goBack() {
+  if (state.navStack.length > 1) {
+    state.navStack.pop();
+    goScreen(state.navStack[state.navStack.length - 1], false);
+  } else goScreen('home', false);
+}
+
+/* ============================================================
+   HOME
+   ============================================================ */
+function renderHome() {
+  const c = document.getElementById('homeContent');
+  const subtitle = document.getElementById('homeSubtitle');
+  const totalBrews = state.recipes.length;
+
+  if (totalBrews === 0 && state.beans.length === 0) {
+    subtitle.textContent = t('onb_prototype');
+    c.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-icon-wrap"><svg class="icon" style="width:32px;height:32px"><use href="#i-coffee"/></svg></div>' +
+      '<div class="empty-title">' + t('no_recipes_title') + '</div>' +
+      '<div class="empty-text">' + t('no_recipes_text') + '</div>' +
+      '<div style="width:100%; max-width:280px;"><button class="btn-filled" onclick="addBean()"><svg class="icon" style="width:18px;height:18px;fill:white"><use href="#i-plus"/></svg><span>' + t('no_beans_btn') + '</span></button></div>' +
+      '</div>';
+    return;
+  }
+
+  subtitle.textContent = totalBrews + ' ' + (state.currentLang === 'ar' ? 'وصفة' : 'recipes');
+
+  let html = '';
+  const lastRecipe = state.recipes[0];
+  if (lastRecipe) {
+    const bean = state.beans.find(b => b.id === lastRecipe.beanId);
+    const beanName = bean ? (bean.lotName || bean.roaster || '—') : '—';
+    const methodName = METHOD_NAMES[lastRecipe.method] || lastRecipe.method;
+    html += '<div class="featured-recipe" onclick="openRecipe(\'' + lastRecipe.id + '\')">' +
+      '<div class="featured-image"><div class="featured-method">' + methodName + ' · ' + lastRecipe.waterAmount + 'ml</div></div>' +
+      '<div class="featured-content">' +
+      '<div class="featured-top"><div class="featured-eyebrow">' + t('last_brew') + '</div><div class="featured-time">' + formatTimeAgo(lastRecipe.savedAt) + '</div></div>' +
+      '<div class="featured-name">' + escapeHTML(beanName) + '</div>' +
+      '<div class="featured-meta">' + (bean && bean.roaster ? escapeHTML(bean.roaster) + ' · ' : '') + (bean && bean.origin ? (ORIGIN_NAMES[bean.origin] || '') : '') + '</div>' +
+      '<div class="featured-cta">' +
+      '<button class="featured-cta-btn" onclick="event.stopPropagation(); brewRecipeAgain(\'' + lastRecipe.id + '\')"><svg class="icon" style="width:16px;height:16px;fill:white"><use href="#i-repeat"/></svg><span>' + t('brew_again') + '</span></button>' +
+      '<button class="featured-cta-btn secondary" onclick="event.stopPropagation(); openRecipe(\'' + lastRecipe.id + '\')"><svg class="icon" style="width:16px;height:16px"><use href="#i-info"/></svg></button>' +
+      '</div></div></div>';
+  }
+
+  if (state.recipes.length > 1) {
+    html += '<div class="list-section-header"><span>' + t('previous_brews') + '</span></div><div class="list-card">';
+    state.recipes.slice(1, 6).forEach(r => html += recipeRowHTML(r));
+    html += '</div>';
+  }
+
+  if (state.recipes.length > 2) {
+    const methodCounts = {};
+    state.recipes.forEach(r => { methodCounts[r.method] = (methodCounts[r.method] || 0) + 1; });
+    const favMethod = Object.entries(methodCounts).sort((a,b) => b[1] - a[1])[0];
+    const origins = new Set(state.beans.map(b => b.origin).filter(Boolean));
+    html += '<div class="list-section-header">' + t('this_month') + '</div><div class="list-card">';
+    if (favMethod) html += '<div class="list-item"><div class="list-label"><span>' + t('favorite_method') + '</span></div><span class="list-value">' + METHOD_NAMES[favMethod[0]] + ' · ' + favMethod[1] + '</span></div>';
+    html += '<div class="list-item"><div class="list-label"><span>' + t('origins_tried') + '</span></div><span class="list-value">' + origins.size + '</span></div></div>';
+  }
+
+  c.innerHTML = html;
+}
+
+function recipeRowHTML(r) {
+  const bean = state.beans.find(b => b.id === r.beanId);
+  const beanName = bean ? (bean.lotName || bean.roaster || '—') : '—';
+  const methodName = METHOD_NAMES[r.method] || r.method;
+  return '<div class="recipe-row" onclick="openRecipe(\'' + r.id + '\')">' +
+    '<div class="recipe-row-icon"><svg class="icon" style="width:22px;height:22px"><use href="#i-coffee"/></svg></div>' +
+    '<div class="recipe-row-content">' +
+    '<div class="recipe-row-name">' + escapeHTML(beanName) + ' · ' + methodName + '</div>' +
+    '<div class="recipe-row-meta">' + formatTimeAgo(r.savedAt) + (bean && bean.roaster ? ' · ' + escapeHTML(bean.roaster) : '') + '</div>' +
+    '</div><span class="list-chevron"></span></div>';
+}
+
+/* ============================================================
+   BEANS
+   ============================================================ */
+function renderBeans() {
+  const c = document.getElementById('beansContent');
+  const subtitle = document.getElementById('beansSubtitle');
+  const count = state.beans.length, limit = FREE_LIMITS.beans;
+  let cls = 'quota-indicator';
+  if (count >= limit) cls += ' full';
+  else if (count >= limit - 1) cls += ' warn';
+  subtitle.innerHTML = '<span class="' + cls + '">' + count + ' / ' + limit + ' · ' + (state.currentLang === 'ar' ? 'مجاني' : 'free') + '</span>';
+
+  if (count === 0) {
+    c.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-icon-wrap"><svg class="icon" style="width:32px;height:32px"><use href="#i-leaf"/></svg></div>' +
+      '<div class="empty-title">' + t('no_beans_title') + '</div>' +
+      '<div class="empty-text">' + t('no_beans_text') + '</div>' +
+      '<div style="width:100%; max-width:280px;"><button class="btn-filled" onclick="addBean()"><svg class="icon" style="width:18px;height:18px;fill:white"><use href="#i-plus"/></svg><span>' + t('no_beans_btn') + '</span></button></div>' +
+      '</div>';
+    return;
+  }
+
+  let html = '<div class="list-card" style="margin-top:8px;">';
+  state.beans.forEach(b => html += beanRowHTML(b));
+  html += '</div>';
+  c.innerHTML = html;
+}
+
+function beanRowHTML(b) {
+  const name = b.lotName || b.roaster || 'بن';
+  const parts = [];
+  if (b.roaster && b.lotName) parts.push(b.roaster);
+  if (b.origin) parts.push(ORIGIN_NAMES[b.origin] || b.origin);
+  if (b.process) parts.push(PROCESS_NAMES[b.process] || b.process);
+  if (b.roast) parts.push(ROAST_NAMES[b.roast] || b.roast);
+  return '<div class="recipe-row" onclick="editBean(\'' + b.id + '\')">' +
+    '<div class="recipe-row-icon"><svg class="icon" style="width:22px;height:22px"><use href="#i-leaf"/></svg></div>' +
+    '<div class="recipe-row-content"><div class="recipe-row-name">' + escapeHTML(name) + '</div><div class="recipe-row-meta">' + parts.join(' · ') + '</div></div>' +
+    '<span class="list-chevron"></span></div>';
+}
+
+function addBean() {
+  if (state.beans.length >= FREE_LIMITS.beans) { showPaywall(t('add_bean_paywall')); return; }
+  state.beanDraft = null;
+  state.beanFormPhoto = null;
+  renderBeanEdit();
+  goScreen('beanEdit');
+}
+
+function editBean(id) {
+  const b = state.beans.find(x => x.id === id);
+  if (!b) return;
+  state.beanDraft = Object.assign({}, b);
+  state.beanFormPhoto = b.image || null;
+  renderBeanEdit();
+  goScreen('beanEdit');
+}
+
+function renderBeanEdit() {
+  const draft = state.beanDraft || { id: 'bean_' + Date.now(), savedAt: new Date().toISOString() };
+  document.getElementById('beanEditTitle').textContent = draft.lotName || t('bean_edit_title');
+
+  const c = document.getElementById('beanEditContent');
+  let html = '<div class="photo-card" onclick="pickImage(\'bean\')">' +
+    '<div class="photo-icon-wrap"><svg class="icon" style="width:22px;height:22px;fill:white"><use href="#i-camera"/></svg></div>' +
+    '<div class="photo-info"><div class="photo-title"><span>' + t('photo_bean_title') + '</span><span class="pro-badge">' + t('pro') + '</span></div><div class="photo-subtitle">' + t('photo_bean_sub') + '</div></div>' +
+    '<span class="list-chevron"></span></div>';
+
+  if (state.beanFormPhoto) html += '<img class="photo-preview-img" src="' + state.beanFormPhoto + '" alt="">';
+
+  html += '<div class="list-section-header">' + (state.currentLang === 'ar' ? 'المعلومات الأساسية' : 'BASICS') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="form-row"><span class="form-label">' + t('bean_label_roaster') + '</span><input class="form-input" id="bean_roaster" placeholder="..." value="' + escapeAttr(draft.roaster || '') + '"></div>' +
+    '<div class="form-row"><span class="form-label">' + t('bean_label_lot') + '</span><input class="form-input" id="bean_lotName" placeholder="..." value="' + escapeAttr(draft.lotName || '') + '"></div>' +
+    '<div class="list-item" onclick="showOptionPicker(\'origin\',\'' + (draft.origin || '') + '\',\'bean\')"><div class="list-label"><span>' + t('bean_label_origin') + '</span></div><span class="list-value">' + (draft.origin ? (ORIGIN_NAMES[draft.origin] || draft.origin) : '') + '</span><span class="list-chevron"></span></div>' +
+    '<div class="list-item" onclick="showOptionPicker(\'process\',\'' + (draft.process || '') + '\',\'bean\')"><div class="list-label"><span>' + t('bean_label_process') + '</span></div><span class="list-value">' + (draft.process ? (PROCESS_NAMES[draft.process] || draft.process) : '') + '</span><span class="list-chevron"></span></div>' +
+    '</div>';
+
+  html += '<div class="list-section-header">' + (state.currentLang === 'ar' ? 'التحميص' : 'ROAST') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="list-item" onclick="showOptionPicker(\'roast\',\'' + (draft.roast || '') + '\',\'bean\')"><div class="list-label"><span>' + t('bean_label_roast') + ' *</span></div><span class="list-value">' + (draft.roast ? (ROAST_NAMES[draft.roast] || draft.roast) : '') + '</span><span class="list-chevron"></span></div>' +
+    '<div class="form-row"><span class="form-label">' + t('bean_label_date') + '</span><input class="form-input" id="bean_roastDate" type="date" value="' + (draft.roastDate || '') + '"></div>' +
+    '</div>';
+
+  html += '<div class="list-section-header">' + (state.currentLang === 'ar' ? 'تفاصيل إضافية' : 'OPTIONAL') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="form-row"><span class="form-label">' + t('bean_label_variety') + '</span><input class="form-input" id="bean_variety" placeholder="Heirloom..." value="' + escapeAttr(draft.variety || '') + '"></div>' +
+    '<div class="form-row"><span class="form-label">' + t('bean_label_altitude') + '</span><input class="form-input" id="bean_altitude" type="number" inputmode="numeric" placeholder="1900" value="' + escapeAttr(draft.altitude || '') + '"></div>' +
+    '<div class="form-row" style="flex-direction:column; align-items:stretch; padding:11px 16px;"><div style="font-size:13px; color:var(--ios-label-secondary); margin-bottom:4px;">' + t('bean_label_notes') + '</div><input class="form-input" id="bean_flavorNotes" style="text-align:start; padding:4px 0;" placeholder="blackberry, apricot..." value="' + escapeAttr(draft.flavorNotes || '') + '"></div>' +
+    '</div>';
+
+  html += '<div class="list-section-footer">' + t('bean_footer_optional') + '</div>';
+
+  if (state.beanDraft && state.beanDraft.id && state.beans.find(b => b.id === state.beanDraft.id)) {
+    html += '<div style="padding: 24px 16px;"><button class="btn-tinted" style="color:var(--ios-system-red); background:rgba(255,59,48,0.1);" onclick="deleteBeanConfirm(\'' + state.beanDraft.id + '\')"><svg class="icon" style="width:18px;height:18px;fill:var(--ios-system-red)"><use href="#i-trash"/></svg><span>' + t('delete') + '</span></button></div>';
+  }
+
+  c.innerHTML = html;
+}
+
+function saveBean() {
+  const draft = state.beanDraft || { id: 'bean_' + Date.now(), savedAt: new Date().toISOString() };
+  draft.roaster = document.getElementById('bean_roaster').value.trim();
+  draft.lotName = document.getElementById('bean_lotName').value.trim();
+  draft.roastDate = document.getElementById('bean_roastDate').value;
+  draft.variety = document.getElementById('bean_variety').value.trim();
+  draft.altitude = document.getElementById('bean_altitude').value.trim();
+  draft.flavorNotes = document.getElementById('bean_flavorNotes').value.trim();
+  draft.image = state.beanFormPhoto;
+  draft.updatedAt = new Date().toISOString();
+
+  if (!draft.roast) { alert(state.currentLang === 'ar' ? 'الرجاء اختيار درجة التحميص' : 'Please select roast level'); return; }
+  if (!draft.lotName && !draft.roaster) { alert(state.currentLang === 'ar' ? 'أدخل اسم المحصول أو المحمصة' : 'Enter lot name or roaster'); return; }
+
+  if (saveItem(draft)) {
+    state.beanDraft = null;
+    state.beanFormPhoto = null;
+    loadAll();
+    showToast(t('profile_saved'));
+    goBack();
+  }
+}
+
+function deleteBeanConfirm(id) {
+  if (!confirm(t('confirm_delete'))) return;
+  deleteItem(id);
+  state.beanDraft = null;
+  loadAll();
+  showToast(t('profile_deleted'));
+  goBack();
+}
+
+/* ============================================================
+   WATERS
+   ============================================================ */
+function renderWaters() {
+  const c = document.getElementById('watersContent');
+  const subtitle = document.getElementById('watersSubtitle');
+  const count = state.waters.length, limit = FREE_LIMITS.waters;
+  let cls = 'quota-indicator';
+  if (count >= limit) cls += ' full';
+  else if (count >= limit - 1) cls += ' warn';
+  subtitle.innerHTML = '<span class="' + cls + '">' + count + ' / ' + limit + ' · ' + (state.currentLang === 'ar' ? 'مجاني' : 'free') + '</span>';
+
+  if (count === 0) {
+    c.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-icon-wrap"><svg class="icon" style="width:32px;height:32px"><use href="#i-drop"/></svg></div>' +
+      '<div class="empty-title">' + t('no_waters_title') + '</div>' +
+      '<div class="empty-text">' + t('no_waters_text') + '</div>' +
+      '<div style="width:100%; max-width:280px;"><button class="btn-filled" onclick="addWater()"><svg class="icon" style="width:18px;height:18px;fill:white"><use href="#i-plus"/></svg><span>' + t('no_waters_btn') + '</span></button></div>' +
+      '</div>';
+    return;
+  }
+
+  let html = '<div class="list-card" style="margin-top:8px;">';
+  state.waters.forEach(w => html += waterRowHTML(w));
+  html += '</div>';
+  c.innerHTML = html;
+}
+
+function waterRowHTML(w) {
+  const parts = [];
+  if (w.tds != null && w.tds !== '') parts.push('TDS ' + w.tds);
+  if (w.ca != null && w.ca !== '') parts.push('Ca ' + w.ca);
+  if (w.mg != null && w.mg !== '') parts.push('Mg ' + w.mg);
+  return '<div class="recipe-row" onclick="editWater(\'' + w.id + '\')">' +
+    '<div class="recipe-row-icon" style="background:rgba(0,122,255,0.12); color:var(--ios-system-blue);"><svg class="icon" style="width:22px;height:22px"><use href="#i-drop"/></svg></div>' +
+    '<div class="recipe-row-content"><div class="recipe-row-name">' + escapeHTML(w.name || 'ماء') + '</div><div class="recipe-row-meta">' + (parts.join(' · ') || '—') + '</div></div>' +
+    '<span class="list-chevron"></span></div>';
+}
+
+function addWater() {
+  if (state.waters.length >= FREE_LIMITS.waters) { showPaywall(t('add_water_paywall')); return; }
+  state.waterDraft = null;
+  state.waterFormPhoto = null;
+  renderWaterEdit();
+  goScreen('waterEdit');
+}
+
+function editWater(id) {
+  const w = state.waters.find(x => x.id === id);
+  if (!w) return;
+  state.waterDraft = Object.assign({}, w);
+  state.waterFormPhoto = w.image || null;
+  renderWaterEdit();
+  goScreen('waterEdit');
+}
+
+function renderWaterEdit() {
+  const draft = state.waterDraft || { id: 'water_' + Date.now(), savedAt: new Date().toISOString() };
+  document.getElementById('waterEditTitle').textContent = draft.name || t('water_edit_title');
+
+  const c = document.getElementById('waterEditContent');
+  let html = '<div class="photo-card" onclick="pickImage(\'water\')">' +
+    '<div class="photo-icon-wrap" style="background:var(--ios-system-blue);"><svg class="icon" style="width:22px;height:22px;fill:white"><use href="#i-camera"/></svg></div>' +
+    '<div class="photo-info"><div class="photo-title"><span>' + t('photo_water_title') + '</span><span class="pro-badge">' + t('pro') + '</span></div><div class="photo-subtitle">' + t('photo_water_sub') + '</div></div>' +
+    '<span class="list-chevron"></span></div>';
+
+  if (state.waterFormPhoto) html += '<img class="photo-preview-img" src="' + state.waterFormPhoto + '" alt="">';
+
+  html += '<div class="list-card" style="margin-top:24px;">' +
+    '<div class="form-row"><span class="form-label">' + t('water_label_name') + ' *</span><input class="form-input" id="water_name" placeholder="..." value="' + escapeAttr(draft.name || '') + '"></div>' +
+    '</div>';
+
+  html += '<div class="list-section-header">' + (state.currentLang === 'ar' ? 'التركيبة المعدنية' : 'COMPOSITION') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="form-row"><span class="form-label">TDS</span><input class="form-input" id="water_tds" type="number" inputmode="decimal" step="any" placeholder="120" value="' + escapeAttr(draft.tds == null ? '' : draft.tds) + '"><span class="form-unit">ppm</span></div>' +
+    '<div class="form-row"><span class="form-label">Ca²⁺</span><input class="form-input" id="water_ca" type="number" inputmode="decimal" step="any" placeholder="27" value="' + escapeAttr(draft.ca == null ? '' : draft.ca) + '"><span class="form-unit">mg/L</span></div>' +
+    '<div class="form-row"><span class="form-label">Mg²⁺</span><input class="form-input" id="water_mg" type="number" inputmode="decimal" step="any" placeholder="2.3" value="' + escapeAttr(draft.mg == null ? '' : draft.mg) + '"><span class="form-unit">mg/L</span></div>' +
+    '<div class="form-row"><span class="form-label">HCO₃⁻</span><input class="form-input" id="water_bicarb" type="number" inputmode="decimal" step="any" placeholder="50" value="' + escapeAttr(draft.bicarb == null ? '' : draft.bicarb) + '"><span class="form-unit">mg/L</span></div>' +
+    '<div class="form-row"><span class="form-label">Na⁺</span><input class="form-input" id="water_na" type="number" inputmode="decimal" step="any" placeholder="9.5" value="' + escapeAttr(draft.na == null ? '' : draft.na) + '"><span class="form-unit">mg/L</span></div>' +
+    '<div class="form-row"><span class="form-label">pH</span><input class="form-input" id="water_ph" type="number" inputmode="decimal" step="any" placeholder="7.0" value="' + escapeAttr(draft.ph == null ? '' : draft.ph) + '"></div>' +
+    '</div>';
+
+  if (state.waterDraft && state.waterDraft.id && state.waters.find(w => w.id === state.waterDraft.id)) {
+    html += '<div style="padding: 24px 16px;"><button class="btn-tinted" style="color:var(--ios-system-red); background:rgba(255,59,48,0.1);" onclick="deleteWaterConfirm(\'' + state.waterDraft.id + '\')"><svg class="icon" style="width:18px;height:18px;fill:var(--ios-system-red)"><use href="#i-trash"/></svg><span>' + t('delete') + '</span></button></div>';
+  }
+
+  c.innerHTML = html;
+}
+
+function saveWater() {
+  const draft = state.waterDraft || { id: 'water_' + Date.now(), savedAt: new Date().toISOString() };
+  draft.name = document.getElementById('water_name').value.trim();
+  draft.tds = parseFloat(document.getElementById('water_tds').value) || null;
+  draft.ca = parseFloat(document.getElementById('water_ca').value) || null;
+  draft.mg = parseFloat(document.getElementById('water_mg').value) || null;
+  draft.bicarb = parseFloat(document.getElementById('water_bicarb').value) || null;
+  draft.na = parseFloat(document.getElementById('water_na').value) || null;
+  draft.ph = parseFloat(document.getElementById('water_ph').value) || null;
+  draft.image = state.waterFormPhoto;
+  draft.updatedAt = new Date().toISOString();
+
+  if (!draft.name) { alert(state.currentLang === 'ar' ? 'أدخل اسم الماء' : 'Enter water name'); return; }
+
+  if (saveItem(draft)) {
+    state.waterDraft = null;
+    state.waterFormPhoto = null;
+    loadAll();
+    showToast(t('profile_saved'));
+    goBack();
+  }
+}
+
+function deleteWaterConfirm(id) {
+  if (!confirm(t('confirm_delete'))) return;
+  deleteItem(id);
+  state.waterDraft = null;
+  loadAll();
+  showToast(t('profile_deleted'));
+  goBack();
+}
+
+/* ============================================================
+   IMAGE PICKER — Stub for future Claude API integration
+   ============================================================ */
+function pickImage(type) {
+  const input = document.getElementById('imageUploadInput');
+  input.value = '';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target.result;
+      if (type === 'bean') { state.beanFormPhoto = dataUrl; renderBeanEdit(); }
+      else { state.waterFormPhoto = dataUrl; renderWaterEdit(); }
+      // TODO: extractFromImage(dataUrl, type).then(data => fillForm(type, data));
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+/**
+ * STUB — User will wire to Claude API later.
+ * Send dataUrl + type, receive JSON with extracted fields.
+ *
+ * async function extractFromImage(dataUrl, type) {
+ *   // POST to backend that calls Claude with vision prompt
+ *   // For bean: extract roaster, lotName, origin, process, roast, roastDate, variety, altitude, flavorNotes
+ *   // For water: extract name, tds, ca, mg, bicarb, na, ph
+ *   const response = await fetch('/api/extract', {
+ *     method: 'POST',
+ *     headers: { 'Content-Type': 'application/json' },
+ *     body: JSON.stringify({ image: dataUrl, type })
+ *   });
+ *   return await response.json();
+ * }
+ */
+
+/* ============================================================
+   NEW RECIPE
+   ============================================================ */
+function startNewRecipe() {
+  if (state.beans.length === 0) {
+    if (confirm(state.currentLang === 'ar' ? 'تحتاج ملف بن واحد على الأقل. أضفه الآن؟' : 'You need at least one bean profile. Add now?')) addBean();
+    return;
+  }
+  state.recipeDraft = {
+    beanId: state.beans[0].id,
+    waterId: state.waters[0] ? state.waters[0].id : null,
+    method: 'v60',
+    grinder: null,
+    taste: 'balanced',
+    strength: 'medium',
+    cupSize: 'medium'
+  };
+  renderNewRecipe();
+  goScreen('newRecipe');
+}
+
+function renderNewRecipe() {
+  const c = document.getElementById('newRecipeContent');
+  const d = state.recipeDraft;
+  const bean = state.beans.find(b => b.id === d.beanId);
+  const water = state.waters.find(w => w.id === d.waterId);
+  const grinder = d.grinder ? GRINDERS[d.grinder] : null;
+
+  let html = '';
+
+  html += '<div class="list-section-header">' + t('bean_section') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="list-item" onclick="showOptionPicker(\'bean\',\'' + (d.beanId || '') + '\',\'recipe\')">' +
+    '<div class="list-label"><span>' + t('select_bean') + '</span>';
+  if (bean) {
+    const meta = [bean.roaster, ORIGIN_NAMES[bean.origin], PROCESS_NAMES[bean.process], ROAST_NAMES[bean.roast]].filter(Boolean).join(' · ');
+    html += '<span class="list-sublabel">' + escapeHTML(meta) + '</span>';
+  }
+  html += '</div><span class="list-value">' + (bean ? escapeHTML(bean.lotName || bean.roaster || '—') : t('no_bean_selected')) + '</span><span class="list-chevron"></span></div></div>';
+
+  if (!bean) html += '<div class="note-inline danger"><svg class="icon note-inline-icon"><use href="#i-info"/></svg><span>' + t('no_bean_warning') + '</span></div>';
+
+  html += '<div class="list-section-header">' + t('method_section') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="list-item" onclick="showOptionPicker(\'method\',\'' + d.method + '\',\'recipe\')"><div class="list-label"><span>' + (state.currentLang === 'ar' ? 'الطريقة' : 'Method') + '</span></div><span class="list-value">' + (METHOD_NAMES[d.method] || d.method) + '</span><span class="list-chevron"></span></div>' +
+    '<div class="list-item" onclick="showOptionPicker(\'grinder\',\'' + (d.grinder || '') + '\',\'recipe\')"><div class="list-label"><span>' + t('select_grinder') + '</span></div><span class="list-value">' + (grinder ? grinder.name : (state.currentLang === 'ar' ? 'بدون' : 'None')) + '</span><span class="list-chevron"></span></div>' +
+    '</div>';
+
+  html += '<div class="list-section-header">' + t('water_section') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="list-item" onclick="showOptionPicker(\'water\',\'' + (d.waterId || '') + '\',\'recipe\')"><div class="list-label"><span>' + t('select_water') + '</span></div><span class="list-value">' + (water ? escapeHTML(water.name) : t('no_water_selected')) + '</span><span class="list-chevron"></span></div>' +
+    '</div>';
+
+  html += '<div class="list-section-header">' + t('pref_section') + '</div>' +
+    '<div style="padding: 8px 16px 4px; font-size:13px; color:var(--ios-label-secondary);">' + (state.currentLang === 'ar' ? 'الملف الذوقي' : 'Taste profile') + '</div>' +
+    '<div class="chips-row" style="padding-top:0;">' +
+    '<button class="chip ' + (d.taste === 'bright' ? 'selected' : '') + '" onclick="setRecipeOption(\'taste\',\'bright\')">' + t('taste_bright') + '</button>' +
+    '<button class="chip ' + (d.taste === 'balanced' ? 'selected' : '') + '" onclick="setRecipeOption(\'taste\',\'balanced\')">' + t('taste_balanced') + '</button>' +
+    '<button class="chip ' + (d.taste === 'heavy' ? 'selected' : '') + '" onclick="setRecipeOption(\'taste\',\'heavy\')">' + t('taste_heavy') + '</button>' +
+    '</div>';
+
+  html += '<div style="padding: 8px 16px 4px; font-size:13px; color:var(--ios-label-secondary);">' + t('strength_label') + '</div>' +
+    '<div class="segmented">' +
+    '<button class="segmented-item ' + (d.strength === 'light' ? 'active' : '') + '" onclick="setRecipeOption(\'strength\',\'light\')">' + t('str_light') + '</button>' +
+    '<button class="segmented-item ' + (d.strength === 'medium' ? 'active' : '') + '" onclick="setRecipeOption(\'strength\',\'medium\')">' + t('str_medium') + '</button>' +
+    '<button class="segmented-item ' + (d.strength === 'strong' ? 'active' : '') + '" onclick="setRecipeOption(\'strength\',\'strong\')">' + t('str_strong') + '</button>' +
+    '</div>';
+
+  html += '<div style="padding: 8px 16px 4px; font-size:13px; color:var(--ios-label-secondary);">' + t('cup_size_label') + '</div>' +
+    '<div class="segmented">' +
+    '<button class="segmented-item ' + (d.cupSize === 'single' ? 'active' : '') + '" onclick="setRecipeOption(\'cupSize\',\'single\')">' + t('cup_200') + '</button>' +
+    '<button class="segmented-item ' + (d.cupSize === 'medium' ? 'active' : '') + '" onclick="setRecipeOption(\'cupSize\',\'medium\')">' + t('cup_250') + '</button>' +
+    '<button class="segmented-item ' + (d.cupSize === 'large' ? 'active' : '') + '" onclick="setRecipeOption(\'cupSize\',\'large\')">' + t('cup_350') + '</button>' +
+    '<button class="segmented-item ' + (d.cupSize === 'double' ? 'active' : '') + '" onclick="setRecipeOption(\'cupSize\',\'double\')">' + t('cup_500') + '</button>' +
+    '</div>';
+
+  html += '<div style="padding: 24px 16px 32px;"><button class="btn-filled" onclick="generateRecipe()" ' + (!d.beanId ? 'disabled' : '') + '><svg class="icon" style="width:18px;height:18px;fill:white"><use href="#i-sparkle"/></svg><span>' + t('generate_recipe') + '</span></button></div>';
+
+  c.innerHTML = html;
+  document.getElementById('generateBtn').disabled = !d.beanId;
+}
+
+function setRecipeOption(key, value) {
+  state.recipeDraft[key] = value;
+  renderNewRecipe();
+}
+
+/* ============================================================
+   PICKERS
+   ============================================================ */
+function showOptionPicker(type, currentVal, context) {
+  let options = [], title = '';
+  if (type === 'origin') { title = t('pick_origin'); options = Object.entries(ORIGIN_NAMES).map(([k, v]) => ({ value: k, label: v })); }
+  else if (type === 'process') { title = t('pick_process'); options = Object.entries(PROCESS_NAMES).map(([k, v]) => ({ value: k, label: v })); }
+  else if (type === 'roast') { title = t('pick_roast'); options = Object.entries(ROAST_NAMES).map(([k, v]) => ({ value: k, label: v })); }
+  else if (type === 'method') { title = t('pick_method'); options = Object.entries(METHOD_NAMES).map(([k, v]) => ({ value: k, label: v })); }
+  else if (type === 'grinder') { title = t('pick_grinder'); options = [{ value: '', label: state.currentLang === 'ar' ? 'بدون' : 'None' }].concat(Object.entries(GRINDERS).map(([k, v]) => ({ value: k, label: v.name }))); }
+  else if (type === 'bean') { title = t('select_bean'); options = state.beans.map(b => ({ value: b.id, label: b.lotName || b.roaster || 'بن', sublabel: [b.roaster, ORIGIN_NAMES[b.origin]].filter(Boolean).join(' · ') })); }
+  else if (type === 'water') { title = t('select_water'); options = [{ value: '', label: state.currentLang === 'ar' ? 'بدون' : 'None' }].concat(state.waters.map(w => ({ value: w.id, label: w.name }))); }
+
+  document.getElementById('pickerTitle').textContent = title;
+  let html = '<div class="picker-options">';
+  options.forEach(o => {
+    html += '<div class="picker-option ' + (o.value === currentVal ? 'selected' : '') + '" onclick="pickerSelect(\'' + type + '\',\'' + o.value + '\',\'' + context + '\')"><div><div>' + escapeHTML(o.label) + '</div>';
+    if (o.sublabel) html += '<div style="font-size:13px; color:var(--ios-label-secondary); margin-top:2px;">' + escapeHTML(o.sublabel) + '</div>';
+    html += '</div>';
+    if (o.value === currentVal) html += '<svg class="icon picker-check"><use href="#i-check"/></svg>';
+    html += '</div>';
   });
-});
-
-/* ---------- NAVIGATION ---------- */
-function goToStep(n) {
-  if (n < 1 || n > 5) return;
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.querySelector(`[data-panel="${n}"]`).classList.add('active');
-  document.querySelector(`.step[data-step="${n}"]`).classList.add('active');
-  for (let i = 1; i < n; i++) {
-    document.querySelector(`.step[data-step="${i}"]`).classList.add('completed');
-  }
-  currentStep = n;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-function nextStep() { collectStepData(); if (currentStep < 5) goToStep(currentStep + 1); }
-function prevStep() { if (currentStep > 1) goToStep(currentStep - 1); }
-
-function getChipValues(id) {
-  return Array.from(document.querySelectorAll(`#${id} .chip.selected`)).map(c => c.dataset.value);
-}
-function getChipValue(id) {
-  const sel = document.querySelector(`#${id} .chip.selected`);
-  return sel ? sel.dataset.value : null;
+  html += '</div>';
+  document.getElementById('pickerBody').innerHTML = html;
+  showSheet('pickerSheet');
 }
 
-function collectStepData() {
-  if (currentStep === 1) {
-    userData.bean = {
-      roaster: document.getElementById('roaster').value,
-      lotName: document.getElementById('lotName').value,
-      origin: document.getElementById('origin').value,
-      process: document.getElementById('process').value,
-      roast: document.getElementById('roast').value,
-      roastDate: document.getElementById('roastDate').value,
-      variety: document.getElementById('variety').value,
-      altitude: document.getElementById('altitude').value,
-      flavorNotes: document.getElementById('flavorNotes').value
-    };
-  } else if (currentStep === 2) {
-    userData.equipment = {
-      brewMethods: getChipValues('brewMethods'),
-      grinders: getChipValues('grinders'),
-      filters: getChipValues('filters')
-    };
-  } else if (currentStep === 3) {
-    userData.water = {
-      name: document.getElementById('waterName').value,
-      tds: parseFloat(document.getElementById('waterTds').value) || null,
-      ca: parseFloat(document.getElementById('waterCa').value) || null,
-      mg: parseFloat(document.getElementById('waterMg').value) || null,
-      bicarb: parseFloat(document.getElementById('waterBicarb').value) || null,
-      na: parseFloat(document.getElementById('waterNa').value) || null,
-      hardness: parseFloat(document.getElementById('waterHardness').value) || null,
-      ph: parseFloat(document.getElementById('waterPh').value) || null
-    };
-  } else if (currentStep === 4) {
-    userData.preferences = {
-      taste: getChipValue('tasteProfile') || 'balanced',
-      strength: getChipValue('strength') || 'medium',
-      cupSize: getChipValue('cupSize') || 'medium'
-    };
+function pickerSelect(type, value, context) {
+  hideSheet(null, 'pickerSheet');
+  if (context === 'bean') {
+    if (!state.beanDraft) state.beanDraft = { id: 'bean_' + Date.now(), savedAt: new Date().toISOString() };
+    state.beanDraft[type] = value;
+    renderBeanEdit();
+  } else if (context === 'recipe') {
+    if (type === 'bean') state.recipeDraft.beanId = value;
+    else if (type === 'water') state.recipeDraft.waterId = value || null;
+    else if (type === 'grinder') state.recipeDraft.grinder = value || null;
+    else state.recipeDraft[type] = value;
+    renderNewRecipe();
   }
 }
 
 /* ============================================================
-   IMAGE UPLOAD — الخيار (أ): عرض الصورة + تعبئة يدوية
-   الكود مهيّأ لإضافة الاستخراج التلقائي لاحقاً عبر extractFromImage()
-   ============================================================ */
-function handleImageUpload(event, type) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    uploadedImages[type] = e.target.result;
-    renderImagePreview(type);
-    // مكان ربط الاستخراج التلقائي مستقبلاً:
-    // extractFromImage(e.target.result, type);
-  };
-  reader.readAsDataURL(file);
-}
-
-function renderImagePreview(type) {
-  const zone = document.getElementById(type + 'ImageZone');
-  const img = uploadedImages[type];
-  if (!img) return;
-  zone.classList.add('has-image');
-  const label = type === 'bean' ? 'كيس البن' : 'عبوة الماء';
-  zone.innerHTML = `
-    <div class="image-preview-wrap">
-      <img src="${img}" class="image-preview" alt="${label}">
-      <div class="image-preview-actions">
-        <div class="image-note">
-          ✓ تم رفع صورة ${label}. عبِّ الحقول بالأسفل وأنت تشوف الملصق.
-          <br><strong>الاستخراج التلقائي للمعلومات قريباً.</strong>
-        </div>
-        <button class="btn btn-small" onclick="event.stopPropagation(); changeImage('${type}')">↻ تغيير الصورة</button>
-        <button class="btn btn-small btn-ghost" onclick="event.stopPropagation(); removeImage('${type}')">✕ إزالة</button>
-      </div>
-    </div>
-  `;
-}
-
-function changeImage(type) {
-  document.getElementById(type + 'ImageInput').click();
-}
-
-function removeImage(type) {
-  uploadedImages[type] = null;
-  const zone = document.getElementById(type + 'ImageZone');
-  zone.classList.remove('has-image');
-  const label = type === 'bean' ? 'صوّر أو ارفع صورة كيس البن' : 'صوّر أو ارفع صورة ملصق عبوة الماء';
-  zone.innerHTML = `
-    <div class="image-zone-icon">📷</div>
-    <div class="image-zone-text">${label}</div>
-    <div class="image-zone-hint">سيظهر الملصق هنا لتعبئة الحقول بسهولة · الاستخراج التلقائي قريباً</div>
-  `;
-  document.getElementById(type + 'ImageInput').value = '';
-}
-
-/* مكان دالة الاستخراج التلقائي المستقبلية — تُربط بـ Claude API
-function async extractFromImage(base64Image, type) {
-  // إرسال الصورة لـ Claude API، استقبال JSON بالحقول، تعبئتها تلقائياً
-}
-*/
-
-/* ============================================================
-   BEAN PROFILES — حفظ واستدعاء ملفات البن
-   ============================================================ */
-function saveBeanProfile() {
-  collectStepData();
-  const b = userData.bean;
-  if (!b || (!b.lotName && !b.roaster)) {
-    alert('أدخل على الأقل اسم المحصول أو المحمصة قبل الحفظ');
-    return;
-  }
-  const profileName = prompt('اسم ملف البن:', b.lotName || b.roaster || 'بن جديد');
-  if (!profileName) return;
-  const profile = {
-    id: 'beanprofile_' + Date.now(),
-    name: profileName,
-    data: b,
-    image: uploadedImages.bean || null,
-    savedAt: new Date().toISOString()
-  };
-  try {
-    localStorage.setItem(profile.id, JSON.stringify(profile));
-    loadAllProfiles();
-    alert('✓ تم حفظ ملف البن: ' + profileName);
-  } catch (e) {
-    beanProfiles.push(profile);
-    refreshProfileSelectors();
-  }
-}
-
-function loadBeanProfile(id) {
-  if (!id) return;
-  const p = beanProfiles.find(x => x.id === id);
-  if (!p) return;
-  const b = p.data;
-  document.getElementById('roaster').value = b.roaster || '';
-  document.getElementById('lotName').value = b.lotName || '';
-  document.getElementById('origin').value = b.origin || '';
-  document.getElementById('process').value = b.process || '';
-  document.getElementById('roast').value = b.roast || '';
-  document.getElementById('roastDate').value = b.roastDate || '';
-  document.getElementById('variety').value = b.variety || '';
-  document.getElementById('altitude').value = b.altitude || '';
-  document.getElementById('flavorNotes').value = b.flavorNotes || '';
-  if (p.image) {
-    uploadedImages.bean = p.image;
-    renderImagePreview('bean');
-  }
-  userData.bean = { ...b };
-}
-
-/* ============================================================
-   WATER PROFILES — حفظ واستدعاء ملفات الماء
-   ============================================================ */
-function saveWaterProfile() {
-  collectStepData();
-  const w = userData.water;
-  if (!w || !w.name) {
-    alert('أدخل اسم الماء على الأقل قبل الحفظ');
-    return;
-  }
-  const profileName = prompt('اسم ملف الماء:', w.name || 'ماء جديد');
-  if (!profileName) return;
-  const profile = {
-    id: 'waterprofile_' + Date.now(),
-    name: profileName,
-    data: w,
-    image: uploadedImages.water || null,
-    savedAt: new Date().toISOString()
-  };
-  try {
-    localStorage.setItem(profile.id, JSON.stringify(profile));
-    loadAllProfiles();
-    alert('✓ تم حفظ ملف الماء: ' + profileName);
-  } catch (e) {
-    waterProfiles.push(profile);
-    refreshProfileSelectors();
-  }
-}
-
-function loadWaterProfile(id) {
-  if (!id) return;
-  const p = waterProfiles.find(x => x.id === id);
-  if (!p) return;
-  const w = p.data;
-  document.getElementById('waterName').value = w.name || '';
-  document.getElementById('waterTds').value = w.tds || '';
-  document.getElementById('waterCa').value = w.ca || '';
-  document.getElementById('waterMg').value = w.mg || '';
-  document.getElementById('waterBicarb').value = w.bicarb || '';
-  document.getElementById('waterNa').value = w.na || '';
-  document.getElementById('waterHardness').value = w.hardness || '';
-  document.getElementById('waterPh').value = w.ph || '';
-  if (p.image) {
-    uploadedImages.water = p.image;
-    renderImagePreview('water');
-  }
-  userData.water = { ...w };
-}
-
-function loadAllProfiles() {
-  beanProfiles = [];
-  waterProfiles = [];
-  savedRecipes = [];
-  try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const k = localStorage.key(i);
-      if (!k) continue;
-      try {
-        const item = JSON.parse(localStorage.getItem(k));
-        if (k.startsWith('beanprofile_')) beanProfiles.push(item);
-        else if (k.startsWith('waterprofile_')) waterProfiles.push(item);
-        else if (k.startsWith('recipe_')) savedRecipes.push(item);
-      } catch (e) {}
-    }
-    beanProfiles.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
-    waterProfiles.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
-    savedRecipes.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
-  } catch (e) {
-    console.log('Storage not available');
-  }
-  refreshProfileSelectors();
-  renderSavedRecipes();
-}
-
-function refreshProfileSelectors() {
-  const beanSel = document.getElementById('beanProfileSelect');
-  const waterSel = document.getElementById('waterProfileSelect');
-  if (beanSel) {
-    beanSel.innerHTML = '<option value="">— اختر ملف بن سابق —</option>' +
-      beanProfiles.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
-  }
-  if (waterSel) {
-    waterSel.innerHTML = '<option value="">— اختر ملف ماء سابق —</option>' +
-      waterProfiles.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
-  }
-}
-
-/* ============================================================
-   RECIPE GENERATION ENGINE — محرك مصحّح بنظام الميكرون
+   RECIPE GENERATION (CORE LOGIC)
    ============================================================ */
 function generateRecipe() {
-  collectStepData();
-  const bean = userData.bean || {};
-  const equip = userData.equipment || {};
-  const water = userData.water || {};
-  const pref = userData.preferences || {};
+  const d = state.recipeDraft;
+  if (!d.beanId) return;
+  const bean = state.beans.find(b => b.id === d.beanId);
+  if (!bean) return;
+  const water = d.waterId ? state.waters.find(w => w.id === d.waterId) : null;
 
-  // عمر التحميص
+  // Roast age
   let daysSinceRoast = null, roastAgeStatus = '';
   if (bean.roastDate) {
-    const roastD = new Date(bean.roastDate);
-    const today = new Date();
-    daysSinceRoast = Math.floor((today - roastD) / (1000 * 60 * 60 * 24));
-    if (daysSinceRoast < 7) roastAgeStatus = 'too_fresh';
-    else if (daysSinceRoast < 21) roastAgeStatus = 'peak';
-    else if (daysSinceRoast < 45) roastAgeStatus = 'good';
-    else if (daysSinceRoast < 90) roastAgeStatus = 'aging';
+    const days = Math.floor((Date.now() - new Date(bean.roastDate)) / 86400000);
+    daysSinceRoast = days;
+    if (days < 7) roastAgeStatus = 'too_fresh';
+    else if (days < 21) roastAgeStatus = 'peak';
+    else if (days < 45) roastAgeStatus = 'good';
+    else if (days < 90) roastAgeStatus = 'aging';
     else roastAgeStatus = 'old';
   }
 
-  // النسبة
+  // Ratio + dose
   let ratio = 16;
-  if (pref.strength === 'light') ratio = 17;
-  if (pref.strength === 'strong') ratio = 15;
-  if (pref.taste === 'espresso') ratio = 2.2;
-
+  if (d.strength === 'light') ratio = 17;
+  if (d.strength === 'strong') ratio = 15;
   const cupSizeMap = { single: 200, medium: 250, large: 350, double: 500 };
-  const waterAmount = cupSizeMap[pref.cupSize] || 250;
+  const waterAmount = cupSizeMap[d.cupSize] || 250;
   let dose = waterAmount / ratio;
+  if (d.method === 'espresso') dose = 18;
+  if (d.method === 'moka') dose = 20;
 
-  // اختيار الطريقة
-  const methodPriority = {
-    bright: ['v60', 'origami', 'b75', 'kalita', 'aiden', 'aeropress'],
-    balanced: ['aiden', 'origami', 'v60', 'kalita', 'aeropress'],
-    heavy: ['french_press', 'aeropress', 'origami', 'aiden'],
-    espresso: ['espresso', 'moka', 'aeropress']
-  };
-  const preferredMethods = methodPriority[pref.taste] || methodPriority.balanced;
-  let selectedMethod = preferredMethods.find(m => equip.brewMethods && equip.brewMethods.includes(m))
-    || (equip.brewMethods && equip.brewMethods[0]) || 'v60';
-
-  if (selectedMethod === 'espresso') dose = 18;
-  if (selectedMethod === 'moka') dose = 20;
-
-  // الحرارة حسب التحميص
+  // Temperature
   const tempMap = { nordic: 96, light: 95, light_medium: 94, medium: 93, medium_dark: 91, dark: 89 };
   let temp = tempMap[bean.roast] || 93;
   if (roastAgeStatus === 'aging' || roastAgeStatus === 'old') temp += 1;
   if (roastAgeStatus === 'too_fresh') temp -= 1;
 
-  // ===== محرك الطحن المصحّح بنظام الميكرون =====
-  const grindResult = calculateGrind(selectedMethod, bean.roast, roastAgeStatus, equip.grinders || []);
+  // Grind
+  const grindResult = calculateGrind(d.method, bean.roast, roastAgeStatus, d.grinder);
 
-  // اختيار الفلتر
-  const filterPriority = {
-    bright: ['sibarist', 'cafec_light', 'cafec_abaca', 'hario'],
-    balanced: ['cafec_abaca', 'origami_filter', 'hario', 'cafec_light'],
-    heavy: ['cafec_dark', 'hario', 'cafec_abaca'],
-    espresso: []
-  };
-  const prefFilters = filterPriority[pref.taste] || filterPriority.balanced;
-  const selectedFilter = prefFilters.find(f => equip.filters && equip.filters.includes(f))
-    || (equip.filters && equip.filters[0]) || null;
-
-  // تحليل الماء
+  // Water analysis
   let waterAnalysis = null;
-  if (water.tds || water.ca || water.mg) waterAnalysis = analyzeWater(water);
+  if (water && (water.tds || water.ca || water.mg)) waterAnalysis = analyzeWater(water);
   if (waterAnalysis && waterAnalysis.lowMg) temp += 1;
   if (waterAnalysis && waterAnalysis.highBicarb) ratio -= 0.5;
 
-  // جدول الصبات
+  // Pours
   const pours = [];
-  if (['v60', 'origami', 'b75', 'kalita', 'aiden', 'chemex'].includes(selectedMethod)) {
+  if (['v60', 'origami', 'b75', 'kalita', 'aiden', 'chemex'].includes(d.method)) {
     const bloomAmount = Math.round(dose * 3);
     const stage2 = Math.round(waterAmount * 0.6);
-    pours.push({ time: '0:00', name: 'الإزهار · Bloom', detail: 'صبة دائرية سريعة من المركز للخارج · ثم Swirl لطيف', amount: bloomAmount + 'جم', duration: '8-10 ثانية ثم انتظر' });
-    pours.push({ time: '0:45', name: 'الصبة الرئيسية', detail: 'دوائر متحدة المركز · تدفق متوسط 6جم/ثانية', amount: `حتى ${stage2}جم`, duration: '15-18 ثانية' });
-    pours.push({ time: '1:30', name: 'صبة التذوق', detail: 'دوائر صغيرة في المركز · تدفق أبطأ 5جم/ثانية · ثم Swirl خفيف', amount: `حتى ${waterAmount}جم`, duration: '15-20 ثانية' });
+    pours.push({ time: 0, name: t('bloom'), detail: t('pour_swirl'), amount: bloomAmount });
+    pours.push({ time: 45, name: t('main_pour'), detail: t('pour_concentric'), amount: stage2 });
+    pours.push({ time: 67, name: t('pour_wait'), detail: '', amount: stage2 });
+    pours.push({ time: 90, name: t('tasting_pour'), detail: t('pour_swirl'), amount: waterAmount });
+    pours.push({ time: 110, name: t('finished'), detail: '', amount: waterAmount });
   }
 
-  const flavorPrediction = predictFlavor(bean, water, waterAnalysis, roastAgeStatus);
+  const flavor = predictFlavor(bean, roastAgeStatus);
 
-  const methodNames = {
-    v60: 'Hario V60', origami: 'Origami', b75: 'Hario B75', kalita: 'Kalita Wave',
-    aeropress: 'AeroPress', french_press: 'French Press', moka: 'Moka Pot',
-    espresso: 'Espresso', aiden: 'Fellow Aiden', turkish: 'ركوة تركية',
-    dallah: 'دلة عربية', chemex: 'Chemex'
+  const recipe = {
+    id: 'recipe_' + Date.now(),
+    beanId: d.beanId, waterId: d.waterId, method: d.method, grinder: d.grinder,
+    taste: d.taste, strength: d.strength, cupSize: d.cupSize,
+    dose: Math.round(dose * 10) / 10, waterAmount, ratio, temp,
+    targetMicron: grindResult.targetMicron, grindMin: grindResult.minMicron, grindMax: grindResult.maxMicron,
+    grindDisplay: grindResult.display, grindWarning: grindResult.warning,
+    pours, flavor, waterAnalysis, daysSinceRoast, roastAgeStatus,
+    savedAt: new Date().toISOString()
   };
-  const filterNames = {
-    hario: 'Hario Tabbed (أبيض)', cafec_abaca: 'Cafec Abaca T-90', cafec_light: 'Cafec Light Roast',
-    cafec_dark: 'Cafec Dark Roast', sibarist: 'Sibarist Fast', origami_filter: 'Origami المخصص',
-    chemex_filter: 'Chemex المخصص'
-  };
 
-  const html = `
-    <div class="recipe-card">
-      <div class="recipe-header">
-        <div class="recipe-eyebrow">RECIPE · TODAY</div>
-        <div class="recipe-title">${bean.lotName || 'محصول'} · ${methodNames[selectedMethod] || selectedMethod}</div>
-        <div class="recipe-meta">
-          ${bean.roaster ? `<div class="recipe-meta-item"><strong>محمصة</strong> ${bean.roaster}</div>` : ''}
-          ${bean.origin ? `<div class="recipe-meta-item"><strong>منشأ</strong> ${originName(bean.origin)}</div>` : ''}
-          ${daysSinceRoast !== null ? `<div class="recipe-meta-item"><strong>عمر</strong> ${daysSinceRoast} يوم</div>` : ''}
-        </div>
-      </div>
-      <div class="recipe-body">
-
-        ${roastAgeAlert(roastAgeStatus, daysSinceRoast)}
-
-        <div class="taste-section">
-          <h3 class="section-title" data-num="01">الطعم المتوقع</h3>
-          <p style="color: var(--ink-soft); margin-bottom: 16px; line-height: 1.7;">${flavorPrediction.description}</p>
-          <div class="taste-notes">
-            ${flavorPrediction.primary.map(n => `<span class="taste-note primary">${n}</span>`).join('')}
-            ${flavorPrediction.secondary.map(n => `<span class="taste-note secondary">${n}</span>`).join('')}
-            ${flavorPrediction.subtle.map(n => `<span class="taste-note">${n}</span>`).join('')}
-          </div>
-        </div>
-
-        <div class="taste-section">
-          <h3 class="section-title" data-num="02">المواصفات</h3>
-          <div class="specs">
-            <div class="spec">
-              <div class="spec-label">الأداة</div>
-              <div class="spec-value" style="font-size: 18px;">${methodNames[selectedMethod] || selectedMethod}</div>
-            </div>
-            ${selectedFilter ? `<div class="spec">
-              <div class="spec-label">الفلتر</div>
-              <div class="spec-value" style="font-size: 14px;">${filterNames[selectedFilter] || selectedFilter}</div>
-            </div>` : ''}
-            <div class="spec">
-              <div class="spec-label">جرعة البن</div>
-              <div class="spec-value">${dose.toFixed(1)}<span class="spec-unit">جم</span></div>
-            </div>
-            <div class="spec">
-              <div class="spec-label">كمية الماء</div>
-              <div class="spec-value">${waterAmount}<span class="spec-unit">جم</span></div>
-            </div>
-            <div class="spec">
-              <div class="spec-label">النسبة</div>
-              <div class="spec-value">1:${ratio}</div>
-            </div>
-            <div class="spec">
-              <div class="spec-label">الحرارة</div>
-              <div class="spec-value">${temp}<span class="spec-unit">°م</span></div>
-            </div>
-            <div class="spec">
-              <div class="spec-label">الميكرون المستهدف</div>
-              <div class="spec-value">${grindResult.targetMicron}<span class="spec-unit">µm</span></div>
-              <div class="spec-sub">نطاق ${grindResult.minMicron}–${grindResult.maxMicron}µm</div>
-            </div>
-            <div class="spec">
-              <div class="spec-label">الزمن الكلي</div>
-              <div class="spec-value">3:00<span class="spec-unit">- 3:30</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="taste-section">
-          <h3 class="section-title" data-num="03">إعداد الطحن</h3>
-          ${grindResult.html}
-        </div>
-
-        ${pours.length > 0 ? `
-        <div class="taste-section">
-          <h3 class="section-title" data-num="04">جدول الصبات</h3>
-          <div class="pours">
-            ${pours.map(p => `
-              <div class="pour">
-                <div class="pour-time">${p.time}</div>
-                <div class="pour-content">
-                  <div class="pour-name">${p.name}</div>
-                  <div class="pour-detail">${p.detail} · ${p.duration}</div>
-                </div>
-                <div class="pour-amount">${p.amount}</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-        ` : ''}
-
-        ${waterAnalysis ? `
-        <div class="taste-section">
-          <h3 class="section-title" data-num="05">تحليل الماء · ${water.name || ''}</h3>
-          <p style="color: var(--ink-soft); margin-bottom: 16px;">${waterAnalysis.summary}</p>
-          <div class="water-grid">
-            ${waterAnalysis.stats.map(s => `
-              <div class="water-stat ${s.status}">
-                <div class="water-stat-label">${s.label}</div>
-                <div class="water-stat-value">${s.value}</div>
-                <div class="water-stat-status" style="color: ${s.status === 'good' ? 'var(--olive)' : s.status === 'warn' ? '#8a6a20' : 'var(--accent)'}">${s.note}</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-        ` : ''}
-
-        <div class="taste-section" style="border-bottom: none; padding-bottom: 0;">
-          <h3 class="section-title" data-num="06">نصائح الضبط</h3>
-          <div class="alert success">
-            <div class="alert-title">✓ إذا طلعت متوازنة وحلوة</div>
-            احتفظ بهذه الإعدادات. سجّلها في الوصفات المحفوظة لتكرارها.
-          </div>
-          <div class="alert">
-            <div class="alert-title">⚠ إذا طلعت حامضة جداً / ضعيفة</div>
-            اطحن أنعم (قلّل الميكرون ~30-50µm)، أو ارفع الحرارة 1°م، أو زد زمن الصبة الأخيرة.
-          </div>
-          <div class="alert warning">
-            <div class="alert-title">⚠ إذا طلعت مرّة أو قابضة</div>
-            اطحن أخشن (زِد الميكرون ~30-50µm)، أو خفّض الحرارة 1°م، أو قلّل النسبة (ماء أكثر).
-          </div>
-        </div>
-
-        <div class="timer-section">
-          <div class="recipe-eyebrow" style="color: var(--gold)">BREW TIMER</div>
-          <div class="timer-display" id="timerDisplay">00:00</div>
-          <div class="timer-stage" id="timerStage">جاهز للبدء</div>
-          <div class="timer-controls">
-            <button class="timer-btn" onclick="startTimer()">▶ ابدأ</button>
-            <button class="timer-btn" onclick="pauseTimer()">⏸ إيقاف</button>
-            <button class="timer-btn" onclick="resetTimer()">↻ تصفير</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  `;
-
-  document.getElementById('recipeOutput').innerHTML = html;
-  goToStep(5);
-  renderSavedRecipes();
+  saveItem(recipe);
+  loadAll();
+  state.currentRecipe = recipe;
+  renderRecipeResult(recipe);
+  goScreen('recipe');
+  showToast(t('recipe_generated'));
 }
 
-/* ---------- محرك حساب الطحن بنظام الميكرون ---------- */
-function calculateGrind(method, roast, roastAge, grinders) {
+function calculateGrind(method, roast, ageStatus, grinderKey) {
   const range = METHOD_MICRONS[method] || METHOD_MICRONS.v60;
-  let targetMicron = range.ideal;
+  let target = range.ideal + (ROAST_MICRON_SHIFT[roast] || 0);
+  if (ageStatus === 'aging') target -= 20;
+  if (ageStatus === 'old') target -= 35;
+  if (ageStatus === 'too_fresh') target += 15;
+  target = Math.max(range.min, Math.min(range.max, target));
+  target = Math.round(target / 5) * 5;
 
-  // تعديل حسب التحميص
-  const shift = ROAST_MICRON_SHIFT[roast] || 0;
-  targetMicron += shift;
+  const minMicron = Math.max(range.min, target - 60);
+  const maxMicron = Math.min(range.max, target + 60);
 
-  // تعديل حسب عمر التحميص (بن قديم → أنعم قليلاً لرفع الاستخراج)
-  if (roastAge === 'aging') targetMicron -= 20;
-  if (roastAge === 'old') targetMicron -= 35;
-  if (roastAge === 'too_fresh') targetMicron += 15;
-
-  // ضمن حدود الطريقة
-  targetMicron = Math.max(range.min, Math.min(range.max, targetMicron));
-  targetMicron = Math.round(targetMicron / 5) * 5;
-
-  const minMicron = Math.max(range.min, targetMicron - 60);
-  const maxMicron = Math.min(range.max, targetMicron + 60);
-
-  // تحويل الميكرون لإعداد كل مطحنة متوفرة
-  let grinderRows = '';
-  let usableGrinders = grinders.filter(g => GRINDERS[g]);
-  const isEspressoMethod = (method === 'espresso');
-
-  if (usableGrinders.length === 0) {
-    grinderRows = `<div class="alert"><div class="alert-title">⚠ لا توجد مطحنة مُعايَرة محددة</div>
-      اطحن على ميكرون ~${targetMicron}µm. كمرجع: ${micronFeel(targetMicron)}.</div>`;
-  } else {
-    usableGrinders.forEach(gKey => {
-      const g = GRINDERS[gKey];
-      // فحص قدرة المطحنة على الطريقة
-      if (isEspressoMethod && !g.espressoCapable) {
-        grinderRows += `<div class="alert warning">
-          <div class="alert-title">⚠ ${g.name} غير مناسبة للإسبريسو</div>
-          خطوات هذه المطحنة كبيرة جداً للضبط الدقيق للإسبريسو. استخدم مطحنة إسبريسو مخصصة (مثل J-Ultra).
-        </div>`;
-        return;
-      }
-      // فحص النطاق
-      if (targetMicron < g.minMicron || targetMicron > g.maxMicron) {
-        grinderRows += `<div class="alert warning">
-          <div class="alert-title">⚠ ${g.name} خارج النطاق</div>
-          الميكرون المطلوب (${targetMicron}µm) خارج مدى هذه المطحنة (${g.minMicron}–${g.maxMicron}µm).
-        </div>`;
-        return;
-      }
-      const setting = g.display(targetMicron);
-      const settingMin = g.display(minMicron);
-      const settingMax = g.display(maxMicron);
-      grinderRows += `
-        <div class="alert">
-          <div class="alert-title">⚙ ${g.name}</div>
-          <div style="font-family:'JetBrains Mono',monospace; font-size:15px; color:var(--ink); margin:6px 0;">
-            نقطة الانطلاق: <strong style="color:var(--accent)">${setting}</strong>
-          </div>
-          <div style="font-size:12px; color:var(--ink-soft);">
-            نطاق المعايرة: من ${settingMin} إلى ${settingMax}
-            <br>(${g.micronsPerStep ? g.micronsPerStep + ' ميكرون لكل خطوة' : 'قرص متدرّج'})
-          </div>
-        </div>`;
-    });
+  let display = null, warning = null;
+  if (grinderKey && GRINDERS[grinderKey]) {
+    const g = GRINDERS[grinderKey];
+    if (method === 'espresso' && !g.espressoCapable) warning = t('espresso_warn').replace('{g}', g.name);
+    else if (target < g.minMicron || target > g.maxMicron) warning = t('out_of_range').replace('{g}', g.name);
+    else display = { grinder: g.name, setting: g.display(target), minSetting: g.display(minMicron), maxSetting: g.display(maxMicron) };
   }
-
-  const html = `
-    ${grinderRows}
-    <div class="alert">
-      <div class="alert-title">📌 ملاحظة منهجية مهمة</div>
-      هذه <strong>نقطة انطلاق</strong> وليست رقماً نهائياً. تحويل الميكرون لإعداد المطحنة تقريبي
-      (نظام البر غير خطّي تماماً)، ودبس البن المحدد ودرجة تحميصه يؤثران على النتيجة.
-      ابدأ من نقطة الانطلاق، تذوّق، وعاير حسب نصائح الضبط بالأسفل.
-    </div>
-  `;
-
-  return { targetMicron, minMicron, maxMicron, html };
-}
-
-function micronFeel(m) {
-  if (m < 220) return 'ناعم كالطحين/البودرة';
-  if (m < 400) return 'ناعم كملح الطعام الناعم';
-  if (m < 700) return 'متوسط كالرمل';
-  if (m < 1000) return 'خشن كملح البحر';
-  return 'خشن جداً كفتات الخبز';
-}
-
-function originName(o) {
-  const map = {
-    ethiopia: 'إثيوبيا', kenya: 'كينيا', colombia: 'كولومبيا', brazil: 'البرازيل',
-    yemen: 'اليمن', panama: 'بنما', costa_rica: 'كوستاريكا', indonesia: 'إندونيسيا',
-    rwanda: 'رواندا', el_salvador: 'السلفادور', guatemala: 'غواتيمالا', honduras: 'هندوراس'
-  };
-  return map[o] || o;
-}
-
-function roastAgeAlert(status, days) {
-  if (!status) return '';
-  const alerts = {
-    too_fresh: { type: 'warning', title: '⚠ البن طازج جداً', text: `${days} يوم فقط — يحتاج راحة إضافية. النكهات قد تكون غير مستقرة بسبب CO₂.` },
-    peak: { type: 'success', title: '✓ في ذروة النكهة', text: `${days} يوم — وقت مثالي. توقع نكهات واضحة ومتوازنة.` },
-    good: { type: 'success', title: '✓ في حالة جيدة', text: `${days} يوم — لا يزال ممتاز. النكهات الزهرية الطيارة قد تكون أقل قليلاً.` },
-    aging: { type: 'warning', title: '⚠ بدأ يفقد نضارته', text: `${days} يوم — الحموضة المشرقة والنوتات الطيارة تراجعت. الوصفة معدّلة لإبراز الحلاوة والجسم.` },
-    old: { type: 'warning', title: '⚠ تجاوز فترة الذروة', text: `${days} يوم — البن لا يزال صالحاً لكن النكهات الأساسية فقط (شوكولاتة، كراميل، مكسرات).` }
-  };
-  const a = alerts[status];
-  return `<div class="alert ${a.type}"><div class="alert-title">${a.title}</div>${a.text}</div>`;
-}
-
-function predictFlavor(bean, water, waterAnalysis, roastAgeStatus) {
-  const flavorMap = {
-    ethiopia_natural: { primary: ['توت بري', 'فراولة', 'مشمش'], secondary: ['عسل', 'شوكولاتة'], subtle: ['ياسمين', 'برتقال'] },
-    ethiopia_washed: { primary: ['ياسمين', 'برغموت', 'ليمون'], secondary: ['شاي أسود', 'لافندر'], subtle: ['عسل', 'بسكويت'] },
-    kenya_washed: { primary: ['كشمش أسود', 'توت', 'طماطم'], secondary: ['نبيذ أحمر', 'فواكه استوائية'], subtle: ['كراميل', 'حمضيات'] },
-    colombia_washed: { primary: ['كراميل', 'شوكولاتة حليب', 'مكسرات'], secondary: ['تفاح', 'برتقال'], subtle: ['عسل', 'فانيلا'] },
-    brazil_natural: { primary: ['شوكولاتة', 'مكسرات', 'كراميل'], secondary: ['تفاح', 'تبغ'], subtle: ['فاكهة مجففة'] },
-    yemen_natural: { primary: ['فواكه مجففة', 'توابل', 'كاكاو'], secondary: ['تمر', 'نبيذي'], subtle: ['عسل', 'هيل'] },
-    indonesia_washed: { primary: ['شوكولاتة داكنة', 'جوز هند', 'تبغ'], secondary: ['ترابي', 'أعشاب'], subtle: ['توابل'] }
-  };
-  const key = `${bean.origin}_${bean.process}`;
-  let profile = flavorMap[key] || flavorMap[`${bean.origin}_washed`] || { primary: ['متوازن'], secondary: ['حلو'], subtle: [] };
-
-  if (bean.flavorNotes) {
-    const userNotes = bean.flavorNotes.split(/[,،]/).map(s => s.trim()).filter(Boolean);
-    if (userNotes.length) {
-      profile = { primary: userNotes.slice(0, 3), secondary: userNotes.slice(3, 5), subtle: userNotes.slice(5) };
-    }
-  }
-  if (roastAgeStatus === 'aging' || roastAgeStatus === 'old') {
-    profile = {
-      primary: profile.secondary.length ? profile.secondary : profile.primary,
-      secondary: ['حلاوة', 'جسم حريري'],
-      subtle: profile.primary.concat(profile.subtle).slice(0, 3)
-    };
-  }
-  let description = `بناءً على ${originName(bean.origin) || 'المنشأ'} `;
-  if (bean.process) description += `(${bean.process === 'natural' ? 'مجفف طبيعياً' : bean.process === 'washed' ? 'مغسول' : bean.process})`;
-  description += ' وتركيبة الماء، توقّع: نكهات بارزة، حلاوة واضحة، جسم متوازن.';
-  return { description, ...profile };
+  return { targetMicron: target, minMicron, maxMicron, display, warning };
 }
 
 function analyzeWater(w) {
   const stats = [];
-  let summary = 'تحليل: ';
-  let lowMg = false, highBicarb = false;
-  if (w.tds !== null) {
-    let status = 'good', note = 'مثالي';
-    if (w.tds < 75) { status = 'warn'; note = 'منخفض'; }
-    if (w.tds > 175) { status = 'warn'; note = 'مرتفع'; }
-    if (w.tds > 250) { status = 'bad'; note = 'مرتفع جداً'; }
+  let summary = '', lowMg = false, highBicarb = false;
+  if (w.tds != null) {
+    let status = 'good', note = state.currentLang === 'ar' ? 'مثالي' : 'ideal';
+    if (w.tds < 75) { status = 'warn'; note = state.currentLang === 'ar' ? 'منخفض' : 'low'; }
+    if (w.tds > 175) { status = 'warn'; note = state.currentLang === 'ar' ? 'مرتفع' : 'high'; }
     stats.push({ label: 'TDS', value: w.tds, note, status });
   }
-  if (w.ca !== null) {
-    let status = 'good', note = 'مثالي';
-    if (w.ca < 17) { status = 'warn'; note = 'منخفض'; }
-    if (w.ca > 85) { status = 'warn'; note = 'مرتفع'; }
+  if (w.ca != null) {
+    let status = 'good', note = state.currentLang === 'ar' ? 'مثالي' : 'ideal';
+    if (w.ca < 17 || w.ca > 85) { status = 'warn'; note = state.currentLang === 'ar' ? 'خارج النطاق' : 'off range'; }
     stats.push({ label: 'Ca²⁺', value: w.ca, note, status });
   }
-  if (w.mg !== null) {
-    let status = 'good', note = 'جيد';
-    if (w.mg < 5) { status = 'bad'; note = 'منخفض جداً'; lowMg = true; }
-    else if (w.mg < 8) { status = 'warn'; note = 'منخفض'; }
-    if (w.mg > 20) { status = 'warn'; note = 'مرتفع'; }
+  if (w.mg != null) {
+    let status = 'good', note = state.currentLang === 'ar' ? 'جيد' : 'good';
+    if (w.mg < 5) { status = 'bad'; note = state.currentLang === 'ar' ? 'منخفض جداً' : 'very low'; lowMg = true; }
+    else if (w.mg < 8) { status = 'warn'; note = state.currentLang === 'ar' ? 'منخفض' : 'low'; }
     stats.push({ label: 'Mg²⁺', value: w.mg, note, status });
   }
-  if (w.bicarb !== null) {
-    let status = 'good', note = 'جيد';
-    if (w.bicarb < 25) { status = 'warn'; note = 'منخفض'; }
-    if (w.bicarb > 75) { status = 'warn'; note = 'مرتفع'; highBicarb = true; }
+  if (w.bicarb != null) {
+    let status = 'good', note = state.currentLang === 'ar' ? 'جيد' : 'good';
+    if (w.bicarb > 75) { status = 'warn'; note = state.currentLang === 'ar' ? 'مرتفع' : 'high'; highBicarb = true; }
     stats.push({ label: 'HCO₃⁻', value: w.bicarb, note, status });
   }
-  if (w.ph !== null) {
-    let status = 'good', note = 'متعادل';
-    if (w.ph < 6.5 || w.ph > 7.5) { status = 'warn'; note = 'خارج النطاق'; }
-    stats.push({ label: 'pH', value: w.ph, note, status });
-  }
-  if (lowMg) summary += 'مغنيسيوم منخفض → النكهات الفاكهية قد تخفت. ';
-  else summary += 'تركيبة المعادن مناسبة. ';
-  if (highBicarb) summary += 'بيكربونات مرتفعة → الحموضة الطبيعية قد تتعادل. ';
-  summary += 'الوصفة معدّلة لتعويض الفروقات.';
+  if (lowMg) summary = state.currentLang === 'ar' ? 'مغنيسيوم منخفض — النكهات الفاكهية قد تخفت.' : 'Low magnesium — fruity notes may dull.';
+  else summary = state.currentLang === 'ar' ? 'تركيبة المعادن مناسبة.' : 'Mineral balance is suitable.';
   return { stats, summary, lowMg, highBicarb };
 }
 
-function resetForm() {
-  if (confirm('هل أنت متأكد من تفريغ النموذج؟')) {
-    document.querySelectorAll('.input, .select').forEach(i => i.value = '');
-    document.querySelectorAll('#brewMethods .chip, #grinders .chip, #filters .chip').forEach(c => c.classList.remove('selected'));
-    removeImage('bean');
-    removeImage('water');
-    userData = {};
-    goToStep(1);
+function predictFlavor(bean, ageStatus) {
+  const key = bean.origin + '_' + bean.process;
+  let profile = FLAVOR_MAP[key] || FLAVOR_MAP[bean.origin + '_washed'] || { primary: ['متوازن'], secondary: ['حلو'], subtle: [] };
+  if (bean.flavorNotes) {
+    const notes = bean.flavorNotes.split(/[,،]/).map(s => s.trim()).filter(Boolean);
+    if (notes.length) profile = { primary: notes.slice(0, 3), secondary: notes.slice(3, 5), subtle: notes.slice(5) };
   }
+  if (ageStatus === 'aging' || ageStatus === 'old') {
+    profile = {
+      primary: (profile.secondary && profile.secondary.length) ? profile.secondary : profile.primary,
+      secondary: [state.currentLang === 'ar' ? 'حلاوة' : 'sweetness', state.currentLang === 'ar' ? 'جسم حريري' : 'silky body'],
+      subtle: [].concat(profile.primary || [], profile.subtle || []).slice(0, 3)
+    };
+  }
+  return profile;
 }
 
-/* ---------- SAVED RECIPES ---------- */
-function saveRecipe() {
-  collectStepData();
-  const recipe = {
-    id: 'recipe_' + Date.now(),
-    name: `${userData.bean?.lotName || 'محصول'} · ${new Date().toLocaleDateString('ar-SA')}`,
-    data: userData,
+/* ============================================================
+   RECIPE RESULT
+   ============================================================ */
+function openRecipe(id) {
+  const r = state.recipes.find(x => x.id === id);
+  if (!r) return;
+  state.currentRecipe = r;
+  renderRecipeResult(r);
+  goScreen('recipe');
+}
+
+function editCurrentRecipe() {
+  if (!state.currentRecipe) return;
+  const r = state.currentRecipe;
+  state.recipeDraft = { beanId: r.beanId, waterId: r.waterId, method: r.method, grinder: r.grinder, taste: r.taste, strength: r.strength, cupSize: r.cupSize };
+  renderNewRecipe();
+  goScreen('newRecipe');
+}
+
+function brewRecipeAgain(id) {
+  const r = state.recipes.find(x => x.id === id);
+  if (!r) return;
+  state.currentRecipe = r;
+  enterBrewMode();
+}
+
+function renderRecipeResult(r) {
+  const bean = state.beans.find(b => b.id === r.beanId);
+  const water = r.waterId ? state.waters.find(w => w.id === r.waterId) : null;
+  const beanName = bean ? (bean.lotName || bean.roaster || 'بن') : '—';
+  const methodName = METHOD_NAMES[r.method] || r.method;
+
+  document.getElementById('recipeNavTitle').innerHTML = '<div class="compact-eyebrow">' + t('recipe_for') + '</div><div>' + escapeHTML(beanName) + '</div>';
+
+  let html = '';
+
+  // Age warning
+  if (r.roastAgeStatus && r.daysSinceRoast !== null) {
+    const a = r.roastAgeStatus, d = r.daysSinceRoast;
+    let cls = 'note-inline', title = '', text = '';
+    if (a === 'old') { cls += ' warning'; title = t('age_warn_old').replace('{d}', d); text = t('age_warn_old_d'); }
+    else if (a === 'aging') { cls += ' warning'; title = t('age_warn_past_peak').replace('{d}', d); text = t('age_warn_past_peak_d'); }
+    else if (a === 'too_fresh') { cls += ' warning'; title = t('age_warn_fresh').replace('{d}', d); text = t('age_warn_fresh_d'); }
+    else if (a === 'peak') { cls += ' success'; title = t('age_peak').replace('{d}', d); text = t('age_peak_d'); }
+    if (title) html += '<div class="' + cls + '" style="margin-top:8px;"><svg class="icon note-inline-icon"><use href="#i-clock"/></svg><div><strong>' + title + '</strong><div style="font-size:12px; color:var(--ios-label-secondary); margin-top:2px;">' + text + '</div></div></div>';
+  }
+
+  // Flavor
+  const flavor = r.flavor || { primary: [], secondary: [], subtle: [] };
+  let flavorHTML = '';
+  flavor.primary.forEach(n => flavorHTML += '<button class="chip taste-primary">' + escapeHTML(n) + '</button>');
+  flavor.secondary.forEach(n => flavorHTML += '<button class="chip taste-secondary">' + escapeHTML(n) + '</button>');
+  flavor.subtle.forEach(n => flavorHTML += '<button class="chip">' + escapeHTML(n) + '</button>');
+
+  html += '<div class="list-section-header">' + t('expected_taste') + '</div>' +
+    '<div class="chips-row">' + (flavorHTML || '<span style="color:var(--ios-label-secondary); padding: 0 8px;">—</span>') + '</div>';
+
+  html += '<div class="list-section-header">' + t('critical_specs') + '</div>' +
+    '<div class="specs-hero">' +
+    '<div class="spec-hero-card">' +
+    '<div class="spec-hero-label">' + t('grind_microns') + '</div>' +
+    '<div class="spec-hero-value">' + r.targetMicron + '<span class="spec-hero-unit">µm</span></div>' +
+    '<div class="spec-hero-sub">' + (r.grindDisplay ? escapeHTML(r.grindDisplay.grinder + ' · ' + r.grindDisplay.setting) : t('micron_range').replace('{min}', r.grindMin).replace('{max}', r.grindMax)) + '</div>' +
+    '</div>' +
+    '<div class="spec-hero-card">' +
+    '<div class="spec-hero-label">' + t('dose') + '</div>' +
+    '<div class="spec-hero-value">' + r.dose + '<span class="spec-hero-unit">' + t('g') + '</span></div>' +
+    '<div class="spec-hero-sub">' + (state.currentLang === 'ar' ? 'نسبة' : 'Ratio') + ' 1:' + r.ratio + '</div>' +
+    '</div></div>';
+
+  if (r.grindWarning) html += '<div class="note-inline warning"><svg class="icon note-inline-icon"><use href="#i-info"/></svg><span>' + r.grindWarning + '</span></div>';
+
+  html += '<div class="specs-secondary">' +
+    '<div class="spec-row"><span class="spec-row-label">' + t('temp') + '</span><span class="spec-row-value">' + r.temp + '°C</span></div>' +
+    '<div class="spec-row"><span class="spec-row-label">' + t('water') + '</span><span class="spec-row-value">' + r.waterAmount + ' ' + t('g') + '</span></div>' +
+    '<div class="spec-row"><span class="spec-row-label">' + (state.currentLang === 'ar' ? 'الطريقة' : 'Method') + '</span><span class="spec-row-value">' + methodName + '</span></div>';
+  if (water) html += '<div class="spec-row"><span class="spec-row-label">' + t('water') + '</span><span class="spec-row-value">' + escapeHTML(water.name) + '</span></div>';
+  html += '</div>';
+
+  html += '<div class="note-inline"><svg class="icon note-inline-icon"><use href="#i-info"/></svg><span>' + t('grind_explanation') + '</span></div>';
+
+  if (r.waterAnalysis) {
+    html += '<div class="list-section-header">' + (state.currentLang === 'ar' ? 'تحليل الماء' : 'Water Analysis') + '</div><div class="specs-secondary">';
+    r.waterAnalysis.stats.forEach(s => html += '<div class="spec-row"><span class="spec-row-label">' + s.label + '</span><span class="spec-row-value">' + s.value + ' <span style="color:var(--ios-label-secondary); font-size:13px;">· ' + s.note + '</span></span></div>');
+    html += '</div><div class="note-inline"><svg class="icon note-inline-icon"><use href="#i-info"/></svg><span>' + r.waterAnalysis.summary + '</span></div>';
+  }
+
+  html += '<div style="padding: 16px 16px 8px;"><button class="btn-filled" onclick="enterBrewMode()"><svg class="icon" style="width:18px;height:18px;fill:white"><use href="#i-play"/></svg><span>' + t('start_brew') + '</span></button></div>';
+
+  // Iterations
+  const iterations = state.iterations.filter(it => it.recipeId === r.id);
+  html += '<div class="list-section-header"><span>' + t('brew_history') + '</span><span class="list-section-action" onclick="addIteration()">' + t('add_iteration') + '</span></div>';
+  if (iterations.length === 0) {
+    html += '<div style="text-align:center; padding: 24px 16px; color:var(--ios-label-secondary); font-size:14px;">' + t('no_brews_yet') + '</div>';
+  } else {
+    html += '<div class="list-card">';
+    iterations.forEach(it => {
+      html += '<div class="recipe-row">' +
+        '<div class="recipe-row-icon" style="background:rgba(52,199,89,0.12); color:var(--ios-system-green);"><svg class="icon" style="width:20px;height:20px"><use href="#i-check"/></svg></div>' +
+        '<div class="recipe-row-content"><div class="recipe-row-name">' + formatTimeAgo(it.savedAt) + ' · ' + '★'.repeat(it.rating || 0) + '</div><div class="recipe-row-meta">' + escapeHTML(it.notes || '—') + '</div></div>' +
+        '</div>';
+    });
+    html += '</div>';
+  }
+
+  html += '<div style="padding: 16px 16px 32px;"><button class="btn-tinted" onclick="deleteCurrentRecipe()" style="color:var(--ios-system-red); background:rgba(255,59,48,0.1);"><svg class="icon" style="width:18px;height:18px;fill:var(--ios-system-red)"><use href="#i-trash"/></svg><span>' + t('delete') + '</span></button></div>';
+
+  document.getElementById('recipeContent').innerHTML = html;
+}
+
+function deleteCurrentRecipe() {
+  if (!state.currentRecipe) return;
+  if (!confirm(t('confirm_delete'))) return;
+  const rid = state.currentRecipe.id;
+  deleteItem(rid);
+  state.iterations.filter(it => it.recipeId === rid).forEach(it => deleteItem(it.id));
+  state.currentRecipe = null;
+  loadAll();
+  showToast(t('profile_deleted'));
+  goScreen('home');
+}
+
+function addIteration() {
+  if (!state.currentRecipe) return;
+  const rating = prompt(state.currentLang === 'ar' ? 'التقييم (1-5):' : 'Rating (1-5):', '5');
+  if (!rating) return;
+  const notes = prompt(state.currentLang === 'ar' ? 'ملاحظات (اختياري):' : 'Notes (optional):', '') || '';
+  const iteration = {
+    id: 'iter_' + Date.now(),
+    recipeId: state.currentRecipe.id,
+    rating: Math.max(1, Math.min(5, parseInt(rating) || 5)),
+    notes: notes.trim(),
     savedAt: new Date().toISOString()
   };
-  try {
-    localStorage.setItem(recipe.id, JSON.stringify(recipe));
-    loadAllProfiles();
-    alert('✓ تم حفظ الوصفة بنجاح');
-  } catch (e) {
-    savedRecipes.push(recipe);
-    renderSavedRecipes();
+  saveItem(iteration);
+  loadAll();
+  renderRecipeResult(state.currentRecipe);
+}
+
+/* ============================================================
+   BREW MODE
+   ============================================================ */
+function enterBrewMode() {
+  if (!state.currentRecipe) return;
+  state.brewTimer = { seconds: 0, running: false, interval: null, schedule: state.currentRecipe.pours, currentStage: 0, _lastStage: -1 };
+  const bean = state.beans.find(b => b.id === state.currentRecipe.beanId);
+  document.getElementById('brewModeTitle').textContent = (bean ? (bean.lotName || bean.roaster || '') : '') + ' · ' + (METHOD_NAMES[state.currentRecipe.method] || state.currentRecipe.method);
+  document.getElementById('brewTime').textContent = '0:00';
+  document.getElementById('brewProgress').style.strokeDashoffset = '800';
+  updateBrewStage();
+  goScreen('brewMode');
+}
+
+function exitBrewMode() {
+  if (state.brewTimer.interval) clearInterval(state.brewTimer.interval);
+  state.brewTimer.running = false;
+  if (state.currentRecipe) { renderRecipeResult(state.currentRecipe); goScreen('recipe', false); }
+  else goScreen('home', false);
+}
+
+function brewToggle() {
+  if (state.brewTimer.running) {
+    clearInterval(state.brewTimer.interval);
+    state.brewTimer.running = false;
+    document.querySelector('#brewToggle .icon use').setAttribute('href', '#i-play');
+  } else {
+    state.brewTimer.running = true;
+    state.brewTimer.interval = setInterval(() => {
+      state.brewTimer.seconds++;
+      updateBrewTimerDisplay();
+    }, 1000);
+    document.querySelector('#brewToggle .icon use').setAttribute('href', '#i-pause');
+    if (navigator.vibrate) navigator.vibrate(30);
   }
 }
 
-function renderSavedRecipes() {
-  const container = document.getElementById('savedList');
-  if (!container) return;
-  if (savedRecipes.length === 0) {
-    container.innerHTML = '<div class="saved-empty">لا توجد وصفات محفوظة بعد</div>';
-    return;
+function brewReset() {
+  if (state.brewTimer.interval) clearInterval(state.brewTimer.interval);
+  state.brewTimer.seconds = 0;
+  state.brewTimer.running = false;
+  state.brewTimer.currentStage = 0;
+  state.brewTimer._lastStage = -1;
+  document.querySelector('#brewToggle .icon use').setAttribute('href', '#i-play');
+  updateBrewTimerDisplay();
+}
+
+function brewSkip() {
+  if (!state.brewTimer.schedule) return;
+  const next = state.brewTimer.schedule[state.brewTimer.currentStage + 1];
+  if (next) { state.brewTimer.seconds = next.time; updateBrewTimerDisplay(); }
+}
+
+function updateBrewTimerDisplay() {
+  const m = Math.floor(state.brewTimer.seconds / 60);
+  const s = state.brewTimer.seconds % 60;
+  document.getElementById('brewTime').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  const totalTime = 180;
+  const progress = Math.min(1, state.brewTimer.seconds / totalTime);
+  document.getElementById('brewProgress').style.strokeDashoffset = (800 * (1 - progress)).toString();
+  updateBrewStage();
+}
+
+function updateBrewStage() {
+  const sched = state.brewTimer.schedule;
+  if (!sched || sched.length === 0) return;
+  let stage = 0;
+  for (let i = 0; i < sched.length; i++) if (state.brewTimer.seconds >= sched[i].time) stage = i;
+  state.brewTimer.currentStage = stage;
+  const cur = sched[stage];
+  document.getElementById('brewStageName').textContent = cur.name;
+  let pourHTML = '<div class="brew-pour-label">' + t('next_step') + '</div>' +
+    '<div class="brew-pour-action">' + escapeHTML(cur.name) + '</div>' +
+    '<div class="brew-pour-detail">' + escapeHTML(cur.detail || '') + '</div>';
+  if (cur.amount && cur.name !== t('finished') && cur.name !== t('pour_wait')) {
+    pourHTML += '<div class="brew-pour-target">' + t('pour_to') + ' ' + cur.amount + '<span style="font-size:18px; opacity:0.6;"> ' + t('g') + '</span></div>';
   }
-  container.innerHTML = savedRecipes.map(r => `
-    <div class="saved-item" onclick="loadRecipe('${r.id}')">
-      <span>${r.name}</span>
-      <span style="display:flex; align-items:center; gap:10px;">
-        <span style="font-size: 11px; color: var(--ink-soft); font-family: 'JetBrains Mono', monospace;">${new Date(r.savedAt).toLocaleDateString('ar-SA')}</span>
-        <span onclick="deleteRecipe('${r.id}', event)" style="cursor:pointer; color: var(--accent); font-weight:700; font-size:16px;" title="حذف">&times;</span>
-      </span>
-    </div>
-  `).join('');
-}
-
-function loadRecipe(id) {
-  const r = savedRecipes.find(x => x.id === id);
-  if (!r) return;
-  userData = r.data;
-  generateRecipe();
-}
-
-function deleteRecipe(id, event) {
-  event.stopPropagation();
-  if (!confirm('حذف هذه الوصفة؟')) return;
-  try { localStorage.removeItem(id); } catch (e) {}
-  savedRecipes = savedRecipes.filter(x => x.id !== id);
-  renderSavedRecipes();
-}
-
-/* ---------- TIMER ---------- */
-let timerInterval = null, timerSeconds = 0, timerRunning = false;
-function startTimer() {
-  if (timerRunning) return;
-  timerRunning = true;
-  timerInterval = setInterval(() => { timerSeconds++; updateTimer(); }, 1000);
-}
-function pauseTimer() {
-  timerRunning = false;
-  if (timerInterval) clearInterval(timerInterval);
-}
-function resetTimer() {
-  pauseTimer();
-  timerSeconds = 0;
-  updateTimer();
-  const ts = document.getElementById('timerStage');
-  if (ts) ts.textContent = 'جاهز للبدء';
-}
-function updateTimer() {
-  const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
-  const s = String(timerSeconds % 60).padStart(2, '0');
-  const display = document.getElementById('timerDisplay');
-  if (display) display.textContent = `${m}:${s}`;
-  const stage = document.getElementById('timerStage');
-  if (stage) {
-    if (timerSeconds < 10) stage.textContent = '🌸 الإزهار · صب الـ Bloom';
-    else if (timerSeconds < 45) stage.textContent = '⏳ انتظار · دع البن يتنفس';
-    else if (timerSeconds < 67) stage.textContent = '💧 الصبة الرئيسية';
-    else if (timerSeconds < 90) stage.textContent = '⏸ انتظار · دع الماء ينزل';
-    else if (timerSeconds < 110) stage.textContent = '💧 صبة التذوق · Swirl نهائي';
-    else if (timerSeconds < 180) stage.textContent = '⌛ التصفية الأخيرة';
-    else stage.textContent = '☕ جاهز! تمتع بالكوب';
+  document.getElementById('brewPourInfo').innerHTML = pourHTML;
+  if (navigator.vibrate && stage !== state.brewTimer._lastStage && state.brewTimer.running) {
+    navigator.vibrate([50, 30, 80]);
+    state.brewTimer._lastStage = stage;
   }
 }
 
-/* ---------- INIT ---------- */
-loadAllProfiles();
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+function renderSettings() {
+  const c = document.getElementById('settingsContent');
+  c.innerHTML =
+    '<div class="list-card" style="margin-top:8px;">' +
+    '<div class="list-item" onclick="showPaywall()">' +
+    '<div class="list-icon"><svg class="icon" style="width:16px;height:16px;fill:white"><use href="#i-sparkle"/></svg></div>' +
+    '<div class="list-label"><span>' + t('settings_pro') + '</span><span class="list-sublabel">' + t('settings_pro_sub') + '</span></div>' +
+    '<span class="list-chevron"></span></div></div>' +
+
+    '<div class="list-section-header">' + t('settings_general') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="list-item" onclick="toggleLang()">' +
+    '<div class="list-icon orange"><svg class="icon" style="width:16px;height:16px;fill:white"><use href="#i-globe"/></svg></div>' +
+    '<div class="list-label">' + t('settings_language') + '</div>' +
+    '<span class="list-value">' + (state.currentLang === 'ar' ? 'العربية' : 'English') + '</span>' +
+    '<span class="list-chevron"></span></div>' +
+    '<div class="list-item"><div class="list-icon gray"><svg class="icon" style="width:16px;height:16px;fill:white"><use href="#i-moon"/></svg></div><div class="list-label">' + t('settings_appearance') + '</div><span class="list-value">' + (state.currentLang === 'ar' ? 'تلقائي' : 'Auto') + '</span></div>' +
+    '</div>' +
+
+    '<div class="list-section-header">' + t('settings_about') + '</div>' +
+    '<div class="list-card">' +
+    '<div class="list-item"><div class="list-label">' + t('settings_version') + '</div><span class="list-value">0.3 · Prototype</span></div>' +
+    '<div class="list-item" onclick="showSheet(\'feedbackSheet\')"><div class="list-icon" style="background:var(--ios-tint);"><svg class="icon" style="width:16px;height:16px;fill:white"><use href="#i-message"/></svg></div><div class="list-label">' + t('feedback_btn') + '</div><span class="list-chevron"></span></div>' +
+    '<div class="list-item" onclick="clearAllData()"><div class="list-icon red"><svg class="icon" style="width:16px;height:16px;fill:white"><use href="#i-trash"/></svg></div><div class="list-label" style="color:var(--ios-system-red)">' + t('settings_clear') + '</div></div>' +
+    '</div>' +
+
+    '<div style="text-align:center; padding:32px 16px 80px; color:var(--ios-label-tertiary); font-size:11px;">Brew Lab · Designed in Riyadh</div>';
+}
+
+function clearAllData() {
+  if (!confirm(t('confirm_clear'))) return;
+  const lang = state.currentLang;
+  const onb = state.hasOnboarded;
+  localStorage.clear();
+  if (onb) localStorage.setItem('brewlab_onboarded', JSON.stringify(true));
+  localStorage.setItem('brewlab_lang', JSON.stringify(lang));
+  loadAll();
+  showToast(t('cleared'));
+  goScreen('home');
+}
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+function toggleLang() {
+  state.currentLang = state.currentLang === 'ar' ? 'en' : 'ar';
+  localStorage.setItem('brewlab_lang', JSON.stringify(state.currentLang));
+  applyLang();
+  const active = document.querySelector('.screen.active');
+  if (active) goScreen(active.dataset.screen, false);
+}
+
+function applyLang() {
+  document.documentElement.lang = state.currentLang;
+  document.documentElement.dir = state.currentLang === 'ar' ? 'rtl' : 'ltr';
+  const tog = document.querySelector('.lang-toggle');
+  if (tog) tog.textContent = state.currentLang === 'ar' ? 'EN' : 'ع';
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (state.currentLang === 'en' && i18n.en[key]) el.textContent = i18n.en[key];
+    else el.textContent = originalAr[key] || el.textContent;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (state.currentLang === 'en' && i18n.en[key]) el.placeholder = i18n.en[key];
+    else if (originalAr[key + '_ph']) el.placeholder = originalAr[key + '_ph'];
+  });
+}
+
+/* ============================================================
+   ONBOARDING
+   ============================================================ */
+function completeOnboarding() {
+  state.hasOnboarded = true;
+  localStorage.setItem('brewlab_onboarded', JSON.stringify(true));
+  state.navStack = ['home'];
+  goScreen('home', false);
+}
+
+/* ============================================================
+   FEEDBACK
+   ============================================================ */
+function submitFeedback() {
+  const fb1 = document.getElementById('fb1').value.trim();
+  const fb2 = document.getElementById('fb2').value.trim();
+  const fb3 = document.getElementById('fb3').value.trim();
+  const fb4 = document.getElementById('fb4').value.trim();
+  const text = '📝 Brew Lab Feedback\n\n✓ أعجبني:\n' + fb1 + '\n\n⚠️ محبط/غير دقيق:\n' + fb2 + '\n\n🎯 الدقة:\n' + fb3 + '\n\n💰 Pro:\n' + fb4 + '\n\n— sent from prototype';
+  if (navigator.share) navigator.share({ title: 'Brew Lab Feedback', text }).catch(() => copyToClipboard(text));
+  else copyToClipboard(text);
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => { showToast(t('feedback_sent')); hideSheet(null, 'feedbackSheet'); });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showToast(t('feedback_sent')); } catch (e) {}
+    document.body.removeChild(ta);
+    hideSheet(null, 'feedbackSheet');
+  }
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init() {
+  document.querySelectorAll('[data-i18n]').forEach(el => { originalAr[el.getAttribute('data-i18n')] = el.textContent.trim(); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { originalAr[el.getAttribute('data-i18n-ph') + '_ph'] = el.placeholder; });
+
+  loadAll();
+  applyLang();
+
+  if (!state.hasOnboarded) { state.navStack = ['onboarding']; goScreen('onboarding', false); }
+  else { state.navStack = ['home']; goScreen('home', false); }
+}
+
+init();
 </script>
 
 </body>
